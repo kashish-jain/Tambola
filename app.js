@@ -1,8 +1,10 @@
 const path = require("path");
+const http = require('http');
 const express = require("express");
+
 const app = express();
-var server = require("http").Server(app);
-var io = require("socket.io")(server);
+const server = http.createServer(app);
+var io = require('socket.io').listen(server);
 
 io.on("connection", (socket) => {
   console.log("new connection");
@@ -16,6 +18,6 @@ app.get("/", (req, res) => {
   res.sendFile(__dirname + "/build/index.html");
 });
 
-app.listen(3000, (req, res) => {
+server.listen(3000, (req, res) => {
   console.log("listening on port 3000");
 });
