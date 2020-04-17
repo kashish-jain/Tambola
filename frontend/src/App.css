@@ -1,3 +1,27 @@
+body {
+  height: 100%;
+}
+
+body {
+  -webkit-animation: background 10s linear infinite;
+  animation: background 10s linear infinite;  
+}
+
+
+@-webkit-keyframes background {
+  0% { background-color: #f99; }
+  33% { background-color: #9f9; }  
+  67% { background-color: #99f; }
+  100% { background-color: #f99; }
+}
+
+@keyframes background {
+  0% { background-color: #f99; }
+  33% { background-color: #9f9; }  
+  67% { background-color: #99f; }
+  100% { background-color: #f99; }
+}
+
 .box {
   position: relative;
   display: inline-block;
