@@ -1,7 +1,8 @@
-import React from 'react';
-import '../App.css';
-import House from "./House"
-import NextNumber from "./NextNumber"
+import React from "react";
+import "../App.css";
+import House from "./House";
+import NextNumber from "./NextNumber";
+import Board from "./Board";
 
 let textToSpeech = (newNumber: number) => {
   // get all voices that browser offers
@@ -29,13 +30,13 @@ let textToSpeech = (newNumber: number) => {
 
   // speak
   window.speechSynthesis.speak(utter);
-}
+};
 
 function App() {
   return (
     <div className="App">
-        <House />
-        <NextNumber callOut={textToSpeech}/>
+      <House />
+      <Board />
     </div>
   );
 }
