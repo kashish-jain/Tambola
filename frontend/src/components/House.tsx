@@ -15,41 +15,48 @@ function random0to2() {
 }
 
 function randomitoiplus9(i: number) {
-    // When i = 0; return 1-9
-    if(i == 0) 
+    //Edge Cases: When i = 0 return 1-9; When i = 8 return 80-90
+    if(i === 0) 
     {
         return Math.floor(Math.random() * 9) + 1;
+    } else if (i === 80)
+    {
+        console.log("here");
+        return Math.floor(Math.random() * 11) + i;
     }
+
     return Math.floor(Math.random() * 10) + i;
 }
 
 function generateTicket(): Array<Array<number>>
 {
-    let line2: Array<number> = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-    let line3: Array<number> = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
-    let line1: Array<number> = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+    let line2: Array<number> = [0, 0, 0, 0, 0, 0, 0, 0, 0];
+    let line3: Array<number> = [0, 0, 0, 0, 0, 0, 0, 0, 0];
+    let line1: Array<number> = [0, 0, 0, 0, 0, 0, 0, 0, 0];
     let ticket: Array<Array<number>> = [line1, line2, line3];
     let lengthArr: Array<number> = [0, 0, 0];
-    for(let i = 0; i < 10; ++i){
+    for(let i = 0; i < 9; ++i){
         let lineNumber: number = random0to2();
-        while(lengthArr[lineNumber] == 5) {
+
+        // not to increase more than 5 numbers in each row
+        while(lengthArr[lineNumber] === 5) {
             lineNumber = random0to2();
         }
         ++lengthArr[lineNumber];
         let randomNum = randomitoiplus9(i * 10);
         ticket[lineNumber][i] = randomNum;
     }
-    // Now ticket has 10 numbers; Each column has 1 number
+    // Now ticket has 9 numbers; Each column has 1 number
     // Each row should have 5 numbers; Fill the missing
     for(let z = 0; z < 3; ++z)
     {
         let i = 0;
         while (i < 5 - lengthArr[z])
         {
-            let randomNum = (Math.floor(Math.random() * 99) + 1);
+            let randomNum = (Math.floor(Math.random() * 90)) + 1;
             while(ticket[0].includes(randomNum) || ticket[1].includes(randomNum) || ticket[2].includes(randomNum))
             {
-                randomNum = (Math.floor(Math.random() * 99) + 1);
+                randomNum = (Math.floor(Math.random() * 90)) + 1;
             }
             let randomNumFirstChar = (randomNum < 10)? 0 : parseInt(randomNum.toString().charAt(0));
             if(ticket[z][randomNumFirstChar] == 0)

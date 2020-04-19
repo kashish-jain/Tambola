@@ -1,3 +1,23 @@
+body {
+  -webkit-animation: background 10s linear infinite;
+  animation: background 10s linear infinite;  
+}
+
+
+@-webkit-keyframes background {
+  0% { background-color: #f99; }
+  33% { background-color: #9f9; }  
+  67% { background-color: #99f; }
+  100% { background-color: #f99; }
+}
+
+@keyframes background {
+  0% { background-color: #f99; }
+  33% { background-color: #9f9; }  
+  67% { background-color: #99f; }
+  100% { background-color: #f99; }
+}
+
 .box {
   position: relative;
   display: inline-block;
@@ -27,6 +47,15 @@
   top: 50%;
   height: 0;
   transform: rotate(45deg);
+}
+
+.board-box {
+  display: inline-block;
+  background-color: aqua;
+  width: 50px;
+  height: 50px;
+  border: black solid 2px;
+  margin: 0;
 }
 
 .checked {
