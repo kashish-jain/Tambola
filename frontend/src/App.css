@@ -1,8 +1,4 @@
 body {
-  height: 100%;
-}
-
-body {
   -webkit-animation: background 10s linear infinite;
   animation: background 10s linear infinite;  
 }
