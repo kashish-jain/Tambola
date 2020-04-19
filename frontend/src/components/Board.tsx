@@ -2,7 +2,13 @@ import * as React from "react";
 import { Component } from "react";
 import { BoardLine } from "./BoardLine";
 
-// Fix some logic of duplicate keys for rows generated
+//TODO: Fix some logic of duplicate keys for rows generated
+
+// Another variation: Right now the host will check mark the numbers which are done; 
+// What if he messes up? What if he could not maintain the board correctly and give awards to 
+// the bogus ones without even realizing that he has not been maintaining the board properly;
+// We will have a rectify button which will actually change all the states of the boxes by looking
+// at the array. This is still easy to do.
 
 interface BoardProps {}
 
@@ -11,6 +17,7 @@ interface BoardState {
   goneNumbers: number;
 }
 
+// Utility Functions
 function shuffle(a: Array<number>): Array<number> {
   var j, x, i;
   for (i = a.length - 1; i > 0; i--) {
@@ -64,15 +71,18 @@ class Board extends Component<BoardProps, BoardState> {
     return <BoardLine key={1} numbers={numberRow} />;
   });
 
+  // When a new number is generated, we then change the color of that number's box
+  makeBoxGone = (n: number) => {
+
+  }
+
   render() {
+    let newNumber = 0;
     return (
       <>
         <button
           onClick={() => {
-            console.log(
-              "new number ",
-              this.state.boardNumbers[this.state.goneNumbers]
-            );
+            newNumber = this.state.boardNumbers[this.state.goneNumbers];
             this.setState({
               boardNumbers: this.state.boardNumbers,
               goneNumbers: this.state.goneNumbers + 1,
@@ -81,6 +91,7 @@ class Board extends Component<BoardProps, BoardState> {
         >
           Generate New
         </button>
+        <p>{this.state.boardNumbers[this.state.goneNumbers - 1]}</p>
         {this.allLines}
       </>
     );
