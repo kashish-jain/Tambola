@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Component } from "react";
 
+// TODO: May be we can just remove the state in this component as whatever we need is in the props
 // This is the component which is used by both BoardLine and also Line (ticket Line)
 
 interface BoxProps {
