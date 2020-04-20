@@ -13,7 +13,17 @@ class Host extends Component<HostProps, HostState> {
     super(props);
   }
   render() {
-    return <Board socket={this.props.socket} />;
+    return (
+      <>
+        <Board socket={this.props.socket} />;
+        <button onClick={() => {
+            this.props.socket.emit("confirmWin");
+          }}>Confirm Win</button>
+        <button onClick={() => {
+            this.props.socket.emit("bogey");
+          }}>Bogey!</button>
+      </>
+    );
   }
 }
 
