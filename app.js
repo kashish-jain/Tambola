@@ -6,9 +6,38 @@ const app = express();
 const server = http.createServer(app);
 var io = require('socket.io').listen(server);
 
+var num_players = 0;
+
 io.on("connection", (socket) => {
-  console.log("new connection");
+  
+  // logic for Host and PC connection
+  num_players++;
+  console.log(`newConnection: ${num_players}`);
+
+  // events emitted for new connection
+  if(num_players == 1) {
+    io.emit(`userConnected`, { type: 'Host' });
+  } else {
+    io.emit(`userConnected`, { type: 'PC' });
+  }
+
+  // events for host calling number from front-end button click
+  socket.on('newNumber', (number) => {
+    // event for notifying PCs that new number was called
+    socket.broadcast.emit(`newNumberFromHost`, { new_number: number });
+    console.log(`newNumber: ${number}`);
+  });
+
+  // deal with disconnects here later
+  // CASES:
+  //  - dealing with host's disconnection
+  //  - dealing with PC's disconnection and joining back - use cookies I guess
+  socket.on('disconnect', () => {
+  num_players--;
+    console.log('userDisconnected');
+  });
 });
+
 
 // All files are served from build folder which gets generated
 // when frontend code is built
