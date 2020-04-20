@@ -4,12 +4,10 @@ import House from "./House";
 import WinningButtons from "./WinningButtons";
 
 interface TicketProps {
-  socket: any
+  socket: any;
 }
 
-interface TicketState {
-
-}
+interface TicketState {}
 
 class Ticket extends Component<TicketProps, TicketState> {
   constructor(props: TicketProps) {
