@@ -33,7 +33,10 @@ class Host extends Component<HostProps, HostState> {
   }
 
   handleResultCall = (hostCheck: string) => {
-    this.props.socket.emit("resultsFromHost", hostCheck);
+    this.props.socket.emit("resultsFromHost", hostCheck, this.winningCallFromPlayer);
+    this.setState({
+      checkingTicket: false,
+    });
   };
 
   render() {

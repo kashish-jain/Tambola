@@ -33,13 +33,12 @@ io.on("connection", (socket) => {
   });
 
   // results from host
-  socket.on('resultsFromHost', (hostCheck) => {
+  socket.on('resultsFromHost', (hostCheck, callWinType) => {
     // NEED TO SEND TO EVERYONE BUT
     //    Need to know who called for win
-    //    Type of prize here
     // call to PCs notifying someone won something
-    console.log(hostCheck);
-    socket.broadcast.emit(`resultsForPC`, hostCheck);
+    console.log(hostCheck, "for", callWinType);
+    socket.broadcast.emit(`resultsForPC`, hostCheck, callWinType);
   });
 
   // events for host calling number from front-end button click
