@@ -1,9 +1,7 @@
 import React from "react";
 import { Component } from "react";
 import "../App.css";
-import House from "./House";
-import NextNumber from "./NextNumber";
-import Board from "./Board";
+import Ticket from "./Ticket";
 import io from 'socket.io-client';
 
   /*socket.on('news', (data: any) => {
@@ -51,7 +49,7 @@ class App extends Component<AppProps, AppState> {
     if(this.state.type === "Host") {
       comp = <Board socket={this.state.socket}/>;
     } else if(this.state.type === "PC") {
-      comp = <House />;
+      comp = <Ticket socket={this.state.socket}/>;
     } else {
       comp = <></>;
     }
