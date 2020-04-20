@@ -7,6 +7,7 @@ interface WinningButtonsProps {
     thirdLine: string
     corners: string
     fullHouse: string
+    winCallBack: (callWinType: string) => void
 }
 
 interface WinningButtonsState {
@@ -21,11 +22,26 @@ class WinningButtons extends Component<WinningButtonsProps, WinningButtonsState>
     render() {
         return (
             <div>
-                <button>{this.props.firstLine}</button>
-                <button>{this.props.secondLine}</button>
-                <button>{this.props.thirdLine}</button>
-                <button>{this.props.corners}</button>
-                <button>{this.props.fullHouse}</button>
+              <button onClick={() => {this.props.winCallBack(this.props.firstLine)}}>
+              {this.props.firstLine}
+              </button>
+
+              <button onClick={() => {this.props.winCallBack(this.props.secondLine)}}>
+              {this.props.secondLine}
+              </button>
+
+              <button onClick={() => {this.props.winCallBack(this.props.thirdLine)}}>
+              {this.props.thirdLine}
+              </button>
+
+              <button onClick={() => {this.props.winCallBack(this.props.corners)}}>
+              {this.props.corners}
+              </button>
+
+              <button onClick={() => {this.props.winCallBack(this.props.fullHouse)}}>
+              {this.props.fullHouse}
+              </button>
+
             </div>
         )
     }

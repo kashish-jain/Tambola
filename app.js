@@ -7,12 +7,15 @@ const server = http.createServer(app);
 var io = require('socket.io').listen(server);
 
 var num_players = 0;
+var player_ids = [];
 
 io.on("connection", (socket) => {
   
   // logic for Host and PC connection
-  num_players++;
-  console.log(`newConnection: ${num_players}`);
+  player_ids.push(socket.id);
+  num_players = player_ids.length;
+
+  console.log(`newConnection: ${num_players}`, "id:", player_ids[num_players - 1]);
 
   // events emitted for new connection
   if(num_players == 1) {
@@ -21,11 +24,20 @@ io.on("connection", (socket) => {
     io.sockets.emit(`userConnected`, { type: 'PC' });
   }
 
+  // winning call made
+  socket.on('callWinfromPC', (callWinType, houses) => {
+    console.log(callWinType);
+    console.log(houses);
+
+    // call for host (just send to host)
+    io.sockets.emit(`callWinforHost`, callWinType, houses);
+  });
+
   // events for host calling number from front-end button click
   socket.on('newNumber', (num) => {
     // event for notifying PCs that new number was called
     socket.emit(`newNumberFromHost`, { newNumber: num });
-    console.log(`newNumber: ${num}`);
+    console.log(`newNumberFromHost: ${num}`);
   });
 
   // deal with disconnects here later
@@ -33,7 +45,7 @@ io.on("connection", (socket) => {
   //  - dealing with host's disconnection
   //  - dealing with PC's disconnection and joining back - use cookies I guess
   socket.on('disconnect', () => {
-  num_players--;
+    player_ids.pop();
     console.log('userDisconnected');
   });
 });
