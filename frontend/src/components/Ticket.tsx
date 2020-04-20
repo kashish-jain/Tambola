@@ -2,14 +2,13 @@ import * as React from "react";
 import { Component } from "react";
 import House from "./House";
 import WinningButtons from "./WinningButtons";
+import NewNumber from "./NewNumber";
 
 interface TicketProps {
-  socket: any
+  socket: any;
 }
 
-interface TicketState {
-
-}
+interface TicketState {}
 
 class Ticket extends Component<TicketProps, TicketState> {
   constructor(props: TicketProps) {
@@ -27,6 +26,7 @@ class Ticket extends Component<TicketProps, TicketState> {
           corners={"Corners"}
           fullHouse={"Full House"}
         />
+        <NewNumber socket={this.props.socket} />
       </div>
     );
   }
