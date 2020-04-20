@@ -12,20 +12,20 @@ io.on("connection", (socket) => {
   
   // logic for Host and PC connection
   num_players++;
-  console.log(`new connection: ${num_players}`);
+  console.log(`newConnection: ${num_players}`);
 
   // events emitted for new connection
   if(num_players == 1) {
-    io.emit(`user connected`, { type: 'Host' });
+    io.emit(`userConnected`, { type: 'Host' });
   } else {
-    io.emit(`user connected`, { type: 'PC' });
+    io.emit(`userConnected`, { type: 'PC' });
   }
 
   // events for host calling number from front-end button click
-  socket.on('new_number', (number) => {
+  socket.on('newNumber', (number) => {
     // event for notifying PCs that new number was called
-    socket.broadcast.emit(`new_number_from_host`, { new_number: number });
-    console.log(`new_number: ${number}`);
+    socket.broadcast.emit(`newNumberFromHost`, { new_number: number });
+    console.log(`newNumber: ${number}`);
   });
 
   // deal with disconnects here later
@@ -34,7 +34,7 @@ io.on("connection", (socket) => {
   //  - dealing with PC's disconnection and joining back - use cookies I guess
   socket.on('disconnect', () => {
   num_players--;
-    console.log('user disconnected');
+    console.log('userDisconnected');
   });
 });
 
