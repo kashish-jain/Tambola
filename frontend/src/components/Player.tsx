@@ -16,7 +16,7 @@ class Player extends Component<PlayerProps, PlayerState> {
   render() {
     return (
       <>
-        <Ticket socket={this.props.socket} />;
+        <Ticket socket={this.props.socket} />
         <NewNumber socket={this.props.socket} />
       </>
     );
