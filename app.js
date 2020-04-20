@@ -14,8 +14,6 @@ io.on("connection", (socket) => {
   num_players++;
   console.log(`newConnection: ${num_players}`);
 
-  // test
-  socket.emit('news', { hello: 'world' });
   // events emitted for new connection
   if(num_players == 1) {
     io.sockets.emit(`userConnected`, { type: 'Host' });

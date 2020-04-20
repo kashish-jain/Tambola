@@ -18,6 +18,7 @@ import io from 'socket.io-client';
 
 interface AppState {
   socket: any
+  type: string
 }
 
 interface AppProps {
@@ -28,27 +29,33 @@ class App extends Component<AppProps, AppState> {
   constructor(props: any) {
     super(props);
     this.state = {
-      socket: io()
+      socket: io(),
+      type: ""
     }
   }
 
-  type = "";
-
-  componentWillMount() {
-    
+  componentDidMount() {
+    this.state.socket.on("userConnected", (type: any) => {
+      if(this.state.type == "") {
+        this.setState({
+          socket: this.state.socket,
+          type: type["type"]
+        });
+      }
+      console.log("received notification", this.state.type);
+    });
   }
 
   render() {
-    console.log(this.state.socket);
-    this.state.socket.on("userConnected", (type: any) => {
-      this.type = type["type"];
-      console.log(this.type);
-      console.log(this.type === "Host");
-    });
+    let comp;
+    if(this.state.type === "Host") {
+      comp = <Board socket={this.state.socket}/>;
+    } else if(this.state.type === "PC") {
+      comp = <House />;
+    } else {
+      comp = <></>;
+    }
 
-    
-    let comp = (this.type === "Host")? <Board socket={this.state.socket}/>: <House />;
-    console.log(this.type);
     return (
       <>
         <div className="App">
