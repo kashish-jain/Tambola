@@ -5,16 +5,6 @@ import Ticket from "./Ticket";
 import Board from "./Board";
 import io from 'socket.io-client';
 
-  /*socket.on('news', (data: any) => {
-    console.log(data);
-    socket.emit('my other event', { my: 'data' });
-  });
-  
-  /*socket.on('newNumberFromHost', () => {
-    // receiving number here for players
-    console.log(`newNumberFromHost`);
-  });*/
-
 interface AppState {
   socket: any
   type: string
