@@ -32,6 +32,15 @@ io.on("connection", (socket) => {
     io.sockets.emit(`callWinforHost`, callWinType, houses);
   });
 
+  // results from host
+  socket.on('resultsFromHost', (hostCheck, callWinType) => {
+    // NEED TO SEND TO EVERYONE BUT
+    //    Need to know who called for win
+    // call to PCs notifying someone won something
+    console.log(hostCheck, "for", callWinType);
+    socket.broadcast.emit(`resultsForPC`, hostCheck, callWinType);
+  });
+
   // events for host calling number from front-end button click
   socket.on("newNumber", (num) => {
     

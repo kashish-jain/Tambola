@@ -3,6 +3,7 @@ import { Component } from "react";
 import Board from "./Board";
 import { BoxState } from "./Box";
 import Ticket from "./Ticket";
+import ResultButtons from "./ResultButtons";
 
 interface HostProps {
   socket: any;
@@ -30,12 +31,26 @@ class Host extends Component<HostProps, HostState> {
       }
     );
   }
+
+  handleResultCall = (hostCheck: string) => {
+    this.props.socket.emit("resultsFromHost", hostCheck, this.winningCallFromPlayer);
+    this.setState({
+      checkingTicket: false,
+    });
+  };
+
   render() {
     let playerTicket = this.state.checkingTicket ? (
       <div>
         <br></br>
         <Ticket houses={this.ticketFromPlayer} />
         <p>Win Call: {this.winningCallFromPlayer}</p>
+        <ResultButtons
+          key={0}
+          win={"Confirm Win!"}
+          bogey={"Bogey!"}
+          resultCallback={this.handleResultCall}
+        />
       </div>
     ) : null;
     return (
