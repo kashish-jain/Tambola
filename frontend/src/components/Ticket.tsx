@@ -2,7 +2,6 @@ import * as React from "react";
 import { Component } from "react";
 import House from "./House";
 import WinningButtons from "./WinningButtons";
-import NewNumber from "./NewNumber";
 
 interface TicketProps {
   socket: any;
@@ -26,7 +25,6 @@ class Ticket extends Component<TicketProps, TicketState> {
           corners={"Corners"}
           fullHouse={"Full House"}
         />
-        <NewNumber socket={this.props.socket} />
       </div>
     );
   }
