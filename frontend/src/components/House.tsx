@@ -14,6 +14,7 @@ function random0to2() {
 }
 
 function randomitoiplus9(i: number) {
+  
   //Edge Cases: When i = 0 return 1-9; When i = 8 return 80-90
   if (i === 0) {
     return Math.floor(Math.random() * 9) + 1;
