@@ -29,11 +29,11 @@ class NewNumber extends Component<NewNumberProps, NewNumberState> {
     );
   }
   render() {
-    return (
-      <div>
-        <p>Next Number:{this.state.newNumber}</p>
-      </div>
-    );
+    let newNumberComponent =
+      this.state.newNumber == 0 ? null : (
+        <p>New Number:{this.state.newNumber}</p>
+      );
+    return newNumberComponent;
   }
 }
 

@@ -23,7 +23,7 @@ io.on("connection", (socket) => {
   // events for host calling number from front-end button click
   socket.on("newNumber", (num) => {
     // event for notifying PCs that new number was called
-    io.sockets.emit(`newNumberFromHost`, { newNumber: num });
+    io.emit(`newNumberFromHost`, { newNumber: num });
     console.log(`newNumber: ${num}`);
   });
 
