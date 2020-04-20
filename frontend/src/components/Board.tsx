@@ -1,7 +1,6 @@
 import * as React from "react";
 import { Component } from "react";
 import { BoardLine } from "./BoardLine";
-// import socket from "../index"
 
 //TODO: Fix some logic of duplicate keys for rows generated
 

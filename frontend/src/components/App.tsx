@@ -28,7 +28,7 @@ class App extends Component<AppProps, AppState> {
       if(this.state.type == "") {
         this.setState({
           socket: this.state.socket,
-          type: type["type"]
+          type: type.type
         });
       }
       console.log("received notification", this.state.type);
@@ -36,19 +36,19 @@ class App extends Component<AppProps, AppState> {
   }
 
   render() {
-    let comp;
+    let component;
     if(this.state.type === "Host") {
-      comp = <Board socket={this.state.socket}/>;
+      component = <Board socket={this.state.socket}/>;
     } else if(this.state.type === "PC") {
-      comp = <Ticket socket={this.state.socket}/>;
+      component = <Ticket socket={this.state.socket}/>;
     } else {
-      comp = <></>;
+      component = <></>;
     }
 
     return (
       <>
         <div className="App">
-          { comp }
+          { component }
         </div>
       </>
     );
