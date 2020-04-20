@@ -18,7 +18,6 @@ function randomitoiplus9(i: number) {
   if (i === 0) {
     return Math.floor(Math.random() * 9) + 1;
   } else if (i === 80) {
-    console.log("here");
     return Math.floor(Math.random() * 11) + i;
   }
 
@@ -113,14 +112,39 @@ class House extends Component<HouseProps, HouseState> {
   constructor(props: HouseProps) {
     super(props);
   }
-  ticket = generateNumbers();
-  house = generateHouse(this.ticket);
+  house = generateHouse(generateNumbers());
+
+  changeHouseState = (
+    lineIndex: number,
+    boxIndex: number,
+    check: boolean
+  ): void => {
+    let { value } = this.house[lineIndex][boxIndex];
+    this.house[lineIndex][boxIndex] = { value: value, check };
+    console.log("here it is after changing", this.house);
+  };
+
   render() {
     return (
       <div>
-        <Line key={0} index={0} numbers={this.house[0]} />
-        <Line key={1} index={1} numbers={this.house[1]} />
-        <Line key={2} index={2} numbers={this.house[2]} />
+        <Line
+          key={0}
+          index={0}
+          numbers={this.house[0]}
+          changeHouseState={this.changeHouseState}
+        />
+        <Line
+          key={1}
+          index={1}
+          numbers={this.house[1]}
+          changeHouseState={this.changeHouseState}
+        />
+        <Line
+          key={2}
+          index={2}
+          numbers={this.house[2]}
+          changeHouseState={this.changeHouseState}
+        />
       </div>
     );
   }

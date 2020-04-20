@@ -10,6 +10,7 @@ interface BoxProps {
   // for generation of ticket it is passed;
   index?: number;
   check?: boolean;
+  changeHouseState?: (index: number, check: boolean) => void;
 }
 
 export interface BoxState {
@@ -26,9 +27,16 @@ class Box extends Component<BoxProps, BoxState> {
     };
   }
   clickHandler = () => {
-    let invertedCheck = !this.state.check;
-    this.setState({ check: invertedCheck, value: this.state.value });
-    console.log("clicked ", this.state);
+    let invertCheck = this.state.check ? false : true;
+    this.setState({ check: invertCheck, value: this.state.value });
+
+    // Change house's state when clicked, only on ticket and not on board
+    if (
+      this.props.changeHouseState !== undefined &&
+      this.props.index !== undefined
+    ) {
+      this.props.changeHouseState(this.props.index, invertCheck);
+    }
   };
   render() {
     let checkedCssClass = this.state.check ? "checked" : "unchecked";
