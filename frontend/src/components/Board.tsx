@@ -90,7 +90,6 @@ class Board extends Component<BoardProps, BoardState> {
               boardNumbers: this.state.boardNumbers,
               goneNumbers: this.state.goneNumbers + 1,
             });
-            console.log(this.props.socket);
             this.props.socket.emit("newNumber", newNumber);
           }}
         >

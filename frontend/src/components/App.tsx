@@ -2,6 +2,7 @@ import React from "react";
 import { Component } from "react";
 import "../App.css";
 import Ticket from "./Ticket";
+import Board from "./Board";
 import io from 'socket.io-client';
 
   /*socket.on('news', (data: any) => {
