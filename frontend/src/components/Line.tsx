@@ -1,11 +1,35 @@
 import * as React from "react";
 import { Component } from "react";
 import Box from "./Box";
+import { BoxState } from "./Box";
 
-// TODO: Make unique keys when rendering boxes; keys are repeating in case of 0
+function generateBoxComponents(
+  numbers: Array<BoxState>,
+  callback: (boxIndex: number, check: boolean) => void
+) {
+  let boxes = [];
+  for (let i = 0; i < numbers.length; ++i) {
+    boxes[i] = (
+      <Box
+        key={i}
+        value={numbers[i].value}
+        check={numbers[i].check}
+        changeHouseState={callback}
+        index={i}
+      />
+    );
+  }
+  return boxes;
+}
 
 interface LineProps {
-  numbers: Array<number>;
+  index: number;
+  numbers: Array<BoxState>;
+  changeHouseState: (
+    lineIndex: number,
+    boxIndex: number,
+    check: boolean
+  ) => void;
 }
 
 interface LineState {}
@@ -15,9 +39,13 @@ class Line extends Component<LineProps, LineState> {
     super(props);
   }
 
-  boxes = this.props.numbers.map(function (number) {
-    return <Box key={number} value={number} />;
-  });
+  // this callback will be envoked from box component when it gets clicked
+  changeHouseState = (boxIndex: number, check: boolean) => {
+    this.props.changeHouseState(this.props.index, boxIndex, check);
+  };
+
+  boxes = generateBoxComponents(this.props.numbers, this.changeHouseState);
+
 
   render() {
     return <div style={{ display: "flex" }}>{this.boxes}</div>;
