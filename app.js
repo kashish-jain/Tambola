@@ -15,15 +15,15 @@ io.on("connection", (socket) => {
 
   // events emitted for new connection
   if (num_players == 1) {
-    io.sockets.emit(`userConnected`, { type: "Host" });
+    socket.emit(`userConnected`, { type: "Host" });
   } else {
-    io.sockets.emit(`userConnected`, { type: "PC" });
+    socket.emit(`userConnected`, { type: "PC" });
   }
 
   // events for host calling number from front-end button click
   socket.on("newNumber", (num) => {
     // event for notifying PCs that new number was called
-    io.emit(`newNumberFromHost`, { newNumber: num });
+    socket.broadcast.emit(`newNumberFromHost`, { newNumber: num });
     console.log(`newNumber: ${num}`);
   });
 
