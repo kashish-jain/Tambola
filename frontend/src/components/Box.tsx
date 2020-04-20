@@ -11,7 +11,7 @@ interface BoxProps {
   // for generation of ticket it is passed;
   index?: number;
   check?: boolean;
-  changeHouseState?: (index: number, check: boolean) => void;
+  changeTicketState?: (index: number, check: boolean) => void;
 }
 
 export interface BoxState {
@@ -33,10 +33,10 @@ class Box extends Component<BoxProps, BoxState> {
 
     // Change house's state when clicked, only on ticket and not on board
     if (
-      this.props.changeHouseState !== undefined &&
+      this.props.changeTicketState !== undefined &&
       this.props.index !== undefined
     ) {
-      this.props.changeHouseState(this.props.index, invertCheck);
+      this.props.changeTicketState(this.props.index, invertCheck);
     }
   };
   render() {

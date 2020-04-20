@@ -14,7 +14,7 @@ function generateBoxComponents(
         key={i}
         value={numbers[i].value}
         check={numbers[i].check}
-        changeHouseState={callback}
+        changeTicketState={callback}
         index={i}
       />
     );
@@ -25,7 +25,7 @@ function generateBoxComponents(
 interface LineProps {
   index: number;
   numbers: Array<BoxState>;
-  changeHouseState: (
+  changeTicketState: (
     lineIndex: number,
     boxIndex: number,
     check: boolean
@@ -40,11 +40,11 @@ class Line extends Component<LineProps, LineState> {
   }
 
   // this callback will be envoked from box component when it gets clicked
-  changeHouseState = (boxIndex: number, check: boolean) => {
-    this.props.changeHouseState(this.props.index, boxIndex, check);
+  changeTicketState = (boxIndex: number, check: boolean) => {
+    this.props.changeTicketState(this.props.index, boxIndex, check);
   };
 
-  boxes = generateBoxComponents(this.props.numbers, this.changeHouseState);
+  boxes = generateBoxComponents(this.props.numbers, this.changeTicketState);
 
 
   render() {

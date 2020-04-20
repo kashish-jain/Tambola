@@ -11,7 +11,7 @@ import { BoardLine } from "./BoardLine";
 // at the array. This is still easy to do.
 
 interface BoardProps {
-  socket: any;
+  socket: any
 }
 
 interface BoardState {
