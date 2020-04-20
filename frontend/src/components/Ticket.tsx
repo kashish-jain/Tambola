@@ -3,9 +3,13 @@ import { Component } from "react";
 import House from "./House";
 import WinningButtons from "./WinningButtons";
 
-interface TicketProps {}
+interface TicketProps {
+  socket: any
+}
 
-interface TicketState {}
+interface TicketState {
+
+}
 
 class Ticket extends Component<TicketProps, TicketState> {
   constructor(props: TicketProps) {

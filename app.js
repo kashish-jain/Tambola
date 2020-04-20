@@ -16,16 +16,16 @@ io.on("connection", (socket) => {
 
   // events emitted for new connection
   if(num_players == 1) {
-    io.emit(`userConnected`, { type: 'Host' });
+    io.sockets.emit(`userConnected`, { type: 'Host' });
   } else {
-    io.emit(`userConnected`, { type: 'PC' });
+    io.sockets.emit(`userConnected`, { type: 'PC' });
   }
 
   // events for host calling number from front-end button click
-  socket.on('newNumber', (number) => {
+  socket.on('newNumber', (num) => {
     // event for notifying PCs that new number was called
-    socket.broadcast.emit(`newNumberFromHost`, { new_number: number });
-    console.log(`newNumber: ${number}`);
+    socket.emit(`newNumberFromHost`, { newNumber: num });
+    console.log(`newNumber: ${num}`);
   });
 
   // deal with disconnects here later
