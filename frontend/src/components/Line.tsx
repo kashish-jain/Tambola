@@ -1,11 +1,21 @@
 import * as React from "react";
 import { Component } from "react";
 import Box from "./Box";
+import { BoxState } from "./Box";
 
-// TODO: Make unique keys when rendering boxes; keys are repeating in case of 0
+function generateBoxComponents(numbers: Array<BoxState>) {
+  let boxes = [];
+  for (let i = 0; i < numbers.length; ++i) {
+    boxes[i] = (
+      <Box key={i} value={numbers[i].value} check={numbers[i].check} />
+    );
+  }
+  return boxes;
+}
 
 interface LineProps {
-  numbers: Array<number>;
+  index: number;
+  numbers: Array<BoxState>;
 }
 
 interface LineState {}
@@ -15,9 +25,7 @@ class Line extends Component<LineProps, LineState> {
     super(props);
   }
 
-  boxes = this.props.numbers.map(function (number) {
-    return <Box key={number} value={number} />;
-  });
+  boxes = generateBoxComponents(this.props.numbers);
 
   render() {
     return <div style={{ display: "flex" }}>{this.boxes}</div>;
