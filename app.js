@@ -6,8 +6,8 @@ const app = express();
 const server = http.createServer(app);
 var io = require("socket.io").listen(server);
 
-var num_players = 0;
 var player_ids = [];
+var num_players = 0;
 
 io.on("connection", (socket) => {
   // logic for Host and PC connection
@@ -34,11 +34,10 @@ io.on("connection", (socket) => {
 
   // events for host calling number from front-end button click
   socket.on("newNumber", (num) => {
-  
-  // event for notifying PCs that new number was called
-  socket.broadcast.emit(`newNumberFromHost`, { newNumber: num });
-  console.log(`newNumber: ${num}`);
-
+    
+    // event for notifying PCs that new number was called
+    socket.broadcast.emit(`newNumberFromHost`, { newNumber: num });
+    console.log(`newNumber: ${num}`);
   });
 
   // deal with disconnects here later

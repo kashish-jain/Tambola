@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Component } from "react";
 import Line from "./Line";
-import { BoxState } from "../components/Box";
+import { BoxState } from "./Box";
 
 interface HouseProps {
   houseIndex: number
