@@ -6,6 +6,8 @@ const app = express();
 const server = http.createServer(app);
 var io = require('socket.io').listen(server);
 
+var num_players = 0;
+
 io.on("connection", (socket) => {
 	
 	// logic for Host and PC connection
