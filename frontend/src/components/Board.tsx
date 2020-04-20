@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Component } from "react";
 import { BoardLine } from "./BoardLine";
+// import socket from "../index"
 
 //TODO: Fix some logic of duplicate keys for rows generated
 
@@ -10,7 +11,9 @@ import { BoardLine } from "./BoardLine";
 // We will have a rectify button which will actually change all the states of the boxes by looking
 // at the array. This is still easy to do.
 
-interface BoardProps {}
+interface BoardProps {
+  socket: any;
+}
 
 interface BoardState {
   boardNumbers: Array<number>;
@@ -87,6 +90,8 @@ class Board extends Component<BoardProps, BoardState> {
               boardNumbers: this.state.boardNumbers,
               goneNumbers: this.state.goneNumbers + 1,
             });
+            console.log(this.props.socket);
+            this.props.socket.emit("newNumber", newNumber);
           }}
         >
           Generate New
