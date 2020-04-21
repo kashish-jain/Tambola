@@ -4,6 +4,8 @@ import Board from "./Board";
 import { BoxState } from "./Box";
 import Ticket from "./Ticket";
 import ResultButtons from "./ResultButtons";
+import { Widget, addResponseMessage } from "react-chat-widget";
+import "react-chat-widget/lib/styles.css";
 
 interface HostProps {
   socket: any;
@@ -21,6 +23,11 @@ class Host extends Component<HostProps, HostState> {
     this.state = { checkingTicket: false };
   }
 
+  handleNewUserMessage = (newMessage: string) => {
+    console.log(`New message incoming! ${newMessage}`);
+    this.props.socket.emit("messageFromClient", newMessage);
+  };
+
   componentDidMount() {
     this.props.socket.on(
       "callWinforHost",
@@ -30,10 +37,18 @@ class Host extends Component<HostProps, HostState> {
         this.setState({ checkingTicket: true });
       }
     );
+    this.props.socket.on("messageToClient", (msg: string) => {
+      console.log("message received frontend ", msg);
+      addResponseMessage(msg);
+    });
   }
 
   handleResultCall = (hostCheck: string) => {
-    this.props.socket.emit("resultsFromHost", hostCheck, this.winningCallFromPlayer);
+    this.props.socket.emit(
+      "resultsFromHost",
+      hostCheck,
+      this.winningCallFromPlayer
+    );
     this.setState({
       checkingTicket: false,
     });
@@ -57,6 +72,7 @@ class Host extends Component<HostProps, HostState> {
       <div>
         <Board socket={this.props.socket} />
         {playerTicket}
+        <Widget handleNewUserMessage={this.handleNewUserMessage} />
       </div>
     );
   }

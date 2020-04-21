@@ -14,7 +14,11 @@ io.on("connection", (socket) => {
   player_ids.push(socket.id);
   num_players = player_ids.length;
 
-  console.log(`newConnection: ${num_players}`, "id:", player_ids[num_players - 1]);
+  console.log(
+    `newConnection: ${num_players}`,
+    "id:",
+    player_ids[num_players - 1]
+  );
 
   // events emitted for new connection
   if (num_players == 1) {
@@ -24,7 +28,7 @@ io.on("connection", (socket) => {
   }
 
   // winning call made
-  socket.on('callWinfromPC', (callWinType, houses) => {
+  socket.on("callWinfromPC", (callWinType, houses) => {
     console.log(callWinType);
     console.log(houses);
 
@@ -33,7 +37,7 @@ io.on("connection", (socket) => {
   });
 
   // results from host
-  socket.on('resultsFromHost', (hostCheck, callWinType) => {
+  socket.on("resultsFromHost", (hostCheck, callWinType) => {
     // NEED TO SEND TO EVERYONE BUT
     //    Need to know who called for win
     // call to PCs notifying someone won something
@@ -43,19 +47,24 @@ io.on("connection", (socket) => {
 
   // events for host calling number from front-end button click
   socket.on("newNumber", (num) => {
-    
     // event for notifying PCs that new number was called
     socket.broadcast.emit(`newNumberFromHost`, { newNumber: num });
     console.log(`newNumber: ${num}`);
+  });
+
+  //events for chatting
+  socket.on("messageFromClient", (msg) => {
+    console.log("message", msg);
+    socket.broadcast.emit("messageToClient", msg);
   });
 
   // deal with disconnects here later
   // CASES:
   //  - dealing with host's disconnection
   //  - dealing with PC's disconnection and joining back - use cookies I guess
-  socket.on('disconnect', () => {
+  socket.on("disconnect", () => {
     player_ids.pop();
-    console.log('userDisconnected');
+    console.log("userDisconnected");
   });
 });
 
