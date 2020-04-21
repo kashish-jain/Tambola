@@ -76,6 +76,7 @@ app.get("/", (req, res) => {
   res.sendFile(__dirname + "/build/index.html");
 });
 
-server.listen(3000, (req, res) => {
-  console.log("listening on port 3000");
+let port = process.env.PORT || 3000;
+server.listen(port, (req, res) => {
+  console.log("listening on port", port);
 });

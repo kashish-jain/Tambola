@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "cd frontend && npm i && npm run build && cd ../ && nodemon app.js"
+    "heroku-postbuild": "cd frontend && npm i && npm run build",
+    "start": "node app.js"
   },
   "repository": {
     "type": "git",
