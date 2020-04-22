@@ -72,8 +72,20 @@ io.on("connection", (socket) => {
 // when frontend code is built
 app.use(express.static(path.join(__dirname + "/build")));
 
+// This index.html is the game's main page and not web's landing page
+app.get("/game", (req, res) => {
+  // res.sendFile(__dirname + "/build/index.html");
+  res.send("game pe aagya");
+  console.log("game1");
+});
+
+app.get("/bla", (req, res) => {
+  res.send("here at bla");
+});
+
 app.get("/", (req, res) => {
-  res.sendFile(__dirname + "/build/index.html");
+  res.send("hi there hi");
+  console.log("root");
 });
 
 let port = process.env.PORT || 3000;
