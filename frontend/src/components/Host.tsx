@@ -5,12 +5,16 @@ import { BoxState } from "./Box";
 import Ticket from "./Ticket";
 import ResultButtons from "./ResultButtons";
 
+// TODO: Name entered by user could be empty; This is disastrous; We'll make name a different
+// component soon.
+
 interface HostProps {
   socket: any;
 }
 
 interface HostState {
   checkingTicket: boolean;
+  name: string | null;
 }
 
 class Host extends Component<HostProps, HostState> {
@@ -18,9 +22,8 @@ class Host extends Component<HostProps, HostState> {
   winningCallFromPlayer: string | undefined;
   constructor(props: HostProps) {
     super(props);
-    this.state = { checkingTicket: false };
+    this.state = { checkingTicket: false, name: "" };
   }
-
   componentDidMount() {
     this.props.socket.on(
       "callWinforHost",
@@ -30,6 +33,18 @@ class Host extends Component<HostProps, HostState> {
         this.setState({ checkingTicket: true });
       }
     );
+    let roomID = window.location.pathname.substr(
+      window.location.pathname.lastIndexOf("/") + 1
+    );
+    let name;
+    if (this.state.name == "") {
+      name = prompt("What would you like to be called?");
+      this.setState({ name: name });
+    }
+    this.props.socket.emit("joinRoom", {
+      room: roomID,
+      username: name,
+    });
   }
 
   handleResultCall = (hostCheck: string) => {

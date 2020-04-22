@@ -28,7 +28,6 @@ class App extends Component<AppProps, AppState> {
         type: type.type,
       });
     });
-    console.log("dkshf", window.location.pathname);
   }
 
   render() {

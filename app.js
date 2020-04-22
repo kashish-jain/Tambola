@@ -1,7 +1,6 @@
 const path = require("path");
 const http = require("http");
 const express = require("express");
-
 const app = express();
 const server = http.createServer(app);
 var io = require("socket.io").listen(server);
@@ -68,24 +67,18 @@ io.on("connection", (socket) => {
   });
 });
 
+app.get("/", (req, res) => {
+  res.send("go to /game/roomId");
+  console.log("root");
+});
+
 // All files are served from build folder which gets generated
 // when frontend code is built
 app.use(express.static(path.join(__dirname + "/build")));
 
 // This index.html is the game's main page and not web's landing page
-app.get("/game", (req, res) => {
-  // res.sendFile(__dirname + "/build/index.html");
-  res.send("game pe aagya");
-  console.log("game1");
-});
-
-app.get("/bla", (req, res) => {
-  res.send("here at bla");
-});
-
-app.get("/", (req, res) => {
-  res.send("hi there hi");
-  console.log("root");
+app.get("/game/*", (req, res) => {
+  res.sendFile(__dirname + "/build/index.html");
 });
 
 let port = process.env.PORT || 3000;
