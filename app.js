@@ -1,70 +1,85 @@
 const path = require("path");
 const http = require("http");
 const express = require("express");
+
+const {
+  userJoin,
+  getCurrentUser,
+  userLeave,
+  getRoomUsers
+} = require('./utils/users');
+
 const app = express();
 const server = http.createServer(app);
 var io = require("socket.io").listen(server);
 
-var player_ids = [];
-var num_players = 0;
-
 io.on("connection", (socket) => {
-  // logic for Host and PC connection
-  player_ids.push(socket.id);
-  num_players = player_ids.length;
 
-  console.log(
-    `newConnection: ${num_players}`,
-    "id:",
-    player_ids[num_players - 1]
-  );
+  // joining a room
+  socket.on("joinRoom", ({ username, room }) => {
+    const user = userJoin(socket.id, username, room);
+    
+    // joining the user in the room
+    socket.join(user.room);
+    
+    // events emitted for new connection
+    const len = getRoomUsers(user.room);
+    if (len == 1) {
+      socket.emit("userConnected", { type: "Host" });
+    } else {
+      socket.emit("userConnected", { type: "PC" });
+    }
 
-  // events emitted for new connection
-  if (num_players == 1) {
-    console.log("user connecte");
-    socket.emit(`userConnected`, { type: "Host" });
-  } else {
-    socket.emit(`userConnected`, { type: "PC" });
-  }
+    // Welcome current user
+    console.log("Hi",
+      user.username,
+      "id:",
+      user.id,
+      "Room id:",
+      user.room,
+      "Connection number:",
+      len
+    );
+  });
 
   // winning call made
   socket.on("callWinfromPC", (callWinType, houses) => {
-    console.log(callWinType);
-    console.log(houses);
+    const user = getCurrentUser(socket.id);
 
-    // call for host (just send to host)
-    io.sockets.emit(`callWinforHost`, callWinType, houses);
+    // call for host (just send to host)?
+    io.to(user.room).emit("callWinforHost", callWinType, houses);
+
+    console.log(callWinType, "from", user.username, "in room:", user.room);
   });
 
   // results from host
   socket.on("resultsFromHost", (hostCheck, callWinType) => {
+    const user = getCurrentUser(socket.id);
+
     // NEED TO SEND TO EVERYONE BUT
     //    Need to know who called for win
     // call to PCs notifying someone won something
-    console.log(hostCheck, "for", callWinType);
-    socket.broadcast.emit(`resultsForPC`, hostCheck, callWinType);
+    console.log(hostCheck, "on", user.username, "for", callWinType, "in room:", user.room);
+    io.to(user.room).emit("resultsForPC", hostCheck, callWinType);
   });
 
   // events for host calling number from front-end button click
   socket.on("newNumber", (num) => {
+    const user = getCurrentUser(socket.id);
+
     // event for notifying PCs that new number was called
-    socket.broadcast.emit(`newNumberFromHost`, { newNumber: num });
-    console.log(`newNumber: ${num}`);
+    io.to(user.room).emit("newNumberFromHost", { newNumber: num });
+    console.log("newNumberFromHost:", num, "in room:", user.room);
   });
 
-  //events for chatting
-  socket.on("messageFromClient", (msg) => {
-    console.log("message", msg);
-    socket.broadcast.emit("messageToClient", msg);
-  });
 
   // deal with disconnects here later
   // CASES:
   //  - dealing with host's disconnection
   //  - dealing with PC's disconnection and joining back - use cookies I guess
   socket.on("disconnect", () => {
-    player_ids.pop();
-    console.log("userDisconnected");
+    const user = userLeave(socket.id);
+    console.log("userDisconnected from room:", user.room);
   });
 });
 
