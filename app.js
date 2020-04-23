@@ -21,6 +21,7 @@ io.on("connection", (socket) => {
 
   // events emitted for new connection
   if (num_players == 1) {
+    console.log("user connecte");
     socket.emit(`userConnected`, { type: "Host" });
   } else {
     socket.emit(`userConnected`, { type: "PC" });

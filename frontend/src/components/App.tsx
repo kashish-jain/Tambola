@@ -7,7 +7,6 @@ import Player from "./Player";
 
 interface AppState {
   socket: any;
-  type: string;
 }
 
 interface AppProps {}
@@ -17,29 +16,21 @@ class App extends Component<AppProps, AppState> {
     super(props);
     this.state = {
       socket: io(),
-      type: "",
     };
   }
 
-  componentDidMount() {
-    this.state.socket.on("userConnected", (type: any) => {
-      this.setState({
-        socket: this.state.socket,
-        type: type.type,
-      });
-    });
-  }
-
   render() {
-    let component;
-    if (this.state.type === "Host") {
-      component = <Host socket={this.state.socket} />;
-    } else if (this.state.type === "PC") {
-      component = <Player socket={this.state.socket} />;
-    }
+    // let component;
+    // if (this.state.type === "Host") {
+    //   component = <Host socket={this.state.socket} />;
+    // } else if (this.state.type === "PC") {
+    //   component = <Player socket={this.state.socket} />;
+    // }
     return (
       <>
-        <div className="App">{component}</div>
+        <div className="App">
+          <Player socket={this.state.socket} />
+        </div>
       </>
     );
   }
