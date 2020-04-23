@@ -1,38 +1,113 @@
 import * as React from "react";
 import { Component } from "react";
 import Ticket from "./Ticket";
+import Board from "./Board";
+import { BoxState } from "./Box";
 import NewNumber from "./NewNumber";
-import { Widget, addResponseMessage } from "react-chat-widget";
-import "react-chat-widget/lib/styles.css";
+import ResultButtons from "./ResultButtons";
+
+// TODO: Name entered by user could be empty; This is disastrous; We'll make name a different
+// component soon.
 
 interface PlayerProps {
   socket: any;
 }
 
-interface PlayerState {}
+interface PlayerState {
+  // type is either PC or host
+  type: string;
+  // This is just for host type
+  checkingTicket: boolean;
+  name: string | null;
+}
 
 class Player extends Component<PlayerProps, PlayerState> {
+  // The declarations are just for Host type
+  ticketFromPlayer: Array<Array<Array<BoxState>>> | undefined;
+  winningCallFromPlayer: string | undefined;
   constructor(props: PlayerProps) {
     super(props);
+    this.state = { name: "", checkingTicket: false, type: "" };
   }
-
-  handleNewUserMessage = (newMessage: string) => {
-    console.log(`New message incoming! ${newMessage}`);
-    this.props.socket.emit("messageFromClient", newMessage);
-  };
 
   componentDidMount() {
-    this.props.socket.on("messageToClient", (msg: string) => {
-      console.log("message received frontend ", msg);
-      addResponseMessage(msg);
+    // Player joins by entering his name
+    let roomID = window.location.pathname.substr(
+      window.location.pathname.lastIndexOf("/") + 1
+    );
+    let name;
+    if (this.state.name == "") {
+      name = prompt("What would you like to be called?");
+      this.setState({ name: name });
+    }
+    this.props.socket.emit("joinRoom", {
+      room: roomID,
+      username: name,
+    });
+
+    // Then player gets know if he is host or pc
+    this.props.socket.on("userConnected", (playerTypeObj: any) => {
+      this.setState({
+        type: playerTypeObj.type,
+      });
+      // only Host can check tickets for now
+      if (playerTypeObj.type == "Host") {
+        this.props.socket.on(
+          "callWinforHost",
+          (callWinType: string, houses: Array<Array<Array<BoxState>>>) => {
+            console.log("getting ticket from other user");
+            this.winningCallFromPlayer = callWinType;
+            this.ticketFromPlayer = houses;
+            this.setState({
+              checkingTicket: true,
+            });
+          }
+        );
+      }
     });
   }
+
+  handleResultCall = (hostCheck: string) => {
+    this.props.socket.emit(
+      "resultsFromHost",
+      hostCheck,
+      this.winningCallFromPlayer
+    );
+    this.setState({
+      checkingTicket: false,
+    });
+  };
+
   render() {
+    // ticket or board depending if host or pc
+    let mainComponent = null;
+    if (this.state.type === "PC") {
+      mainComponent = (
+        <div>
+          <Ticket socket={this.props.socket} />
+          <NewNumber socket={this.props.socket} />
+        </div>
+      );
+    } else if (this.state.type === "Host") {
+      mainComponent = <Board socket={this.props.socket} />;
+    }
+    let playerTicket = this.state.checkingTicket ? (
+      <div>
+        <br></br>
+        <Ticket houses={this.ticketFromPlayer} />
+        <p>Win Call: {this.winningCallFromPlayer}</p>
+        <ResultButtons
+          key={0}
+          win={"Confirm Win!"}
+          bogey={"Bogey!"}
+          resultCallback={this.handleResultCall}
+        />
+      </div>
+    ) : null;
     return (
       <>
-        <Ticket socket={this.props.socket} />
-        <NewNumber socket={this.props.socket} />
-        <Widget handleNewUserMessage={this.handleNewUserMessage} />
+        {mainComponent}
+        {playerTicket}
       </>
     );
   }
