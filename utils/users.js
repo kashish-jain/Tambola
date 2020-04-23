@@ -9,7 +9,7 @@ function userJoin(id, username, room) {
   const user = { id, username, room };
 
   users[id] = user;
-  if(rooms[user.room] || rooms[user.room] == 0) {
+  if(rooms[user.room]) {
     ++rooms[user.room];
   }
   else rooms[user.room] = 1;
@@ -31,7 +31,11 @@ function userLeave(id) {
     delete users[id];
 
     // updating rooms
-    --rooms[user.room];
+    if(rooms[user.room] == 1) {
+      delete rooms[user.room];
+    } else {
+      --rooms[user.room];
+    }
 
     return user;
   }
