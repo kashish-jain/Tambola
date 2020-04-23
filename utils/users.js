@@ -1,11 +1,18 @@
 // storing users by id
 const users = {};
 
+// rooms: from roomID to number of connections
+const rooms = {};
+
 // Join user to chat
 function userJoin(id, username, room) {
   const user = { id, username, room };
 
   users[id] = user;
+  if(rooms[user.room] || rooms[user.room] == 0) {
+    ++rooms[user.room];
+  }
+  else rooms[user.room] = 1;
 
   return user;
 }
@@ -19,14 +26,20 @@ function getCurrentUser(id) {
 function userLeave(id) {
   if(users[id]) {
     const user = users[id];
+    
+    // deleting from users
     delete users[id];
+
+    // updating rooms
+    --rooms[user.room];
+
     return user;
   }
 }
 
-// Get room users
+// Get number of room users
 function getRoomUsers(room) {
-  return users.filter(user => user.room === room);
+  return rooms[room];
 }
 
 module.exports = {
