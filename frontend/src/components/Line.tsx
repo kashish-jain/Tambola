@@ -46,7 +46,6 @@ class Line extends Component<LineProps, LineState> {
 
   boxes = generateBoxComponents(this.props.numbers, this.changeTicketState);
 
-
   render() {
     return <div style={{ display: "flex" }}>{this.boxes}</div>;
   }
