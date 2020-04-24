@@ -80,17 +80,17 @@ io.on("connection", (socket) => {
   });
 });
 
-app.get("/", (req, res) => {
-  res.send("go to /game/roomId");
-  console.log("root");
-});
+
 
 // All files are served from build folder which gets generated
 // when frontend code is built
 app.use(express.static(path.join(__dirname + "/build")));
-
+app.get("/", (req, res) => {
+  // by default index.html is being served
+});
 // This index.html is the game's main page and not web's landing page
 app.get("/game/*", (req, res) => {
+  console.log("here1");
   res.sendFile(__dirname + "/build/index.html");
 });
 

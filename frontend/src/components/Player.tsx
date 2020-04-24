@@ -36,8 +36,8 @@ class Player extends Component<PlayerProps, PlayerState> {
 
   componentDidMount() {
     // Player joins by entering his name
-    let roomID = window.location.pathname.substr(
-      window.location.pathname.lastIndexOf("/") + 1
+    let roomID = window.location.href.substr(
+      window.location.href.lastIndexOf("/") + 1
     );
     let name;
     if (this.state.name == "") {
