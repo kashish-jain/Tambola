@@ -56,8 +56,6 @@ io.on("connection", (socket) => {
   socket.on("resultsFromHost", (result, callWinType, userCalledForWin) => {
     const room = getCurrentUser(socket.id).room;
 
-    // NEED TO SEND TO EVERYONE BUT
-    //    Need to know who called for win
     // call to PCs notifying someone won something
     console.log(result, "on", userCalledForWin.username, "for", callWinType, "in room:", room);
     io.to(room).emit("resultsForPC", result, callWinType);
