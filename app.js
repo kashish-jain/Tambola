@@ -94,9 +94,10 @@ io.on("connection", (socket) => {
   });
 });
 
+app.use(express.static(path.join(__dirname + "/landing")));
+
 app.get("/", (req, res) => {
-  res.send("go to /game/roomId");
-  console.log("root");
+  res.sendFile(path.join(__dirname + "/landing/index.html"));
 });
 
 // All files are served from build folder which gets generated
