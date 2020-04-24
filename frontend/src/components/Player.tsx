@@ -6,6 +6,12 @@ import { BoxState } from "./Box";
 import NewNumber from "./NewNumber";
 import ResultButtons from "./ResultButtons";
 
+interface callWin {
+  callWinType: string;
+  houses: Array<Array<Array<BoxState>>>;
+  user: {id: string, username: string, room: string};
+}
+
 // TODO: Name entered by user could be empty; This is disastrous; We'll make name a different
 // component soon.
 
@@ -21,17 +27,16 @@ interface PlayerState {
   // This is just for host type
   //  for displaying ticket on win call
   checkingTicket: boolean;
-  //  to keep track of where the winning call came from
-  userCalledForWin: {id: string, username: string, room: string} | null;
 }
 
 class Player extends Component<PlayerProps, PlayerState> {
   // The declarations are just for Host type
   ticketFromPlayer: Array<Array<Array<BoxState>>> | undefined;
   winningCallFromPlayer: string | undefined;
+  userCalledForWin: {id: string, username: string, room: string} | undefined;
   constructor(props: PlayerProps) {
     super(props);
-    this.state = { name: "", checkingTicket: false, type: "", userCalledForWin: null };
+    this.state = { name: "", checkingTicket: false, type: "" };
   }
 
   componentDidMount() {
@@ -57,10 +62,11 @@ class Player extends Component<PlayerProps, PlayerState> {
       // only Host can check tickets for now
       if (playerTypeObj.type == "Host") {
         this.props.socket.on(
-          "callWinToHost",
-          (callWinType: string, 
-            houses: Array<Array<Array<BoxState>>>, 
-            user: {id: string, username: string, room: string}) => {
+          "callWinToHost", ({
+              callWinType,
+              houses,
+              user
+            }: callWin) => {
             
             // logging
             console.log("getting ticket from", user.username);
@@ -68,9 +74,9 @@ class Player extends Component<PlayerProps, PlayerState> {
             // updating values
             this.winningCallFromPlayer = callWinType;
             this.ticketFromPlayer = houses;
+            this.userCalledForWin = user;
             this.setState({
               checkingTicket: true,
-              userCalledForWin: user
             });
           }
         );
@@ -80,14 +86,13 @@ class Player extends Component<PlayerProps, PlayerState> {
 
   handleResultCall = (result: string) => {
     this.props.socket.emit(
-      "resultsFromHost",
-      result,
-      this.winningCallFromPlayer,
-      this.state.userCalledForWin
-    );
+      "resultsFromHost", { 
+        result: result,
+        callWinType: this.winningCallFromPlayer,
+        userCalledForWin: this.userCalledForWin
+    });
     this.setState({
       checkingTicket: false,
-      userCalledForWin: null
     });
   };
 

@@ -47,18 +47,18 @@ io.on("connection", (socket) => {
     const user = getCurrentUser(socket.id);
 
     // call for host (just send to host)?
-    io.to(user.room).emit("callWinToHost", callWinType, houses, user);
+    io.to(user.room).emit("callWinToHost", {callWinType, houses, user});
 
     console.log(callWinType, "from", user.username, "in room:", user.room);
   });
 
   // results from host
-  socket.on("resultsFromHost", (result, callWinType, userCalledForWin) => {
+  socket.on("resultsFromHost", ({result, callWinType, userCalledForWin}) => {
     const room = getCurrentUser(socket.id).room;
 
     // call to PCs notifying someone won something
     console.log(result, "on", userCalledForWin.username, "for", callWinType, "in room:", room);
-    io.to(room).emit("resultsForPC", result, callWinType);
+    io.to(room).emit("resultsForPC", {result, callWinType});
   });
 
   // events for host calling number from front-end button click
@@ -74,9 +74,10 @@ io.on("connection", (socket) => {
   // CASES:
   //  - dealing with host's disconnection
   //  - dealing with PC's disconnection and joining back - use cookies I guess
-  socket.on("disconnect", () => {
+  socket.on("disconnect", (reason) => {
     const user = userLeave(socket.id);
-    console.log("userDisconnected from room:", user.room);
+    console.log("userDisconnected from room:", (user)? user.room: null);
+    console.log("reason:", reason);
   });
 });
 
