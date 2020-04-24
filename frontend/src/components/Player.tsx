@@ -5,6 +5,7 @@ import Board from "./Board";
 import { BoxState } from "./Box";
 import NewNumber from "./NewNumber";
 import ResultButtons from "./ResultButtons";
+import Reward from "react-rewards";
 
 // TODO: Name entered by user could be empty; This is disastrous; We'll make name a different
 // component soon.
@@ -22,6 +23,7 @@ interface PlayerState {
 }
 
 class Player extends Component<PlayerProps, PlayerState> {
+  reward: any;
   // The declarations are just for Host type
   ticketFromPlayer: Array<Array<Array<BoxState>>> | undefined;
   winningCallFromPlayer: string | undefined;
@@ -61,6 +63,15 @@ class Player extends Component<PlayerProps, PlayerState> {
             this.setState({
               checkingTicket: true,
             });
+          }
+        );
+      } else {
+        // PLayer is PC, and now someone called for win
+        this.props.socket.on(
+          "callWinforHost",
+          (callWinType: string, houses: Array<Array<Array<BoxState>>>) => {
+            console.log("notification: someone called for ", callWinType);
+            this.reward.rewardMe();
           }
         );
       }
@@ -108,6 +119,13 @@ class Player extends Component<PlayerProps, PlayerState> {
       <>
         {mainComponent}
         {playerTicket}
+        <Reward
+          ref={(ref: any) => {
+            this.reward = ref;
+          }}
+          type="confetti"
+          config={{ elementCount: 100, angle: 60, spread: 80 }}
+        ></Reward>
       </>
     );
   }
