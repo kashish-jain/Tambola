@@ -1,5 +1,6 @@
 import * as React from "react";
 import { Component } from "react";
+import DTable from "./DTable";
 
 interface ConfigProps {
   socket: any;
@@ -7,7 +8,8 @@ interface ConfigProps {
 
 interface ConfigState {
   type: string;
-
+  awards: string;
+  name: string | null;
   // Host Config State options
 
   // PC Config State options
@@ -17,7 +19,7 @@ class Config extends Component<ConfigProps, ConfigState> {
 
   constructor(props: ConfigProps) {
     super(props);
-    this.state = { };
+    this.state = { type: "", awards: "", name: ""};
   }
 
   componentDidMount() {
@@ -51,6 +53,15 @@ class Config extends Component<ConfigProps, ConfigState> {
     });
   }
 
+  handleChange(event: any) {
+    this.setState({awards: event.target.awards});
+  }
+
+  handleSubmit(event: any) {
+    alert('Awards were submitted: ' + this.state.awards);
+    event.preventDefault();
+  }
+
   render() {
     let mainComponent = null;
     if(this.state.type == "Host") {
@@ -59,8 +70,8 @@ class Config extends Component<ConfigProps, ConfigState> {
       mainComponent = (
         <form onSubmit={this.handleSubmit}>
           <label>
-            Name:
-            <input type="text" value={this.state.value} onChange={this.handleChange} />
+            Awards:
+            <input type="text" value={this.state.awards} onChange={this.handleChange} />
           </label>
           <input type="submit" value="Submit" />
         </form>
@@ -68,7 +79,9 @@ class Config extends Component<ConfigProps, ConfigState> {
     } else if(this.state.type == "PC") {
       // form for PC configuration
       //    Number of Tickets
+      mainComponent = <DTable />;
     }
+    return mainComponent;
   }
 }
 

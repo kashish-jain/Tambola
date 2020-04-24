@@ -2,7 +2,7 @@ import React from "react";
 import { Component } from "react";
 import "../App.css";
 import io from "socket.io-client";
-import Player from "./Player";
+import Config from "./Config";
 
 interface AppState {
   socket: any;
@@ -22,7 +22,7 @@ class App extends Component<AppProps, AppState> {
     return (
       <>
         <div className="App">
-          <Player socket={this.state.socket} />
+          <Config socket={this.state.socket} />
         </div>
       </>
     );
