@@ -4,7 +4,7 @@ import { Component } from 'react';
 interface ResultButtonsProps {
     bogey: string
     win: string
-    resultCallback: (hostCheck: string) => void
+    resultCallback: (result: string) => void
 }
 
 interface ResultButtonsState {
