@@ -74,9 +74,10 @@ io.on("connection", (socket) => {
   // CASES:
   //  - dealing with host's disconnection
   //  - dealing with PC's disconnection and joining back - use cookies I guess
-  socket.on("disconnect", () => {
+  socket.on("disconnect", (reason) => {
     const user = userLeave(socket.id);
-    console.log("userDisconnected from room:", user.room);
+    console.log("userDisconnected from room:", (user)? user.room: null);
+    console.log(`reason: ${reason}`);
   });
 });
 
