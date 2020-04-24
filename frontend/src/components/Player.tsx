@@ -16,9 +16,13 @@ interface PlayerProps {
 interface PlayerState {
   // type is either PC or host
   type: string;
-  // This is just for host type
-  checkingTicket: boolean;
   name: string | null;
+  
+  // This is just for host type
+  //  for displaying ticket on win call
+  checkingTicket: boolean;
+  //  to keep track of where the winning call came from
+  userCalledForWin: {id: string, username: string, room: string} | null;
 }
 
 class Player extends Component<PlayerProps, PlayerState> {
@@ -27,7 +31,7 @@ class Player extends Component<PlayerProps, PlayerState> {
   winningCallFromPlayer: string | undefined;
   constructor(props: PlayerProps) {
     super(props);
-    this.state = { name: "", checkingTicket: false, type: "" };
+    this.state = { name: "", checkingTicket: false, type: "", userCalledForWin: null };
   }
 
   componentDidMount() {
@@ -53,13 +57,20 @@ class Player extends Component<PlayerProps, PlayerState> {
       // only Host can check tickets for now
       if (playerTypeObj.type == "Host") {
         this.props.socket.on(
-          "callWinforHost",
-          (callWinType: string, houses: Array<Array<Array<BoxState>>>) => {
-            console.log("getting ticket from other user");
+          "callWinToHost",
+          (callWinType: string, 
+            houses: Array<Array<Array<BoxState>>>, 
+            user: {id: string, username: string, room: string}) => {
+            
+            // logging
+            console.log("getting ticket from", user.username);
+
+            // updating values
             this.winningCallFromPlayer = callWinType;
             this.ticketFromPlayer = houses;
             this.setState({
               checkingTicket: true,
+              userCalledForWin: user
             });
           }
         );
@@ -67,14 +78,16 @@ class Player extends Component<PlayerProps, PlayerState> {
     });
   }
 
-  handleResultCall = (hostCheck: string) => {
+  handleResultCall = (result: string) => {
     this.props.socket.emit(
       "resultsFromHost",
-      hostCheck,
-      this.winningCallFromPlayer
+      result,
+      this.winningCallFromPlayer,
+      this.state.userCalledForWin
     );
     this.setState({
       checkingTicket: false,
+      userCalledForWin: null
     });
   };
 

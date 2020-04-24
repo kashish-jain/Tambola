@@ -43,24 +43,24 @@ io.on("connection", (socket) => {
   });
 
   // winning call made
-  socket.on("callWinfromPC", (callWinType, houses) => {
+  socket.on("callWinFromPC", ({callWinType, houses}) => {
     const user = getCurrentUser(socket.id);
 
     // call for host (just send to host)?
-    io.to(user.room).emit("callWinforHost", callWinType, houses);
+    io.to(user.room).emit("callWinToHost", callWinType, houses, user);
 
     console.log(callWinType, "from", user.username, "in room:", user.room);
   });
 
   // results from host
-  socket.on("resultsFromHost", (hostCheck, callWinType) => {
-    const user = getCurrentUser(socket.id);
+  socket.on("resultsFromHost", (result, callWinType, userCalledForWin) => {
+    const room = getCurrentUser(socket.id).room;
 
     // NEED TO SEND TO EVERYONE BUT
     //    Need to know who called for win
     // call to PCs notifying someone won something
-    console.log(hostCheck, "on", user.username, "for", callWinType, "in room:", user.room);
-    io.to(user.room).emit("resultsForPC", hostCheck, callWinType);
+    console.log(result, "on", userCalledForWin.username, "for", callWinType, "in room:", room);
+    io.to(room).emit("resultsForPC", result, callWinType);
   });
 
   // events for host calling number from front-end button click
@@ -71,7 +71,6 @@ io.on("connection", (socket) => {
     io.to(user.room).emit("newNumberFromHost", { newNumber: num });
     console.log("newNumberFromHost:", num, "in room:", user.room);
   });
-
 
   // deal with disconnects here later
   // CASES:

@@ -44,7 +44,11 @@ class Ticket extends Component<TicketProps, TicketState> {
     ? null
     : (callWinType: string) => {
         // send ticket here as well
-        this.props.socket.emit("callWinfromPC", callWinType, this.houses);
+        this.props.socket.emit("callWinFromPC", 
+          {
+            callWinType: callWinType, 
+            houses: this.houses,
+          });
       };
 
   winningButtons =
