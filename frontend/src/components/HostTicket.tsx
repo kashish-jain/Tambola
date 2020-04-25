@@ -1,7 +1,6 @@
 import * as React from "react";
 import { Component } from "react";
 import Ticket from "./Ticket";
-import { BoxState } from "./Box";
 import ResultButtons from "./ResultButtons";
 import { callWin } from "./Player";
 
@@ -11,19 +10,20 @@ interface HostTicketProps {
 
 interface HostTicketState {
   checkingTicket: boolean;
-  ticketsFromPlayers: callWin;
 }
 
 class HostTicket extends Component<HostTicketProps, HostTicketState> {
+  ticketsFromPlayers: callWin | undefined;
   constructor(props: HostTicketProps) {
     super(props);
+    this.state = { checkingTicket: false };
   }
 
   handleResultCall = (result: string) => {
     this.props.socket.emit("resultsFromHost", {
       result: result,
-      callWinType: this.state.ticketsFromPlayers.callWinType,
-      userCalledForWin: this.state.ticketsFromPlayers.user,
+      callWinType: this.ticketsFromPlayers?.callWinType,
+      userCalledForWin: this.ticketsFromPlayers?.user,
     });
 
     this.setState({
@@ -37,32 +37,28 @@ class HostTicket extends Component<HostTicketProps, HostTicketState> {
       console.log("getting ticket from", callWinObj.user.username);
 
       // updating values
+      this.ticketsFromPlayers = callWinObj;
       this.setState({
         checkingTicket: true,
-        ticketsFromPlayers: callWinObj,
       });
     });
   }
   render() {
-    let playerTicket = this.state.checkingTicket ? (
-      <div>
-        <br></br>
-        <Ticket houses={this.ticketFromPlayer} />
-        <p>Win Call: {this.winningCallFromPlayer}</p>
-        <ResultButtons
-          key={0}
-          win={"Confirm Win!"}
-          bogey={"Bogey!"}
-          resultCallback={this.handleResultCall}
-        />
-      </div>
-    ) : null;
-    return (
-      <>
-        <p>ticket</p>
-        <ResultButtons />
-      </>
-    );
+    let playerTicket =
+      this.state.checkingTicket && this.ticketsFromPlayers ? (
+        <div>
+          <br></br>
+          <Ticket houses={this.ticketsFromPlayers?.houses} />
+          <p>Win Call: {this.ticketsFromPlayers?.callWinType}</p>
+          <ResultButtons
+            key={0}
+            win={"Confirm Win!"}
+            bogey={"Bogey!"}
+            resultCallback={this.handleResultCall}
+          />
+        </div>
+      ) : null;
+    return <>{playerTicket}</>;
   }
 }
 

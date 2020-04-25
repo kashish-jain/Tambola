@@ -52,7 +52,10 @@ class PcTicket extends Component<PcTicketProps, PcTicketState> {
   render() {
     return (
       <>
-        <p>Ticket</p>
+        <Ticket
+          houses={this.houses}
+          changeTicketState={this.changeTicketState}
+        />
         {this.winningButtons}
       </>
     );
