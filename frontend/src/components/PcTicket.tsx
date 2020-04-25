@@ -5,6 +5,7 @@ import { BoxState } from "./Box";
 import { generateHouse } from "../utils/utils";
 import WinningButtons from "./WinningButtons";
 import NewNumber from "./NewNumber";
+import Notification from "./Notification";
 
 interface PcTicketProps {
   socket: any;
@@ -54,10 +55,14 @@ class PcTicket extends Component<PcTicketProps, PcTicketState> {
     return (
       <>
         <NewNumber socket={this.props.socket} />
-        <Ticket
-          houses={this.houses}
-          changeTicketState={this.changeTicketState}
-        />
+        <div className="notification-parent">
+          <Ticket
+            houses={this.houses}
+            changeTicketState={this.changeTicketState}
+          />
+          <Notification socket={this.props.socket} />
+        </div>
+
         {this.winningButtons}
       </>
     );

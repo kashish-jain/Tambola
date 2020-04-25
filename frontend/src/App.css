@@ -74,6 +74,28 @@ p.new-number {
   transition: 0.2s;
 }
 
+div.notification-container {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  opacity: 0.5;
+  top: 0;
+  left: 0;
+  text-align: center;
+}
+
+div.notification-parent {
+  position: relative;
+}
+
+div.notification .main {
+  font-size: 4rem;
+}
+
+div.notification .sub {
+  font-size: 2rem;
+}
+
 .new-number-player {
   font-size: 3rem;
   margin: 1rem 0rem;

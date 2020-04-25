@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Component } from "react";
 import { BoardLine } from "./BoardLine";
+import Notification from "./Notification";
 
 //TODO: Fix some logic of duplicate keys for rows generated
 
@@ -96,7 +97,10 @@ class Board extends Component<BoardProps, BoardState> {
         <p className={"new-number"}>
           {this.state.boardNumbers[this.state.goneNumbers - 1]}
         </p>
-        {this.allLines}
+        <div className="notification-parent">
+          {this.allLines}
+          <Notification socket={this.props.socket} />
+        </div>
       </>
     );
   }
