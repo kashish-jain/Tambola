@@ -6,7 +6,9 @@ interface DTableProps {
 }
 
 interface DTableState {
-  rows: Array<{name: string, mobile: string}>;
+  rows: {
+   [name: string]: number | string,
+  }[];
 }
 
 class DTable extends React.Component<DTableProps, DTableState> {
@@ -16,13 +18,14 @@ class DTable extends React.Component<DTableProps, DTableState> {
       rows: []
     };
   }
+
   handleChange = (idx: number) => (e: any) => {
     const { name, value } = e.target;
-    const rows = [...this.state.rows];
-    // Need to figure out what's happening
-    // rows[idx] = {
-    //   [name]: value
-    // };
+    const rows = this.state.rows;
+    
+    rows[idx][name] = value;
+    console.log(rows[idx]);
+
     this.setState({
       rows
     });
@@ -42,10 +45,10 @@ class DTable extends React.Component<DTableProps, DTableState> {
     });
   };
   handleRemoveSpecificRow = (idx: number) => () => {
-    const rows = [...this.state.rows]
-    rows.splice(idx, 1)
-    this.setState({ rows })
-  }
+    const rows = [...this.state.rows];
+    rows.splice(idx, 1);
+    this.setState({ rows });
+  };
   render() {
     return (
       <div>
@@ -79,7 +82,7 @@ class DTable extends React.Component<DTableProps, DTableState> {
                       </td>
                       <td>
                         <input
-                          type="text"
+                          type="number"
                           name="mobile"
                           value={this.state.rows[idx].mobile}
                           onChange={this.handleChange(idx)}

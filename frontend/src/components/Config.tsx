@@ -8,18 +8,19 @@ interface ConfigProps {
 
 interface ConfigState {
   type: string;
-  awards: string;
   name: string | null;
+  
   // Host Config State options
 
   // PC Config State options
+  numTickets: number;
 }
 
 class Config extends Component<ConfigProps, ConfigState> {
 
   constructor(props: ConfigProps) {
     super(props);
-    this.state = { type: "", awards: "", name: ""};
+    this.state = { type: "", numTickets: 0, name: ""};
   }
 
   componentDidMount() {
@@ -53,14 +54,14 @@ class Config extends Component<ConfigProps, ConfigState> {
     });
   }
 
-  handleChange(event: any) {
-    this.setState({awards: event.target.awards});
-  }
+  handleChange = (event: any) => {
+    this.setState({numTickets: event.target.numTickets});
+  };
 
-  handleSubmit(event: any) {
-    alert('Awards were submitted: ' + this.state.awards);
+  handleSubmit = (event: any) => {
+    alert('Number of Tickets were submitted: ' + this.state.numTickets);
     event.preventDefault();
-  }
+  };
 
   render() {
     let mainComponent = null;
@@ -68,18 +69,27 @@ class Config extends Component<ConfigProps, ConfigState> {
       // form for host configuration
       //    Choosing Awards
       mainComponent = (
-        <form onSubmit={this.handleSubmit}>
-          <label>
-            Awards:
-            <input type="text" value={this.state.awards} onChange={this.handleChange} />
-          </label>
-          <input type="submit" value="Submit" />
-        </form>
+        <>
+          <h1>Host Configuration</h1><hr/>
+          <DTable />
+        </>
       );
+
     } else if(this.state.type == "PC") {
       // form for PC configuration
       //    Number of Tickets
-      mainComponent = <DTable />;
+      mainComponent = (
+        <>
+          <h1>PC Configuration</h1><hr/>
+          <form onSubmit={this.handleSubmit}>
+            <label>
+              Number of Tickets:
+              <input type="text" value={this.state.numTickets} onChange={this.handleChange} />
+            </label>
+            <input type="submit" value="Submit" />
+          </form>
+        </>
+      );      
     }
     return mainComponent;
   }

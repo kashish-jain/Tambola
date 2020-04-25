@@ -36,7 +36,7 @@ class Player extends Component<PlayerProps, PlayerState> {
   userCalledForWin: {id: string, username: string, room: string} | undefined;
   constructor(props: PlayerProps) {
     super(props);
-    this.state = { name: "", checkingTicket: false, type: "", userCalledForWin: null };
+    this.state = { name: "", checkingTicket: false, type: "" };
   }
 
   componentDidMount() {
@@ -80,8 +80,7 @@ class Player extends Component<PlayerProps, PlayerState> {
             this.ticketFromPlayer = houses;
             this.userCalledForWin = user;
             this.setState({
-              checkingTicket: true,
-              userCalledForWin: user
+              checkingTicket: true
             });
           }
         );
