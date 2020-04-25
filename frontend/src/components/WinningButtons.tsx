@@ -22,7 +22,7 @@ class WinningButtons extends Component<
 
   render() {
     return (
-      <div>
+      <div className={"winning-buttons"}>
         <button
           onClick={() => {
             this.props.winCallBack(this.props.firstLine);

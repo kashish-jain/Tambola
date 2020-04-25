@@ -144,7 +144,13 @@ class Player extends Component<PlayerProps, PlayerState> {
             this.reward = ref;
           }}
           type="confetti"
-          config={{ elementCount: 100, angle: 60, spread: 80 }}
+          config={{
+            elementCount: 100,
+            angle: 60,
+            spread: 90,
+            decay: 0.95,
+            lifetime: 150,
+          }}
         ></Reward>
       </>
     );

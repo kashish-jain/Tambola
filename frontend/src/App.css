@@ -1,4 +1,5 @@
-body {
+/* This was for the multicolor animated sbackground */
+/* body {
   -webkit-animation: background 10s linear infinite;
   animation: background 10s linear infinite;  
 }
@@ -16,19 +17,25 @@ body {
   33% { background-color: #9f9; }  
   67% { background-color: #99f; }
   100% { background-color: #f99; }
+} */
+
+body {
+  background-color: #0e141f;
+  color: white;
 }
 
 .box {
   position: relative;
   display: inline-block;
-  background-color: aqua;
+  background-color: #374051;
   width: 50px;
   height: 50px;
-  border: black solid 2px;
+  border: #ffcb36 solid 1px;
   cursor: pointer;
 }
 
 .box p {
+  color: white;
   font-size: 1.5rem;
   text-align: center;
   width: 100%;
@@ -40,30 +47,65 @@ body {
   transform: translateY(-50%);
 }
 
-.box div {
+.box > div {
   display: inline-block;
   width: 100%;
   position: absolute;
   top: 50%;
   height: 0;
+}
+.box > div:first-child {
   transform: rotate(45deg);
+}
+.box > div:nth-child(2) {
+  transform: rotate(135deg);
 }
 
 .board-box {
   display: inline-block;
-  background-color: aqua;
+  background-color: #374051;
   width: 50px;
   height: 50px;
   border: black solid 2px;
   margin: 0;
 }
 
+button {
+  width: 10rem;
+  height: 3rem;
+  font-size: large;
+  color: white;
+  background: #374051;
+  border: 2px solid #ffcb36;
+  box-sizing: border-box;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+p.new-number {
+  font-weight: bolder;
+  font-size: 5rem;
+  color: #ffcb36;
+  margin: 1rem;
+}
+
 .checked {
-  border: solid black 1px;
+  border: 2px solid #ffcb36;
   z-index: 2;
+  transition: 0.2s;
 }
 
 .unchecked {
   width: 0;
   border: none;
+  transition: 0.2s;
+}
+
+.winning-buttons {
+  display: flex;
+  margin: 1rem 0;
+}
+
+.winning-buttons > button {
+  margin: 0 0.5rem;
 }
