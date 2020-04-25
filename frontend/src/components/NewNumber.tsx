@@ -23,7 +23,6 @@ class NewNumber extends Component<NewNumberProps, NewNumberState> {
     this.props.socket.on(
       "newNumberFromHost",
       (newNumberObj: newNumberObj_t) => {
-        console.log(newNumberObj.newNumber);
         this.setState({ newNumber: newNumberObj.newNumber });
       }
     );
@@ -31,7 +30,9 @@ class NewNumber extends Component<NewNumberProps, NewNumberState> {
   render() {
     let newNumberComponent =
       this.state.newNumber == 0 ? null : (
-        <p>New Number:{this.state.newNumber}</p>
+        <p className="new-number-player">
+          New Number <span>{this.state.newNumber}</span>
+        </p>
       );
     return newNumberComponent;
   }
