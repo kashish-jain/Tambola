@@ -4,14 +4,14 @@ import { BoardLine } from "./BoardLine";
 
 //TODO: Fix some logic of duplicate keys for rows generated
 
-// Another variation: Right now the host will check mark the numbers which are done; 
-// What if he messes up? What if he could not maintain the board correctly and give awards to 
+// Another variation: Right now the host will check mark the numbers which are done;
+// What if he messes up? What if he could not maintain the board correctly and give awards to
 // the bogus ones without even realizing that he has not been maintaining the board properly;
 // We will have a rectify button which will actually change all the states of the boxes by looking
 // at the array. This is still easy to do.
 
 interface BoardProps {
-  socket: any
+  socket: any;
 }
 
 interface BoardState {
@@ -74,15 +74,14 @@ class Board extends Component<BoardProps, BoardState> {
   });
 
   // When a new number is generated, we then change the color of that number's box
-  makeBoxGone = (n: number) => {
-
-  }
+  makeBoxGone = (n: number) => {};
 
   render() {
     let newNumber = 0;
     return (
       <>
         <button
+          className={"new-number"}
           onClick={() => {
             newNumber = this.state.boardNumbers[this.state.goneNumbers];
             this.setState({
@@ -94,7 +93,9 @@ class Board extends Component<BoardProps, BoardState> {
         >
           Generate New
         </button>
-        <p>{this.state.boardNumbers[this.state.goneNumbers - 1]}</p>
+        <p className={"new-number"}>
+          {this.state.boardNumbers[this.state.goneNumbers - 1]}
+        </p>
         {this.allLines}
       </>
     );

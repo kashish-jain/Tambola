@@ -6,7 +6,7 @@ interface NextNumberProps {
 }
 
 interface NextNumberState {
-    sentinel: boolean
+  sentinel: boolean;
 }
 
 class NextNumber extends Component<NextNumberProps, NextNumberState> {
@@ -22,7 +22,9 @@ class NextNumber extends Component<NextNumberProps, NextNumberState> {
     this.props.callOut(47);
     return (
       <>
-        <button onClick={() => this.setState({sentinel: false})}>Ready</button>
+        <button onClick={() => this.setState({ sentinel: false })}>
+          Ready
+        </button>
         <p>Next Number:</p>
         <p>47</p>
       </>
