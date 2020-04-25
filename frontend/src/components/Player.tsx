@@ -6,9 +6,8 @@ import { BoxState } from "./Box";
 import NewNumber from "./NewNumber";
 import ResultButtons from "./ResultButtons";
 import Reward from "react-rewards";
-import { stringify } from "querystring";
 
-interface callWin {
+export interface callWin {
   callWinType: string;
   houses: Array<Array<Array<BoxState>>>;
   user: { id: string; username: string; room: string };
