@@ -6,22 +6,21 @@ const {
   userJoin,
   getCurrentUser,
   userLeave,
-  getRoomUsers
-} = require('./utils/users');
+  getRoomUsers,
+} = require("./utils/users");
 
 const app = express();
 const server = http.createServer(app);
 var io = require("socket.io").listen(server);
 
 io.on("connection", (socket) => {
-
   // joining a room
   socket.on("joinRoom", ({ username, room }) => {
     const user = userJoin(socket.id, username, room);
-    
+
     // joining the user in the room
     socket.join(user.room);
-    
+
     // events emitted for new connection
     const len = getRoomUsers(user.room);
     if (len == 1) {
@@ -31,7 +30,8 @@ io.on("connection", (socket) => {
     }
 
     // Welcome current user
-    console.log("Hi",
+    console.log(
+      "Hi",
       user.username,
       "id:",
       user.id,
@@ -43,22 +43,35 @@ io.on("connection", (socket) => {
   });
 
   // winning call made
-  socket.on("callWinFromPC", ({callWinType, houses}) => {
+  socket.on("callWinFromPC", ({ callWinType, houses }) => {
     const user = getCurrentUser(socket.id);
 
     // call for host (just send to host)?
-    io.to(user.room).emit("callWinToHost", {callWinType, houses, user});
-
+    // right now notifications are directly generated from this object on PC's screen
+    io.to(user.room).emit("callWinToHost", { callWinType, houses, user });
     console.log(callWinType, "from", user.username, "in room:", user.room);
   });
 
   // results from host
-  socket.on("resultsFromHost", ({result, callWinType, userCalledForWin}) => {
+  socket.on("resultsFromHost", ({ result, callWinType, userCalledForWin }) => {
     const room = getCurrentUser(socket.id).room;
 
     // call to PCs notifying someone won something
-    console.log(result, "on", userCalledForWin.username, "for", callWinType, "in room:", room);
-    io.to(room).emit("resultsForPC", {result, callWinType});
+    let calledWinUsername = userCalledForWin.username;
+    console.log(
+      result,
+      "on",
+      calledWinUsername,
+      "for",
+      callWinType,
+      "in room:",
+      room
+    );
+    io.to(room).emit("resultsForPC", {
+      result,
+      callWinType,
+      calledWinUsername,
+    });
   });
 
   // events for host calling number from front-end button click
@@ -76,14 +89,15 @@ io.on("connection", (socket) => {
   //  - dealing with PC's disconnection and joining back - use cookies I guess
   socket.on("disconnect", (reason) => {
     const user = userLeave(socket.id);
-    console.log("userDisconnected from room:", (user)? user.room: null);
+    console.log("userDisconnected from room:", user ? user.room : null);
     console.log("reason:", reason);
   });
 });
 
+app.use(express.static(path.join(__dirname + "/landing")));
+
 app.get("/", (req, res) => {
-  res.send("go to /game/roomId");
-  console.log("root");
+  res.sendFile(path.join(__dirname + "/landing/index.html"));
 });
 
 // All files are served from build folder which gets generated

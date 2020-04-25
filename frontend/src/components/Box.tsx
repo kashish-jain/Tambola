@@ -44,6 +44,7 @@ class Box extends Component<BoxProps, BoxState> {
     return (
       <div className="box" onClick={this.clickHandler}>
         <div className={checkedCssClass}></div>
+        <div className={checkedCssClass}></div>
         <p>{this.props.value == 0 ? "" : this.props.value}</p>
       </div>
     );
