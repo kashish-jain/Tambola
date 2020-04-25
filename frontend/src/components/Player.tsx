@@ -1,13 +1,10 @@
 import * as React from "react";
 import { Component } from "react";
-import Ticket from "./Ticket";
 import Board from "./Board";
 import { BoxState } from "./Box";
-import NewNumber from "./NewNumber";
-import ResultButtons from "./ResultButtons";
 import Reward from "react-rewards";
-import HostTicket from "./HostTicket";
 import PcTicket from "./PcTicket";
+import MultipleHostTicket from "./MultipleHostTickets";
 
 export interface callWin {
   callWinType: string;
@@ -60,28 +57,13 @@ class Player extends Component<PlayerProps, PlayerState> {
       });
 
       // event when host confirms if somebody won anything or not
+      // This will probably go into the ticket components
       this.props.socket.on("resultsForPC", (resultsObj: callWin) => {
         console.log("resultObj ", resultsObj);
         this.reward.rewardMe();
       });
 
-      // only Host can check tickets for now
-      if (playerTypeObj.type == "Host") {
-        // this.props.socket.on(
-        //   "callWinToHost",
-        //   ({ callWinType, houses, user }: callWin) => {
-        //     // logging
-        //     console.log("getting ticket from", user.username);
-        //     // updating values
-        //     this.winningCallFromPlayer = callWinType;
-        //     this.ticketFromPlayer = houses;
-        //     this.userCalledForWin = user;
-        //     this.setState({
-        //       checkingTicket: true,
-        //     });
-        //   }
-        // );
-      } else {
+      if (playerTypeObj.type !== "Host") {
         // PLayer is PC, and now someone called for win
         this.props.socket.on(
           "callWinToHost",
@@ -94,17 +76,6 @@ class Player extends Component<PlayerProps, PlayerState> {
     });
   }
 
-  // handleResultCall = (result: string) => {
-  //   this.props.socket.emit("resultsFromHost", {
-  //     result: result,
-  //     callWinType: this.winningCallFromPlayer,
-  //     userCalledForWin: this.userCalledForWin,
-  //   });
-  //   this.setState({
-  //     checkingTicket: false,
-  //   });
-  // };
-
   render() {
     // ticket or board depending if host or pc
     let mainComponent = null;
@@ -112,31 +83,16 @@ class Player extends Component<PlayerProps, PlayerState> {
       mainComponent = (
         <div>
           <PcTicket socket={this.props.socket} />
-          <NewNumber socket={this.props.socket} />
         </div>
       );
     } else if (this.state.type === "Host") {
       mainComponent = (
         <div>
           <Board socket={this.props.socket} />
-          <HostTicket socket={this.props.socket} />
+          <MultipleHostTicket socket={this.props.socket} />
         </div>
       );
     }
-
-    // let playerTicket = this.state.checkingTicket ? (
-    //   <div>
-    //     <br></br>
-    //     <Ticket houses={this.ticketFromPlayer} />
-    //     <p>Win Call: {this.winningCallFromPlayer}</p>
-    //     <ResultButtons
-    //       key={0}
-    //       win={"Confirm Win!"}
-    //       bogey={"Bogey!"}
-    //       resultCallback={this.handleResultCall}
-    //     />
-    //   </div>
-    // ) : null;
     return (
       <>
         {mainComponent}

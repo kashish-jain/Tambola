@@ -4,6 +4,7 @@ import Ticket from "./Ticket";
 import { BoxState } from "./Box";
 import { generateHouse } from "../utils/utils";
 import WinningButtons from "./WinningButtons";
+import NewNumber from "./NewNumber";
 
 interface PcTicketProps {
   socket: any;
@@ -57,6 +58,7 @@ class PcTicket extends Component<PcTicketProps, PcTicketState> {
           changeTicketState={this.changeTicketState}
         />
         {this.winningButtons}
+        <NewNumber socket={this.props.socket} />
       </>
     );
   }
