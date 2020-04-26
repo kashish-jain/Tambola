@@ -44,7 +44,7 @@ class Ticket extends Component<TicketProps, TicketState> {
           <House
             key={i}
             changeTicketState={this.changeTicketState}
-            houseNumbers={this.houses[i]}
+            houseNumbers={this.props.houses[i]}
             houseIndex={i}
           />
           <br />
@@ -54,7 +54,6 @@ class Ticket extends Component<TicketProps, TicketState> {
     return (
       <div>
         {ticket}
-        {this.winningButtons}
       </div>
     );
   }
