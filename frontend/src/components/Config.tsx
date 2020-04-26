@@ -13,6 +13,12 @@ export interface Award {
   [index: string]: string;
 }
 
+export interface PcStatus {
+  user: User;
+  ready: boolean;
+  numTickets: number;
+}
+
 export interface User {
   username: string;
   id: string;
@@ -38,7 +44,7 @@ interface ConfigState {
   numHouses: number;
 
   // List of players who are ready to play
-  readyPlayers: User[];
+  PcsStatus: PcStatus[];
 }
 
 class Config extends Component<ConfigProps, ConfigState> {
@@ -50,7 +56,7 @@ class Config extends Component<ConfigProps, ConfigState> {
       name: "",
       readyHost: false,
       readyClient: false,
-      readyPlayers: [],
+      PcsStatus: [],
       awards: [
         {
           nameAward: "First Line",
@@ -105,7 +111,28 @@ class Config extends Component<ConfigProps, ConfigState> {
       // the list of readyPlayers
       if (playerTypeObj.type == "Host") {
         this.props.socket.on("notifyHostConnection", (user: User) => {
-          this.props.socket.emit("readyPlayers", user, this.state.readyPlayers);
+          let PcsStatus = this.state.PcsStatus;
+          let newPcStatus: PcStatus = {
+            user: user,
+            ready: false,
+            numTickets: 0,
+          };
+          PcsStatus.push(newPcStatus);
+          this.setState({ PcsStatus: PcsStatus });
+          this.props.socket.emit("PcsStatus", user, PcsStatus);
+        });
+
+        this.props.socket.on("PcReady", (user: User, numTickets: number) => {
+          // Find user in array and make him ready
+          let PcsStatus = this.state.PcsStatus;
+          for (let i = 0; i < PcsStatus.length; ++i) {
+            if (PcsStatus[i].user.id == user.id) {
+              PcsStatus[i].ready = true;
+              PcsStatus[i].numTickets = numTickets;
+            }
+          }
+          this.setState({ PcsStatus: PcsStatus });
+          this.props.socket.emit("PcsStatus", user, PcsStatus);
         });
       }
     });
@@ -118,23 +145,9 @@ class Config extends Component<ConfigProps, ConfigState> {
       });
     });
 
-    this.props.socket.on("readyPlayers", (readyPlayers: User[]) => {
-      this.setState({ readyPlayers: readyPlayers });
-    });
-
-    this.props.socket.on("PcReady", (user: User) => {
-      // Check in the array of users if user has already joined
-      // case where someone presses ready twice
-      let readyPlayers = this.state.readyPlayers;
-      for (let i = 0; i < readyPlayers.length; ++i) {
-        if (readyPlayers[i].id == user.id) {
-          return;
-        }
-      }
-      readyPlayers.push(user);
-      this.setState({
-        readyPlayers: readyPlayers,
-      });
+    // Know the status of all the players if someone new joined or got ready
+    this.props.socket.on("PcsStatus", (PcsStatus: PcStatus[]) => {
+      this.setState({ PcsStatus: PcsStatus });
     });
   }
 
@@ -194,7 +207,7 @@ class Config extends Component<ConfigProps, ConfigState> {
       console.log("config submitted from host", this.state.awards);
     } else if (this.state.type == "PC") {
       //let everyone know that i am ready. Backend knows who I am by socket.id
-      this.props.socket.emit("PcReady");
+      this.props.socket.emit("PcReady", this.state.numHouses);
     }
     event.preventDefault();
   };
@@ -228,7 +241,7 @@ class Config extends Component<ConfigProps, ConfigState> {
             handleRemoveSpecificRow={this.handleRemoveSpecificRow}
             handleSubmit={this.handleSubmit}
           />
-          <ReadyPlayers players={this.state.readyPlayers} />
+          <ReadyPlayers players={this.state.PcsStatus} />
         </>
       );
     } else if (this.state.type == "PC") {
@@ -252,7 +265,7 @@ class Config extends Component<ConfigProps, ConfigState> {
             <br />
             <input type="submit" value="Ready" />
           </form>
-          <ReadyPlayers players={this.state.readyPlayers} />
+          <ReadyPlayers players={this.state.PcsStatus} />
         </>
       );
     }
