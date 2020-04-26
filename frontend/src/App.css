@@ -1,24 +1,3 @@
-/* This was for the multicolor animated sbackground */
-/* body {
-  -webkit-animation: background 10s linear infinite;
-  animation: background 10s linear infinite;  
-}
-
-
-@-webkit-keyframes background {
-  0% { background-color: #f99; }
-  33% { background-color: #9f9; }  
-  67% { background-color: #99f; }
-  100% { background-color: #f99; }
-}
-
-@keyframes background {
-  0% { background-color: #f99; }
-  33% { background-color: #9f9; }  
-  67% { background-color: #99f; }
-  100% { background-color: #f99; }
-} */
-
 body {
   background-color: #0e141f;
   color: white;
@@ -93,6 +72,16 @@ p.new-number {
   border: 2px solid #ffcb36;
   z-index: 2;
   transition: 0.2s;
+}
+
+.new-number-player {
+  font-size: 3rem;
+  margin: 1rem 0rem;
+}
+
+.new-number-player > span {
+  font-size: 3rem;
+  color: #ffcb36;
 }
 
 .unchecked {
