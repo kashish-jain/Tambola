@@ -40,6 +40,22 @@ class Config extends Component<ConfigProps, ConfigState> {
           name: "First Line",
           mobile: "1",
         },
+        {
+          name: "Second Line",
+          mobile: "1",
+        },
+        {
+          name: "Third Line",
+          mobile: "1",
+        },
+        {
+          name: "Corners",
+          mobile: "1",
+        },
+        {
+          name: "Full House",
+          mobile: "1",
+        },
       ],
     };
   }
