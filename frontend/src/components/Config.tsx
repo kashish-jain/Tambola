@@ -1,6 +1,6 @@
 import * as React from "react";
 import { Component } from "react";
-import DTable from "./DTable";
+import ConfigTable from "./ConfigTable";
 import Player from "./Player";
 
 export interface Award {
@@ -31,30 +31,30 @@ class Config extends Component<ConfigProps, ConfigState> {
     super(props);
     this.state = {
       type: "",
-      numTickets: 0,
+      numTickets: 1,
       name: "",
       readyHost: false,
       readyClient: false,
       awards: [
         {
-          name: "First Line",
-          mobile: "1",
+          nameAward: "First Line",
+          numAward: "1",
         },
         {
-          name: "Second Line",
-          mobile: "1",
+          nameAward: "Second Line",
+          numAward: "1",
         },
         {
-          name: "Third Line",
-          mobile: "1",
+          nameAward: "Third Line",
+          numAward: "1",
         },
         {
-          name: "Corners",
-          mobile: "1",
+          nameAward: "Corners",
+          numAward: "1",
         },
         {
-          name: "Full House",
-          mobile: "1",
+          nameAward: "Full House",
+          numAward: "1",
         },
       ],
     };
@@ -115,8 +115,8 @@ class Config extends Component<ConfigProps, ConfigState> {
   };
   handleAddRow = () => {
     const item = {
-      name: "",
-      mobile: "",
+      nameAward: "",
+      numAward: "",
     };
     this.setState({
       awards: [...this.state.awards, item],
@@ -180,7 +180,7 @@ class Config extends Component<ConfigProps, ConfigState> {
         <>
           <h1>Host Configuration</h1>
           <hr />
-          <DTable
+          <ConfigTable
             awards={this.state.awards}
             handleChangeHost={this.handleChangeHost}
             handleAddRow={this.handleAddRow}
@@ -207,7 +207,7 @@ class Config extends Component<ConfigProps, ConfigState> {
                 onChange={this.handleChangePC}
               />
             </label>
-            <input type="submit" value="Submit" />
+            <input type="submit" value="Ready" />
           </form>
         </>
       );

@@ -2,7 +2,7 @@ import React from "react";
 import { render } from "react-dom";
 import { Award } from "./Config";
 
-interface DTableProps {
+interface ConfigTableProps {
   // Dont know if this works
   awards: Award[];
 
@@ -14,10 +14,10 @@ interface DTableProps {
   handleSubmit: (event: any) => void;
 }
 
-interface DTableState {}
+interface ConfigTableState {}
 
-class DTable extends React.Component<DTableProps, DTableState> {
-  constructor(props: DTableProps) {
+class ConfigTable extends React.Component<ConfigTableProps, ConfigTableState> {
+  constructor(props: ConfigTableProps) {
     super(props);
   }
 
@@ -35,8 +35,8 @@ class DTable extends React.Component<DTableProps, DTableState> {
                   <thead>
                     <tr>
                       <th className="text-center"> # </th>
-                      <th className="text-center"> Name </th>
-                      <th className="text-center"> Mobile </th>
+                      <th className="text-center"> Award Name </th>
+                      <th className="text-center"> How Many? </th>
                       <th />
                     </tr>
                   </thead>
@@ -47,8 +47,8 @@ class DTable extends React.Component<DTableProps, DTableState> {
                         <td>
                           <input
                             type="text"
-                            name="name"
-                            value={this.props.awards[idx].name}
+                            name="nameAward"
+                            value={this.props.awards[idx].nameAward}
                             onChange={this.props.handleChangeHost(idx)}
                             className="form-control"
                           />
@@ -56,8 +56,8 @@ class DTable extends React.Component<DTableProps, DTableState> {
                         <td>
                           <input
                             type="number"
-                            name="mobile"
-                            value={this.props.awards[idx].mobile}
+                            name="numAward"
+                            value={this.props.awards[idx].numAward}
                             onChange={this.props.handleChangeHost(idx)}
                             className="form-control"
                           />
@@ -99,4 +99,4 @@ class DTable extends React.Component<DTableProps, DTableState> {
   }
 }
 
-export default DTable;
+export default ConfigTable;
