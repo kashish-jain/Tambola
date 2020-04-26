@@ -56,10 +56,14 @@ class PcTicket extends Component<PcTicketProps, PcTicketState> {
       <>
         <NewNumber socket={this.props.socket} />
         <div className="notification-parent">
-          <Ticket
-            houses={this.houses}
-            changeTicketState={this.changeTicketState}
-          />
+          {/* This div is for setting the opacity when notification is shown */}
+          <div id="ticket-board-container">
+            <Ticket
+              houses={this.houses}
+              changeTicketState={this.changeTicketState}
+            />
+          </div>
+
           <Notification socket={this.props.socket} />
         </div>
 

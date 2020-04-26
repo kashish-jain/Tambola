@@ -43,33 +43,47 @@ class Notification extends Component<NotificationProps, NotificationState> {
   }
 
   componentDidMount() {
+    let ticketBoardContainer = document.getElementById(
+      "ticket-board-container"
+    );
     this.props.socket.on("callWinToHost", (callWinObj: callWin) => {
       this.reward.rewardMe();
       this.setState({ notificationObj: callWinObj });
+      ticketBoardContainer?.setAttribute("style", "opacity:0.2;");
       setTimeout(() => {
         this.deleteNotification();
-      }, 5000);
+      }, 7000);
     });
     this.props.socket.on("resultsForPC", (resultsObj: resultObj) => {
       console.log("result obj", resultsObj);
       this.reward.rewardMe();
       this.setState({ notificationObj: resultsObj });
+      ticketBoardContainer?.setAttribute("style", "opacity:0.2;");
       setTimeout(() => {
         this.deleteNotification();
-      }, 5000);
+      }, 7000);
     });
   }
 
   deleteNotification = () => {
     this.setState({ notificationObj: null });
+    let ticketBoardContainer = document.getElementById(
+      "ticket-board-container"
+    );
+    if (ticketBoardContainer)
+      ticketBoardContainer.setAttribute("style", "opacity: 1");
   };
 
   render() {
     let notificationComp = this.state.notificationObj ? (
       <div className="notification-container">
         <div className="notification">
-          <p className="main">{getMainHeading(this.state.notificationObj)}</p>
-          <p className="sub">{getUserName(this.state.notificationObj)}</p>
+          <p className="main animated rubberBand">
+            {getMainHeading(this.state.notificationObj)}
+          </p>
+          <p className="sub animated bounce">
+            {getUserName(this.state.notificationObj)}
+          </p>
         </div>
       </div>
     ) : null;
