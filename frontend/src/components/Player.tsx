@@ -53,24 +53,6 @@ class Player extends Component<PlayerProps, PlayerState> {
       this.setState({
         type: playerTypeObj.type,
       });
-
-      // event when host confirms if somebody won anything or not
-      // This will probably go into the ticket components
-      // this.props.socket.on("resultsForPC", (resultsObj: callWin) => {
-      //   console.log("resultObj ", resultsObj);
-      //   this.reward.rewardMe();
-      // });
-
-      // if (playerTypeObj.type !== "Host") {
-      //   // PLayer is PC, and now someone called for win
-      //   this.props.socket.on(
-      //     "callWinToHost",
-      //     ({ callWinType, user }: callWin) => {
-      //       console.log("notification: ", user.username, " ", callWinType);
-      //       this.reward.rewardMe();
-      //     }
-      //   );
-      // }
     });
   }
 
