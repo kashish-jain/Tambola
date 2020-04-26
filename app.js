@@ -91,6 +91,11 @@ io.on("connection", (socket) => {
     io.to(user.room).emit("HostConfigDone", awards);
   });
 
+  socket.on("PcReady", () => {
+    const user = getCurrentUser(socket.id);
+    io.to(user.room).emit("PcReady", user);
+  });
+
   // deal with disconnects here later
   // CASES:
   //  - dealing with host's disconnection

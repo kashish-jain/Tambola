@@ -2,9 +2,16 @@ import * as React from "react";
 import { Component } from "react";
 import DTable from "./DTable";
 import Player from "./Player";
+import ReadyPlayers from "./ReadyPlayers";
 
 export interface Award {
   [index: string]: string;
+}
+
+export interface User {
+  username: string;
+  id: string;
+  room: string;
 }
 
 interface ConfigProps {
@@ -24,6 +31,9 @@ interface ConfigState {
 
   //  PC Config State options
   numTickets: number;
+
+  // List of players who are ready to play
+  readyPlayers: User[];
 }
 
 class Config extends Component<ConfigProps, ConfigState> {
@@ -35,6 +45,7 @@ class Config extends Component<ConfigProps, ConfigState> {
       name: "",
       readyHost: false,
       readyClient: false,
+      readyPlayers: [],
       awards: [
         {
           name: "First Line",
@@ -97,6 +108,21 @@ class Config extends Component<ConfigProps, ConfigState> {
         readyHost: true,
       });
     });
+
+    this.props.socket.on("PcReady", (user: User) => {
+      // Check in the array of users if user has already joined
+      // case where someone presses ready twice
+      let readyPlayers = this.state.readyPlayers;
+      for (let i = 0; i < readyPlayers.length; ++i) {
+        if (readyPlayers[i].id == user.id) {
+          return;
+        }
+      }
+      readyPlayers.push(user);
+      this.setState({
+        readyPlayers: readyPlayers,
+      });
+    });
   }
 
   // For Host Config
@@ -154,7 +180,8 @@ class Config extends Component<ConfigProps, ConfigState> {
       this.props.socket.emit("HostConfigDone", this.state.awards);
       console.log("config submitted from host", this.state.awards);
     } else if (this.state.type == "PC") {
-      console.log("Number of Tickets:", this.state.numTickets);
+      //let everyone know that i am ready. Backend knows who I am by socket.id
+      this.props.socket.emit("PcReady");
     }
     event.preventDefault();
   };
@@ -212,7 +239,12 @@ class Config extends Component<ConfigProps, ConfigState> {
         </>
       );
     }
-    return <>{mainComponent}</>;
+    return (
+      <>
+        {mainComponent}
+        <ReadyPlayers players={this.state.readyPlayers} />
+      </>
+    );
   }
 }
 
