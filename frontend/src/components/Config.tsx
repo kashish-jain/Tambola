@@ -222,6 +222,7 @@ class Config extends Component<ConfigProps, ConfigState> {
             handleRemoveSpecificRow={this.handleRemoveSpecificRow}
             handleSubmit={this.handleSubmit}
           />
+          <ReadyPlayers players={this.state.readyPlayers} />
         </>
       );
     } else if (this.state.type == "PC") {
@@ -244,15 +245,11 @@ class Config extends Component<ConfigProps, ConfigState> {
             <br />
             <input type="submit" value="Ready" />
           </form>
+          <ReadyPlayers players={this.state.readyPlayers} />
         </>
       );
     }
-    return (
-      <>
-        {mainComponent}
-        <ReadyPlayers players={this.state.readyPlayers} />
-      </>
-    );
+    return <>{mainComponent}</>;
   }
 }
 
