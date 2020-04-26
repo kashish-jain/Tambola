@@ -2,7 +2,6 @@ import * as React from "react";
 import { Component } from "react";
 import Board from "./Board";
 import { BoxState } from "./Box";
-import Reward from "react-rewards";
 import PcTicket from "./PcTicket";
 import MultipleHostTicket from "./MultipleHostTickets";
 
@@ -25,7 +24,6 @@ interface PlayerState {
 }
 
 class Player extends Component<PlayerProps, PlayerState> {
-  reward: any;
   // The declarations are just for Host type
   ticketFromPlayer: Array<Array<Array<BoxState>>> | undefined;
   winningCallFromPlayer: string | undefined;
@@ -55,24 +53,6 @@ class Player extends Component<PlayerProps, PlayerState> {
       this.setState({
         type: playerTypeObj.type,
       });
-
-      // event when host confirms if somebody won anything or not
-      // This will probably go into the ticket components
-      this.props.socket.on("resultsForPC", (resultsObj: callWin) => {
-        console.log("resultObj ", resultsObj);
-        this.reward.rewardMe();
-      });
-
-      if (playerTypeObj.type !== "Host") {
-        // PLayer is PC, and now someone called for win
-        this.props.socket.on(
-          "callWinToHost",
-          ({ callWinType, user }: callWin) => {
-            console.log("notification: ", user.username, " ", callWinType);
-            this.reward.rewardMe();
-          }
-        );
-      }
     });
   }
 
@@ -93,24 +73,7 @@ class Player extends Component<PlayerProps, PlayerState> {
         </div>
       );
     }
-    return (
-      <>
-        {mainComponent}
-        <Reward
-          ref={(ref: any) => {
-            this.reward = ref;
-          }}
-          type="confetti"
-          config={{
-            elementCount: 100,
-            angle: 60,
-            spread: 90,
-            decay: 0.95,
-            lifetime: 150,
-          }}
-        ></Reward>
-      </>
-    );
+    return <>{mainComponent}</>;
   }
 }
 
