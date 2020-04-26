@@ -134,6 +134,17 @@ class Config extends Component<ConfigProps, ConfigState> {
           this.setState({ PcsStatus: PcsStatus });
           this.props.socket.emit("PcsStatus", user, PcsStatus);
         });
+
+        this.props.socket.on("userDisconnect", (user: User) => {
+          let PcsStatus = this.state.PcsStatus;
+          for (let i = 0; i < PcsStatus.length; ++i) {
+            if (PcsStatus[i].user.id == user.id) {
+              // Remove this user from PcsStatus
+              PcsStatus.splice(i);
+            }
+          }
+          this.setState({ PcsStatus: PcsStatus });
+        });
       }
     });
 

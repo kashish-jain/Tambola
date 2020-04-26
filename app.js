@@ -112,7 +112,12 @@ io.on("connection", (socket) => {
   //  - dealing with host's disconnection
   //  - dealing with PC's disconnection and joining back - use cookies I guess
   socket.on("disconnect", (reason) => {
-    const user = userLeave(socket.id);
+    let user = getCurrentUser(socket.id);
+    //Tell the host that a user got disconnected
+    if (user) {
+      io.to(user.room).emit("userDisconnect", user);
+    }
+    user = userLeave(socket.id);
     console.log("userDisconnected from room:", user ? user.room : null);
     console.log("reason:", reason);
   });
