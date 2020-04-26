@@ -6,6 +6,10 @@ import { BoxState } from "./Box";
 interface TicketProps {
   // Don't need socket here when it generated on host's screen
   socket?: any;
+
+  // number of houses
+  numHouses: number;
+
   houses: Array<Array<Array<BoxState>>>;
   changeTicketState?: (
     houseIndex: number,
@@ -33,23 +37,21 @@ class Ticket extends Component<TicketProps, TicketState> {
   };
 
   render() {
-    return (
-      <div>
-        <House
-          key={0}
-          changeTicketState={this.changeTicketState}
-          houseNumbers={this.props.houses[0]}
-          houseIndex={0}
-        />
-        <br />
-        <House
-          key={1}
-          changeTicketState={this.changeTicketState}
-          houseNumbers={this.props.houses[1]}
-          houseIndex={1}
-        />
-      </div>
-    );
+    let ticket = [];
+    for (let i = 0; i < this.props.numHouses; ++i) {
+      ticket[i] = (
+        <>
+          <House
+            key={i}
+            changeTicketState={this.changeTicketState}
+            houseNumbers={this.props.houses[i]}
+            houseIndex={i}
+          />
+          <br />
+        </>
+      );
+    }
+    return <div>{ticket}</div>;
   }
 }
 

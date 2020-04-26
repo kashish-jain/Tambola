@@ -27,6 +27,7 @@ io.on("connection", (socket) => {
       socket.emit("userConnected", { type: "Host" });
     } else {
       socket.emit("userConnected", { type: "PC" });
+      io.to(user.room).emit("notifyHostConnection", user);
     }
 
     // Welcome current user
@@ -81,6 +82,24 @@ io.on("connection", (socket) => {
     // event for notifying PCs that new number was called
     io.to(user.room).emit("newNumberFromHost", { newNumber: num });
     console.log("newNumberFromHost:", num, "in room:", user.room);
+  });
+
+  // receiver for Host Config done and emitter for Host Config done
+  socket.on("HostConfigDone", (awards) => {
+    const user = getCurrentUser(socket.id);
+
+    console.log("HostConfigDone");
+    io.to(user.room).emit("HostConfigDone", awards);
+  });
+
+  socket.on("PcReady", () => {
+    const user = getCurrentUser(socket.id);
+    io.to(user.room).emit("PcReady", user);
+  });
+
+  socket.on("readyPlayers", (user, readyPlayers) => {
+    console.log("readyPlayers", readyPlayers);
+    io.to(user.id).emit("readyPlayers", readyPlayers);
   });
 
   // deal with disconnects here later

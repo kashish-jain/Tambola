@@ -1,12 +1,9 @@
 import * as React from "react";
 import { Component } from "react";
+import { Award } from "./Config";
 
 interface WinningButtonsProps {
-  firstLine: string;
-  secondLine: string;
-  thirdLine: string;
-  corners: string;
-  fullHouse: string;
+  awards: Award[];
   winCallBack: (callWinType: string) => void;
 }
 
@@ -16,54 +13,27 @@ class WinningButtons extends Component<
   WinningButtonsProps,
   WinningButtonsState
 > {
+  awardButtons: JSX.Element[];
   constructor(props: WinningButtonsProps) {
     super(props);
+    this.awardButtons = [];
+
+    for (let i = 0; i < this.props.awards.length; ++i) {
+      this.awardButtons.push(
+        <button
+          key={i}
+          onClick={() => {
+            this.props.winCallBack(this.props.awards[i].nameAward);
+          }}
+        >
+          {this.props.awards[i].nameAward}
+        </button>
+      );
+    }
   }
 
   render() {
-    return (
-      <div className={"winning-buttons"}>
-        <button
-          onClick={() => {
-            this.props.winCallBack(this.props.firstLine);
-          }}
-        >
-          {this.props.firstLine}
-        </button>
-
-        <button
-          onClick={() => {
-            this.props.winCallBack(this.props.secondLine);
-          }}
-        >
-          {this.props.secondLine}
-        </button>
-
-        <button
-          onClick={() => {
-            this.props.winCallBack(this.props.thirdLine);
-          }}
-        >
-          {this.props.thirdLine}
-        </button>
-
-        <button
-          onClick={() => {
-            this.props.winCallBack(this.props.corners);
-          }}
-        >
-          {this.props.corners}
-        </button>
-
-        <button
-          onClick={() => {
-            this.props.winCallBack(this.props.fullHouse);
-          }}
-        >
-          {this.props.fullHouse}
-        </button>
-      </div>
-    );
+    return <div className={"winning-buttons"}>{this.awardButtons}</div>;
   }
 }
 

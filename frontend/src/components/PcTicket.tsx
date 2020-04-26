@@ -6,18 +6,33 @@ import { generateHouse } from "../utils/utils";
 import WinningButtons from "./WinningButtons";
 import NewNumber from "./NewNumber";
 import Notification from "./Notification";
+import { Award } from "./Config";
 
 interface PcTicketProps {
   socket: any;
+
+  // awards coming for winning buttons
+  awards: Award[];
+
+  // number of houses
+  numHouses: number;
 }
 
 interface PcTicketState {}
+
+function genHouses(n: number) {
+  let ret_val = [];
+  for (let i = 0; i < n; ++i) {
+    ret_val[i] = generateHouse();
+  }
+  return ret_val;
+}
 
 class PcTicket extends Component<PcTicketProps, PcTicketState> {
   houses: Array<Array<Array<BoxState>>>;
   constructor(props: PcTicketProps) {
     super(props);
-    this.houses = [generateHouse(), generateHouse()];
+    this.houses = genHouses(this.props.numHouses);
   }
 
   changeTicketState = (
@@ -42,11 +57,7 @@ class PcTicket extends Component<PcTicketProps, PcTicketState> {
   winningButtons = (
     <WinningButtons
       key={0}
-      firstLine={"First Line"}
-      secondLine={"Second Line"}
-      thirdLine={"Third Line"}
-      corners={"Corners"}
-      fullHouse={"Full House"}
+      awards={this.props.awards}
       winCallBack={this.handleWinningCall}
     />
   );
@@ -61,6 +72,7 @@ class PcTicket extends Component<PcTicketProps, PcTicketState> {
             <Ticket
               houses={this.houses}
               changeTicketState={this.changeTicketState}
+              numHouses={this.props.numHouses}
             />
           </div>
 
