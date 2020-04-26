@@ -207,6 +207,7 @@ class Config extends Component<ConfigProps, ConfigState> {
                 onChange={this.handleChangePC}
               />
             </label>
+            <br />
             <input type="submit" value="Ready" />
           </form>
         </>

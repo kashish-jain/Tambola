@@ -65,6 +65,11 @@ button {
   cursor: pointer;
 }
 
+.remove {
+  width: 3rem;
+  background: rgb(248, 63, 63);
+}
+
 p.new-number {
   font-weight: bolder;
   font-size: 5rem;
@@ -102,6 +107,40 @@ div.notification .sub {
   font-size: 2rem;
   margin-top: 0;
   opacity: 1;
+}
+
+input[type="number"] {
+  width: 5rem;
+  height: 3rem;
+  text-align: center;
+  font-size: large;
+  color: #374051;
+  background: white;
+}
+
+input[type="text"] {
+  width: 10rem;
+  height: 3rem;
+  text-align: center;
+  font-size: large;
+  color: #374051;
+  background: white;
+}
+
+input[type="submit"] {
+  width: 10rem;
+  height: 3rem;
+  font-size: large;
+  color: white;
+  background: #70e270;
+  border: 2px solid #ffcb36;
+  box-sizing: border-box;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+label {
+  font-size: 2rem;
 }
 
 .new-number-player {

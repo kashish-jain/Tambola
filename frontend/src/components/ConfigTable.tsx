@@ -34,7 +34,6 @@ class ConfigTable extends React.Component<ConfigTableProps, ConfigTableState> {
                 >
                   <thead>
                     <tr>
-                      <th className="text-center"> # </th>
                       <th className="text-center"> Award Name </th>
                       <th className="text-center"> How Many? </th>
                       <th />
@@ -43,7 +42,6 @@ class ConfigTable extends React.Component<ConfigTableProps, ConfigTableState> {
                   <tbody>
                     {this.props.awards.map((item, idx) => (
                       <tr id="addr0" key={idx}>
-                        <td>{idx}</td>
                         <td>
                           <input
                             type="text"
@@ -65,10 +63,10 @@ class ConfigTable extends React.Component<ConfigTableProps, ConfigTableState> {
                         <td>
                           <button
                             type="button"
-                            className="btn btn-outline-danger btn-sm"
+                            className="btn btn-outline-danger btn-sm remove"
                             onClick={this.props.handleRemoveSpecificRow(idx)}
                           >
-                            Remove
+                            X
                           </button>
                         </td>
                       </tr>
@@ -92,7 +90,7 @@ class ConfigTable extends React.Component<ConfigTableProps, ConfigTableState> {
               </div>
             </div>
           </div>
-          <input type="submit" value="Submit" />
+          <input type="submit" value="Start Game" />
         </form>
       </div>
     );
