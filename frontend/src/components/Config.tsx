@@ -123,7 +123,7 @@ class Config extends Component<ConfigProps, ConfigState> {
     if(this.state.configDone) {
       // display player
 
-      // also need to pass award details
+      // also need to pass award details so that winning buttons can be set accordingly
       mainComponent = (
         <Player 
           socket={this.props.socket} 
@@ -147,7 +147,6 @@ class Config extends Component<ConfigProps, ConfigState> {
             handleSubmit={this.handleSubmit} />
         </>
       );
-
     } else if(this.state.type == "PC") {
       // form for PC configuration
       //    Number of Tickets
@@ -162,7 +161,7 @@ class Config extends Component<ConfigProps, ConfigState> {
             <input type="submit" value="Submit" />
           </form>
         </>
-      );      
+      );     
     }
     return (
       <>

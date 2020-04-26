@@ -1,27 +1,10 @@
-/* This was for the multicolor animated sbackground */
-/* body {
-  -webkit-animation: background 10s linear infinite;
-  animation: background 10s linear infinite;  
-}
-
-
-@-webkit-keyframes background {
-  0% { background-color: #f99; }
-  33% { background-color: #9f9; }  
-  67% { background-color: #99f; }
-  100% { background-color: #f99; }
-}
-
-@keyframes background {
-  0% { background-color: #f99; }
-  33% { background-color: #9f9; }  
-  67% { background-color: #99f; }
-  100% { background-color: #f99; }
-} */
+@import "~animate.css/animate.min.css";
 
 body {
   background-color: #0e141f;
   color: white;
+  /* this is to prevent animation to add a horizontal scrollbar */
+  overflow-x: hidden;
 }
 
 .box {
@@ -93,6 +76,42 @@ p.new-number {
   border: 2px solid #ffcb36;
   z-index: 2;
   transition: 0.2s;
+}
+
+div.notification-container {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  text-align: center;
+  color: #ffcb36;
+}
+
+div.notification-parent {
+  position: relative;
+}
+
+div.notification .main {
+  font-size: 4rem;
+  margin-bottom: 1rem;
+  opacity: 1;
+}
+
+div.notification .sub {
+  font-size: 2rem;
+  margin-top: 0;
+  opacity: 1;
+}
+
+.new-number-player {
+  font-size: 3rem;
+  margin: 1rem 0rem;
+}
+
+.new-number-player > span {
+  font-size: 3rem;
+  color: #ffcb36;
 }
 
 .unchecked {
