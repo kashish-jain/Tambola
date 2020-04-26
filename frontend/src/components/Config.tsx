@@ -52,7 +52,8 @@ class Config extends Component<ConfigProps, ConfigState> {
       this.setState({
         type: playerTypeObj.type, // pass this type to player as well
       });
-      
+     
+      // not needed I guess 
       if (playerTypeObj.type == "Host") {
         
       } else if (playerTypeObj.type == "PC") {
@@ -61,30 +62,60 @@ class Config extends Component<ConfigProps, ConfigState> {
     });
   }
 
-  handleChange = (event: any) => {
-    const { value } = event.target;
-    if(this.state.type == "Host") {
-      // set state here
+  // For Host Config
+  handleChangeHost = (idx: number) => (e: any) => {
+    const { name, value } = e.target;
+    const rows = this.state.rows;
+    
+    rows[idx][name] = value;
+    console.log(rows[idx]);
 
-    } else if(this.state.type == "PC") {
+    this.setState({
+      rows
+    });
+  };
+  handleAddRow = () => {
+    const item = {
+      name: "",
+      mobile: ""
+    };
+    this.setState({
+      rows: [...this.state.rows, item]
+    });
+  };
+  handleRemoveRow = () => {
+    this.setState({
+      rows: this.state.rows.slice(0, -1)
+    });
+  };
+  handleRemoveSpecificRow = (idx: number) => () => {
+    const rows = [...this.state.rows];
+    rows.splice(idx, 1);
+    this.setState({ rows });
+  };
+
+  // For PC Config
+  handleChangePC = (event: any) => {
+    const { value } = event.target;
+    if(this.state.type == "PC") { // sanity check
       this.setState({
         numTickets: value
       });
     }
   };
 
+  // common function for Host and PC Config
   handleSubmit = (event: any) => {
     this.setState({
         configDone: true
     });
     
     if(this.state.type == "Host") {
-      
-
+      console.log("config submitted from host", event.target, this.state.rows );
     } else if(this.state.type == "PC") {
       console.log("Number of Tickets:", this.state.numTickets);
-      event.preventDefault();
     }
+    event.preventDefault();
   };
 
   render() {
@@ -94,7 +125,11 @@ class Config extends Component<ConfigProps, ConfigState> {
 
       // also need to pass award details
       mainComponent = (
-        <Player socket={this.props.socket} num={this.state.numTickets}/>
+        <Player 
+          socket={this.props.socket} 
+          num={this.state.numTickets} 
+          name={this.state.name} 
+          type={this.state.type} />
       );
     } else if(this.state.type == "Host") {
       // form for host configuration
@@ -103,7 +138,13 @@ class Config extends Component<ConfigProps, ConfigState> {
       mainComponent = (
         <>
           <h1>Host Configuration</h1><hr/>
-          <DTable />
+          <DTable
+            rows={this.state.rows}
+            handleChangeHost={this.handleChangeHost} 
+            handleAddRow={this.handleAddRow} 
+            handleRemoveRow={this.handleRemoveRow} 
+            handleRemoveSpecificRow={this.handleRemoveSpecificRow}
+            handleSubmit={this.handleSubmit} />
         </>
       );
 
@@ -116,7 +157,7 @@ class Config extends Component<ConfigProps, ConfigState> {
           <form onSubmit={this.handleSubmit}>
             <label>
               Number of Tickets:
-              <input type="text" value={this.state.numTickets} onChange={this.handleChange} />
+              <input type="text" value={this.state.numTickets} onChange={this.handleChangePC} />
             </label>
             <input type="submit" value="Submit" />
           </form>

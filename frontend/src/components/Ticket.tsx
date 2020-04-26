@@ -18,6 +18,14 @@ interface TicketProps {
 
 interface TicketState {}
 
+function genHouses(n: number) {
+  let ret_val = [];
+  for(let i = 0; i < n; ++i) {
+    ret_val[i] = generateHouse();
+  }
+  return ret_val;
+}
+
 class Ticket extends Component<TicketProps, TicketState> {
   constructor(props: TicketProps) {
     super(props);
@@ -28,7 +36,7 @@ class Ticket extends Component<TicketProps, TicketState> {
   // generated from props
   houses =
     this.props.houses === undefined
-      ? [generateHouse(), generateHouse()]
+      ? genHouses(this.props.num)
       : this.props.houses;
 
   changeTicketState = (

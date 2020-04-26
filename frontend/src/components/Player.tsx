@@ -18,15 +18,14 @@ interface callWin {
 // component soon.
 interface PlayerProps {
   socket: any;
-
+  type: string; // type is either PC or host
+  name: string | null;
+  
   // for PC
   num: number;
 }
 
 interface PlayerState {
-  // type is either PC or host
-  type: string;
-  name: string | null;
 
   // This is just for host type
   //  for displaying ticket on win call
@@ -41,31 +40,10 @@ class Player extends Component<PlayerProps, PlayerState> {
   userCalledForWin: { id: string; username: string; room: string } | undefined;
   constructor(props: PlayerProps) {
     super(props);
-    this.state = { name: "", checkingTicket: false, type: "" };
+    this.state = { checkingTicket: false };
   }
 
   componentDidMount() {
-    // Player joins by entering his name
-    let roomID = window.location.pathname.substr(
-      window.location.pathname.lastIndexOf("/") + 1
-    );
-    let name;
-    if (this.state.name == "") {
-      name = prompt("What would you like to be called?");
-      this.setState({ name: name });
-    }
-
-    // asking server to join room
-    this.props.socket.emit("joinRoom", {
-      room: roomID,
-      username: name,
-    });
-
-    // server response: player gets know if he is host or pc
-    this.props.socket.on("userConnected", (playerTypeObj: any) => {
-      this.setState({
-        type: playerTypeObj.type,
-      });
 
       // event when host confirms if somebody won anything or not
       this.props.socket.on("resultsForPC", (resultsObj: callWin) => {
@@ -74,7 +52,7 @@ class Player extends Component<PlayerProps, PlayerState> {
       });
 
       // only Host can check tickets for now
-      if (playerTypeObj.type == "Host") {
+      if (this.props.type == "Host") {
 
         // attaching listener for win calls
         this.props.socket.on(
@@ -102,7 +80,6 @@ class Player extends Component<PlayerProps, PlayerState> {
           }
         );
       }
-    });
   }
 
   handleResultCall = (result: string) => {
@@ -119,14 +96,14 @@ class Player extends Component<PlayerProps, PlayerState> {
   render() {
     // ticket or board depending if host or pc
     let mainComponent = null;
-    if (this.state.type === "PC") {
+    if (this.props.type === "PC") {
       mainComponent = (
         <div>
           <Ticket socket={this.props.socket} num={this.props.num}/>
           <NewNumber socket={this.props.socket} />
         </div>
       );
-    } else if (this.state.type === "Host") {
+    } else if (this.props.type === "Host") {
       mainComponent = <Board socket={this.props.socket} />;
     }
     let playerTicket = (this.state.checkingTicket && this.ticketFromPlayer != undefined) ? (
