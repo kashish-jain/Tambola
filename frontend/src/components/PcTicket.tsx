@@ -15,7 +15,7 @@ interface PcTicketProps {
   awards: Award[];
 
   // number of houses
-  num: number;
+  numHouses: number;
 }
 
 interface PcTicketState {}
@@ -32,7 +32,7 @@ class PcTicket extends Component<PcTicketProps, PcTicketState> {
   houses: Array<Array<Array<BoxState>>>;
   constructor(props: PcTicketProps) {
     super(props);
-    this.houses = genHouses(this.props.num);
+    this.houses = genHouses(this.props.numHouses);
   }
 
   changeTicketState = (
@@ -72,7 +72,7 @@ class PcTicket extends Component<PcTicketProps, PcTicketState> {
             <Ticket
               houses={this.houses}
               changeTicketState={this.changeTicketState}
-              num={this.props.num}
+              numHouses={this.props.numHouses}
             />
           </div>
 

@@ -8,7 +8,7 @@ interface TicketProps {
   socket?: any;
 
   // number of houses
-  num: number;
+  numHouses: number;
 
   houses: Array<Array<Array<BoxState>>>;
   changeTicketState?: (
@@ -38,7 +38,7 @@ class Ticket extends Component<TicketProps, TicketState> {
 
   render() {
     let ticket = [];
-    for(let i = 0; i < this.props.num; ++i) {
+    for (let i = 0; i < this.props.numHouses; ++i) {
       ticket[i] = (
         <>
           <House
@@ -51,11 +51,7 @@ class Ticket extends Component<TicketProps, TicketState> {
         </>
       );
     }
-    return (
-      <div>
-        {ticket}
-      </div>
-    );
+    return <div>{ticket}</div>;
   }
 }
 

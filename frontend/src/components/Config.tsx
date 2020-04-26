@@ -5,6 +5,11 @@ import Player from "./Player";
 import ReadyPlayers from "./ReadyPlayers";
 
 export interface Award {
+  // Actual type information:
+  // {
+  //    nameAward: string;
+  //    numAward: string;
+  // }
   [index: string]: string;
 }
 
@@ -30,7 +35,7 @@ interface ConfigState {
   awards: Award[];
 
   //  PC Config State options
-  numTickets: number;
+  numHouses: number;
 
   // List of players who are ready to play
   readyPlayers: User[];
@@ -41,7 +46,7 @@ class Config extends Component<ConfigProps, ConfigState> {
     super(props);
     this.state = {
       type: "",
-      numTickets: 1,
+      numHouses: 1,
       name: "",
       readyHost: false,
       readyClient: false,
@@ -72,10 +77,12 @@ class Config extends Component<ConfigProps, ConfigState> {
   }
 
   componentDidMount() {
-    // Player joins by entering his name
+    // Extracting roomID from the URL
     let roomID = window.location.pathname.substr(
       window.location.pathname.lastIndexOf("/") + 1
     );
+
+    // Player joins by entering his name in the prompt
     let name;
     if (this.state.name == "") {
       name = prompt("What would you like to be called?");
@@ -94,17 +101,16 @@ class Config extends Component<ConfigProps, ConfigState> {
         type: playerTypeObj.type, // pass this type to player as well
       });
 
-      // not needed I guess
+      // Receiving event on Host from new PC who has joined and sending them
+      // the list of readyPlayers
       if (playerTypeObj.type == "Host") {
         this.props.socket.on("notifyHostConnection", (user: User) => {
           this.props.socket.emit("readyPlayers", user, this.state.readyPlayers);
         });
-      } else if (playerTypeObj.type == "PC") {
-        // attach listener for Host config Done
       }
     });
 
-    // server sending awards from Host
+    // server sending awards from Host as Host is ready
     this.props.socket.on("HostConfigDone", (awards: any) => {
       this.setState({
         awards: awards,
@@ -172,7 +178,7 @@ class Config extends Component<ConfigProps, ConfigState> {
     if (this.state.type == "PC") {
       // sanity check
       this.setState({
-        numTickets: value,
+        numHouses: value,
       });
     }
   };
@@ -200,7 +206,7 @@ class Config extends Component<ConfigProps, ConfigState> {
       mainComponent = (
         <Player
           socket={this.props.socket}
-          num={this.state.numTickets}
+          numHouses={this.state.numHouses}
           name={this.state.name}
           type={this.state.type}
           awards={this.state.awards}
@@ -226,7 +232,8 @@ class Config extends Component<ConfigProps, ConfigState> {
         </>
       );
     } else if (this.state.type == "PC") {
-      // ADD A MESSAGE FOR SAYING HOST NOT READY
+      // TODO: ADD A MESSAGE FOR SAYING HOST NOT READY
+
       // form for PC configuration
       //    Number of Tickets
       mainComponent = (
@@ -238,7 +245,7 @@ class Config extends Component<ConfigProps, ConfigState> {
               Number of Tickets:
               <input
                 type="text"
-                value={this.state.numTickets}
+                value={this.state.numHouses}
                 onChange={this.handleChangePC}
               />
             </label>

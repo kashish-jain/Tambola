@@ -2,7 +2,7 @@
 
 body {
   background-color: #0e141f;
-  color: white;
+  color: #ffffff;
   /* this is to prevent animation to add a horizontal scrollbar */
   overflow-x: hidden;
 }
@@ -18,7 +18,7 @@ body {
 }
 
 .box p {
-  color: white;
+  color: #ffffff;
   font-size: 1.5rem;
   text-align: center;
   width: 100%;
@@ -49,7 +49,7 @@ body {
   background-color: #374051;
   width: 50px;
   height: 50px;
-  border: black solid 2px;
+  border: #000000 solid 2px;
   margin: 0;
 }
 
@@ -57,7 +57,7 @@ button {
   width: 10rem;
   height: 3rem;
   font-size: large;
-  color: white;
+  color: #ffffff;
   background: #374051;
   border: 2px solid #ffcb36;
   box-sizing: border-box;
@@ -67,7 +67,7 @@ button {
 
 .remove {
   width: 3rem;
-  background: rgb(248, 63, 63);
+  background: #f83f3f;
 }
 
 p.new-number {
@@ -115,7 +115,7 @@ input[type="number"] {
   text-align: center;
   font-size: large;
   color: #374051;
-  background: white;
+  background: #ffffff;
 }
 
 input[type="text"] {
@@ -124,14 +124,14 @@ input[type="text"] {
   text-align: center;
   font-size: large;
   color: #374051;
-  background: white;
+  background: #ffffff;
 }
 
 input[type="submit"] {
   width: 10rem;
   height: 3rem;
   font-size: large;
-  color: white;
+  color: #ffffff;
   background: #70e270;
   border: 2px solid #ffcb36;
   box-sizing: border-box;

@@ -23,14 +23,10 @@ interface PlayerProps {
   awards: Award[];
 
   // for PC
-  num: number;
+  numHouses: number;
 }
 
-interface PlayerState {
-  // This is just for host type
-  //  for displaying ticket on win call
-  checkingTicket: boolean;
-}
+interface PlayerState {}
 
 class Player extends Component<PlayerProps, PlayerState> {
   // The declarations are just for Host type
@@ -50,7 +46,7 @@ class Player extends Component<PlayerProps, PlayerState> {
         <div>
           <PcTicket
             socket={this.props.socket}
-            num={this.props.num}
+            numHouses={this.props.numHouses}
             awards={this.props.awards}
           />
         </div>
