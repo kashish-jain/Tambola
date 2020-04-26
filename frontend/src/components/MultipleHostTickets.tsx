@@ -24,19 +24,20 @@ class MultipleHostTicket extends Component<
     this.props.socket.on("callWinToHost", (callWinObj: callWin) => {
       // updating values
       let newState = this.state.ticketFromPlayers;
-      console.log("old tickets ", newState);
-      console.log("getting ticket from", callWinObj.user.username);
-      newState[callWinObj.user.id] = callWinObj;
-      this.state.ticketFromPlayers[callWinObj.user.id] = callWinObj;
+
+      // JS does not support keys to be objects, so this is easy workaround for the
+      // case when same user made 2 different win calls at the same time; The key
+      // is a string concatenation of id and wintype
+      newState[callWinObj.user.id + callWinObj.callWinType] = callWinObj;
       this.setState({
         ticketFromPlayers: newState,
       });
     });
   }
 
-  removeTicket = (id: string) => {
+  removeTicket = (idWinCall: string) => {
     let newState = this.state.ticketFromPlayers;
-    delete newState[id];
+    delete newState[idWinCall];
     this.setState({ ticketFromPlayers: newState });
   };
 

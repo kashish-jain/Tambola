@@ -24,7 +24,10 @@ class HostTicket extends Component<HostTicketProps, HostTicketState> {
       callWinType: this.props.callWinObj.callWinType,
       userCalledForWin: this.props.callWinObj.user,
     });
-    this.props.removeTicketFromHost(this.props.callWinObj.user.id);
+    // Key is concatenation of id and callWinType
+    this.props.removeTicketFromHost(
+      this.props.callWinObj.user.id + this.props.callWinObj.callWinType
+    );
     this.setState({
       showTicket: false,
     });
