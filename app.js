@@ -27,6 +27,7 @@ io.on("connection", (socket) => {
       socket.emit("userConnected", { type: "Host" });
     } else {
       socket.emit("userConnected", { type: "PC" });
+      io.to(user.room).emit("notifyHostConnection", user);
     }
 
     // Welcome current user
@@ -94,6 +95,11 @@ io.on("connection", (socket) => {
   socket.on("PcReady", () => {
     const user = getCurrentUser(socket.id);
     io.to(user.room).emit("PcReady", user);
+  });
+
+  socket.on("readyPlayers", (user, readyPlayers) => {
+    console.log("readyPlayers", readyPlayers);
+    io.to(user.id).emit("readyPlayers", readyPlayers);
   });
 
   // deal with disconnects here later

@@ -96,6 +96,9 @@ class Config extends Component<ConfigProps, ConfigState> {
 
       // not needed I guess
       if (playerTypeObj.type == "Host") {
+        this.props.socket.on("notifyHostConnection", (user: User) => {
+          this.props.socket.emit("readyPlayers", user, this.state.readyPlayers);
+        });
       } else if (playerTypeObj.type == "PC") {
         // attach listener for Host config Done
       }
@@ -107,6 +110,10 @@ class Config extends Component<ConfigProps, ConfigState> {
         awards: awards,
         readyHost: true,
       });
+    });
+
+    this.props.socket.on("readyPlayers", (readyPlayers: User[]) => {
+      this.setState({ readyPlayers: readyPlayers });
     });
 
     this.props.socket.on("PcReady", (user: User) => {
