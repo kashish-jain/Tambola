@@ -21,12 +21,12 @@ class WinningButtons extends Component<
     for (let i = 0; i < this.props.awards.length; ++i) {
       this.awardButtons.push(
         <button
-          key={this.props.awards[i].name}
+          key={i}
           onClick={() => {
-            this.props.winCallBack(this.props.awards[i].name);
+            this.props.winCallBack(this.props.awards[i].nameAward);
           }}
         >
-          {this.props.awards[i].name}
+          {this.props.awards[i].nameAward}
         </button>
       );
     }
