@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Component } from "react";
 import DTable from "./DTable";
+import Player from "./Player";
 
 interface ConfigProps {
   socket: any;
@@ -10,9 +11,15 @@ interface ConfigState {
   type: string;
   name: string | null;
   
-  // Host Config State options
+  // Config
+  configDone: boolean; // to check if config is done
 
-  // PC Config State options
+  //  Host Config State options
+  rows: {
+   [name: string]: number | string,
+  }[];
+
+  //  PC Config State options
   numTickets: number;
 }
 
@@ -20,7 +27,7 @@ class Config extends Component<ConfigProps, ConfigState> {
 
   constructor(props: ConfigProps) {
     super(props);
-    this.state = { type: "", numTickets: 0, name: ""};
+    this.state = { type: "", numTickets: 0, name: "", configDone: false, rows: [] };
   }
 
   componentDidMount() {
@@ -55,19 +62,44 @@ class Config extends Component<ConfigProps, ConfigState> {
   }
 
   handleChange = (event: any) => {
-    this.setState({numTickets: event.target.numTickets});
+    const { value } = event.target;
+    if(this.state.type == "Host") {
+      // set state here
+
+    } else if(this.state.type == "PC") {
+      this.setState({
+        numTickets: value
+      });
+    }
   };
 
   handleSubmit = (event: any) => {
-    alert('Number of Tickets were submitted: ' + this.state.numTickets);
-    event.preventDefault();
+    this.setState({
+        configDone: true
+    });
+    
+    if(this.state.type == "Host") {
+      
+
+    } else if(this.state.type == "PC") {
+      console.log("Number of Tickets:", this.state.numTickets);
+      event.preventDefault();
+    }
   };
 
   render() {
     let mainComponent = null;
-    if(this.state.type == "Host") {
+    if(this.state.configDone) {
+      // display player
+
+      // also need to pass award details
+      mainComponent = (
+        <Player socket={this.props.socket} num={this.state.numTickets}/>
+      );
+    } else if(this.state.type == "Host") {
       // form for host configuration
       //    Choosing Awards
+      // pass handleSubmit as a prop
       mainComponent = (
         <>
           <h1>Host Configuration</h1><hr/>
@@ -91,7 +123,11 @@ class Config extends Component<ConfigProps, ConfigState> {
         </>
       );      
     }
-    return mainComponent;
+    return (
+      <>
+        {mainComponent}
+      </>
+    );
   }
 }
 

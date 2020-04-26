@@ -18,6 +18,9 @@ interface callWin {
 // component soon.
 interface PlayerProps {
   socket: any;
+
+  // for PC
+  num: number;
 }
 
 interface PlayerState {
@@ -119,17 +122,17 @@ class Player extends Component<PlayerProps, PlayerState> {
     if (this.state.type === "PC") {
       mainComponent = (
         <div>
-          <Ticket socket={this.props.socket} />
+          <Ticket socket={this.props.socket} num={this.props.num}/>
           <NewNumber socket={this.props.socket} />
         </div>
       );
     } else if (this.state.type === "Host") {
       mainComponent = <Board socket={this.props.socket} />;
     }
-    let playerTicket = this.state.checkingTicket ? (
+    let playerTicket = (this.state.checkingTicket && this.ticketFromPlayer != undefined) ? (
       <div>
         <br></br>
-        <Ticket houses={this.ticketFromPlayer} />
+        <Ticket houses={this.ticketFromPlayer} num={this.ticketFromPlayer.length}/>
         <p>Win Call: {this.winningCallFromPlayer}</p>
         <ResultButtons
           key={0}

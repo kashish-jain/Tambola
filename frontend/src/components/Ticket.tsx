@@ -11,6 +11,9 @@ interface TicketProps {
 
   // Houses are sent from host to draw ticket on its screen
   houses?: Array<Array<Array<BoxState>>>;
+
+  // number of houses
+  num: number;
 }
 
 interface TicketState {}
@@ -65,21 +68,23 @@ class Ticket extends Component<TicketProps, TicketState> {
     );
 
   render() {
+    let ticket = [];
+    for(let i = 0; i < this.props.num; ++i) {
+      ticket[i] = (
+        <>
+          <House
+            key={i}
+            changeTicketState={this.changeTicketState}
+            houseNumbers={this.houses[i]}
+            houseIndex={i}
+          />
+          <br />
+        </>
+      );
+    }
     return (
       <div>
-        <House
-          key={0}
-          changeTicketState={this.changeTicketState}
-          houseNumbers={this.houses[0]}
-          houseIndex={0}
-        />
-        <br />
-        <House
-          key={1}
-          changeTicketState={this.changeTicketState}
-          houseNumbers={this.houses[1]}
-          houseIndex={1}
-        />
+        {ticket}
         {this.winningButtons}
       </div>
     );
