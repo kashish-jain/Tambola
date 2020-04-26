@@ -3,6 +3,10 @@ import { Component } from "react";
 import DTable from "./DTable";
 import Player from "./Player";
 
+export interface Award {
+  [index: string]: string;
+}
+
 interface ConfigProps {
   socket: any;
 }
@@ -10,24 +14,34 @@ interface ConfigProps {
 interface ConfigState {
   type: string;
   name: string | null;
-  
+
   // Config
-  configDone: boolean; // to check if config is done
+  readyHost: boolean;
+  readyClient: boolean;
 
   //  Host Config State options
-  rows: {
-   [name: string]: number | string,
-  }[];
+  awards: Award[];
 
   //  PC Config State options
   numTickets: number;
 }
 
 class Config extends Component<ConfigProps, ConfigState> {
-
   constructor(props: ConfigProps) {
     super(props);
-    this.state = { type: "", numTickets: 0, name: "", configDone: false, rows: [] };
+    this.state = {
+      type: "",
+      numTickets: 0,
+      name: "",
+      readyHost: false,
+      readyClient: false,
+      awards: [
+        {
+          name: "First Line",
+          mobile: "1",
+        },
+      ],
+    };
   }
 
   componentDidMount() {
@@ -52,54 +66,64 @@ class Config extends Component<ConfigProps, ConfigState> {
       this.setState({
         type: playerTypeObj.type, // pass this type to player as well
       });
-     
-      // not needed I guess 
-      if (playerTypeObj.type == "Host") {
-        
-      } else if (playerTypeObj.type == "PC") {
 
+      // not needed I guess
+      if (playerTypeObj.type == "Host") {
+      } else if (playerTypeObj.type == "PC") {
+        // attach listener for Host config Done
       }
+    });
+
+    // server sending awards from Host
+    this.props.socket.on("HostConfigDone", (awards: any) => {
+      this.setState({
+        awards: awards,
+        readyHost: true,
+      });
     });
   }
 
   // For Host Config
   handleChangeHost = (idx: number) => (e: any) => {
-    const { name, value } = e.target;
-    const rows = this.state.rows;
-    
-    rows[idx][name] = value;
-    console.log(rows[idx]);
+    const eTarget = e.target;
+    let name: string = eTarget.name;
+    let value: string = eTarget.value;
+
+    const awards = this.state.awards;
+
+    awards[idx][name] = value;
 
     this.setState({
-      rows
+      awards,
     });
   };
   handleAddRow = () => {
     const item = {
       name: "",
-      mobile: ""
+      mobile: "",
     };
     this.setState({
-      rows: [...this.state.rows, item]
+      awards: [...this.state.awards, item],
     });
   };
   handleRemoveRow = () => {
     this.setState({
-      rows: this.state.rows.slice(0, -1)
+      awards: this.state.awards.slice(0, -1),
     });
   };
   handleRemoveSpecificRow = (idx: number) => () => {
-    const rows = [...this.state.rows];
-    rows.splice(idx, 1);
-    this.setState({ rows });
+    const awards = [...this.state.awards];
+    awards.splice(idx, 1);
+    this.setState({ awards });
   };
 
   // For PC Config
   handleChangePC = (event: any) => {
     const { value } = event.target;
-    if(this.state.type == "PC") { // sanity check
+    if (this.state.type == "PC") {
+      // sanity check
       this.setState({
-        numTickets: value
+        numTickets: value,
       });
     }
   };
@@ -107,12 +131,13 @@ class Config extends Component<ConfigProps, ConfigState> {
   // common function for Host and PC Config
   handleSubmit = (event: any) => {
     this.setState({
-        configDone: true
+      readyClient: true,
     });
-    
-    if(this.state.type == "Host") {
-      console.log("config submitted from host", event.target, this.state.rows );
-    } else if(this.state.type == "PC") {
+    if (this.state.type == "Host") {
+      // emitter for config done
+      this.props.socket.emit("HostConfigDone", this.state.awards);
+      console.log("config submitted from host", this.state.awards);
+    } else if (this.state.type == "PC") {
       console.log("Number of Tickets:", this.state.numTickets);
     }
     event.preventDefault();
@@ -120,54 +145,58 @@ class Config extends Component<ConfigProps, ConfigState> {
 
   render() {
     let mainComponent = null;
-    if(this.state.configDone) {
+    if (this.state.readyHost && this.state.readyClient) {
       // display player
-
-      // also need to pass award details so that winning buttons can be set accordingly
       mainComponent = (
-        <Player 
-          socket={this.props.socket} 
-          num={this.state.numTickets} 
-          name={this.state.name} 
-          type={this.state.type} />
+        <Player
+          socket={this.props.socket}
+          num={this.state.numTickets}
+          name={this.state.name}
+          type={this.state.type}
+          awards={this.state.awards}
+        />
       );
-    } else if(this.state.type == "Host") {
+    } else if (this.state.type == "Host") {
       // form for host configuration
       //    Choosing Awards
       // pass handleSubmit as a prop
       mainComponent = (
         <>
-          <h1>Host Configuration</h1><hr/>
+          <h1>Host Configuration</h1>
+          <hr />
           <DTable
-            rows={this.state.rows}
-            handleChangeHost={this.handleChangeHost} 
-            handleAddRow={this.handleAddRow} 
-            handleRemoveRow={this.handleRemoveRow} 
+            awards={this.state.awards}
+            handleChangeHost={this.handleChangeHost}
+            handleAddRow={this.handleAddRow}
+            handleRemoveRow={this.handleRemoveRow}
             handleRemoveSpecificRow={this.handleRemoveSpecificRow}
-            handleSubmit={this.handleSubmit} />
+            handleSubmit={this.handleSubmit}
+          />
         </>
       );
-    } else if(this.state.type == "PC") {
+    } else if (this.state.type == "PC") {
+      // ADD A MESSAGE FOR SAYING HOST NOT READY
       // form for PC configuration
       //    Number of Tickets
       mainComponent = (
         <>
-          <h1>PC Configuration</h1><hr/>
+          <h1>PC Configuration</h1>
+          <hr />
           <form onSubmit={this.handleSubmit}>
             <label>
               Number of Tickets:
-              <input type="text" value={this.state.numTickets} onChange={this.handleChangePC} />
+              <input
+                type="text"
+                value={this.state.numTickets}
+                onChange={this.handleChangePC}
+              />
             </label>
             <input type="submit" value="Submit" />
           </form>
         </>
-      );     
+      );
     }
-    return (
-      <>
-        {mainComponent}
-      </>
-    );
+    return <>{mainComponent}</>;
   }
 }
 

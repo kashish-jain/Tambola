@@ -83,6 +83,14 @@ io.on("connection", (socket) => {
     console.log("newNumberFromHost:", num, "in room:", user.room);
   });
 
+  // receiver for Host Config done and emitter for Host Config done
+  socket.on("HostConfigDone", (awards) => {
+    const user = getCurrentUser(socket.id);
+
+    console.log("HostConfigDone");
+    io.to(user.room).emit("HostConfigDone", awards);
+  });
+
   // deal with disconnects here later
   // CASES:
   //  - dealing with host's disconnection

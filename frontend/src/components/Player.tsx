@@ -4,6 +4,7 @@ import Board from "./Board";
 import { BoxState } from "./Box";
 import PcTicket from "./PcTicket";
 import MultipleHostTicket from "./MultipleHostTickets";
+import { Award } from "./Config";
 
 export interface callWin {
   callWinType: string;
@@ -17,13 +18,15 @@ interface PlayerProps {
   socket: any;
   type: string; // type is either PC or host
   name: string | null;
-  
+
+  // awards coming for buttons and leaderboard
+  awards: Award[];
+
   // for PC
   num: number;
 }
 
 interface PlayerState {
-
   // This is just for host type
   //  for displaying ticket on win call
   checkingTicket: boolean;
@@ -34,7 +37,7 @@ class Player extends Component<PlayerProps, PlayerState> {
   ticketFromPlayer: Array<Array<Array<BoxState>>> | undefined;
   winningCallFromPlayer: string | undefined;
   userCalledForWin: { id: string; username: string; room: string } | undefined;
-  
+
   constructor(props: PlayerProps) {
     super(props);
   }
@@ -45,7 +48,11 @@ class Player extends Component<PlayerProps, PlayerState> {
     if (this.props.type === "PC") {
       mainComponent = (
         <div>
-          <PcTicket socket={this.props.socket} num={this.props.num}/>
+          <PcTicket
+            socket={this.props.socket}
+            num={this.props.num}
+            awards={this.props.awards}
+          />
         </div>
       );
     } else if (this.props.type === "Host") {
