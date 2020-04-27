@@ -1,4 +1,5 @@
 @import "~animate.css/animate.min.css";
+@import "~@fortawesome/fontawesome-free/css/fontawesome.min.css";
 
 body {
   background-color: #0e141f;
@@ -80,7 +81,7 @@ p.new-number {
 
 .config-table {
   width: 100%;
-  border-spacing: 8px;
+  border-spacing: 0.75rem;
 }
 
 .config-table tr {
@@ -113,7 +114,7 @@ p.new-number {
 
 .config-table thead th {
   box-sizing: border-box;
-  font-size: 1.5rem;
+  font-size: 1.2rem;
   color: white;
   padding: 0;
   height: 3rem;
@@ -132,8 +133,14 @@ form > table > thead > tr > th.award-number-heading {
   border-bottom: #374051 1px solid;
   color: #a89e8a;
   text-align: center;
-  width: 90%;
-  font-size: 1.5rem;
+  font-size: 1.2rem;
+  width: 100%;
+}
+
+/* This is for PC configuration table */
+.config-table > tbody > tr > td {
+  font-size: 1.2rem;
+  color: #a89e8a;
 }
 
 div.notification-container {
@@ -162,35 +169,40 @@ div.notification .sub {
   opacity: 1;
 }
 
-/* input[type="number"] {
-  width: 5rem;
-  height: 3rem;
-  text-align: center;
-  font-size: large;
-  color: #374051;
-  background: #ffffff;
+/* This is just for pc config to align it with "pc configuration" heading */
+form > table#pc-config-table > tbody > tr > td:nth-child(1),
+form > table#pc-config-table > tbody > tr > td:nth-child(1) {
+  text-align: left;
 }
 
-input[type="text"] {
-  width: 10rem;
-  height: 3rem;
-  text-align: center;
-  font-size: large;
-  color: #374051;
-  background: #ffffff;
+form > table > tbody > tr:nth-child(1) > td.number-tickets {
+  border-bottom: #374051 1px solid;
 }
 
-input[type="submit"] {
-  width: 10rem;
-  height: 3rem;
-  font-size: large;
-  color: #ffffff;
-  background: #70e270;
-  border: 2px solid #ffcb36;
+form > div.buttons-container {
   box-sizing: border-box;
-  border-radius: 10px;
-  cursor: pointer;
-} */
+}
+
+form > div.buttons-container button.start-game,
+form > div.buttons-container button.add-row {
+  margin-left: 0.75rem;
+}
+
+form > div.buttons-container button.start-game,
+form > table > tbody > tr:nth-child(2) > td:nth-child(2) > button.ready {
+  background-color: #ffcb36;
+  color: #0e141f;
+  border: 1px solid #a89e8a;
+}
+
+h1.host-configuration,
+h1.pc-configuration {
+  margin-left: 0.75rem;
+}
+
+table#pc-config-table {
+  border-spacing: 1rem;
+}
 
 label {
   font-size: 2rem;

@@ -63,13 +63,18 @@ class ConfigTable extends React.Component<ConfigTableProps, ConfigTableState> {
             ))}
           </tbody>
         </table>
-        <button type="button" onClick={this.props.handleAddRow}>
-          Add Row
-        </button>
-        <button type="button" onClick={this.props.handleRemoveRow}>
-          Delete Last Row
-        </button>
-        <input type="submit" value="Start Game" />
+        <div className="buttons-container">
+          <button
+            className="add-row"
+            type="button"
+            onClick={this.props.handleAddRow}
+          >
+            Add Row
+          </button>
+          <button className="start-game" type="submit">
+            Start Game
+          </button>
+        </div>
       </form>
     );
   }

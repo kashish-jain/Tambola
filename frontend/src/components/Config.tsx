@@ -243,7 +243,7 @@ class Config extends Component<ConfigProps, ConfigState> {
       // pass handleSubmit as a prop
       mainComponent = (
         <>
-          <h1>Host Configuration</h1>
+          <h1 className="host-configuration">Host Configuration</h1>
           <hr />
           <ConfigTable
             awards={this.state.awards}
@@ -263,10 +263,10 @@ class Config extends Component<ConfigProps, ConfigState> {
       //    Number of Tickets
       mainComponent = (
         <>
-          <h1>PC Configuration</h1>
+          <h1 className="pc-configuration">PC Configuration</h1>
           <hr />
           <form onSubmit={this.handleSubmit}>
-            <label>
+            {/* <label>
               Number of Tickets:
               <input
                 type="text"
@@ -274,8 +274,29 @@ class Config extends Component<ConfigProps, ConfigState> {
                 onChange={this.handleChangePC}
               />
             </label>
-            <br />
-            <input type="submit" value="Ready" />
+            <button type="submit">Ready</button> */}
+            <table className="config-table" id="pc-config-table">
+              <tbody>
+                <tr>
+                  <td className="number-tickets">Number of Tickets:</td>
+                  <td>
+                    <input
+                      type="text"
+                      value={this.state.numHouses}
+                      onChange={this.handleChangePC}
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <td>Waiting for host to start the game</td>
+                  <td>
+                    <button className="ready" type="submit">
+                      Ready
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
           </form>
           <ReadyPlayers players={this.state.PcsStatus} />
         </>
