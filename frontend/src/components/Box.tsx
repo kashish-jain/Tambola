@@ -40,6 +40,8 @@ class Box extends Component<BoxProps, BoxState> {
     }
   };
 
+  // This is only for the newNumber generated in the board sends new props to the box
+  // to make it mark itself
   componentDidUpdate(prevProps: BoxProps) {
     if (prevProps.check !== this.props.check && this.props.check) {
       this.setState({ check: this.props.check });
