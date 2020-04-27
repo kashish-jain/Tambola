@@ -65,11 +65,6 @@ button {
   cursor: pointer;
 }
 
-.remove {
-  width: 3rem;
-  background: #f83f3f;
-}
-
 p.new-number {
   font-weight: bolder;
   font-size: 5rem;
@@ -81,6 +76,80 @@ p.new-number {
   border: 2px solid #ffcb36;
   z-index: 2;
   transition: 0.2s;
+}
+
+.checkmark {
+  color: #ffcb36;
+}
+
+.config-table {
+  width: 100%;
+  border-spacing: 0.75rem;
+}
+
+.config-table tr {
+  box-sizing: border-box;
+  text-align: center;
+}
+
+.config-table td.award-name {
+  width: 45%;
+}
+
+.config-table td.award-number {
+  width: 35%;
+}
+
+.config-table td.cross-button {
+  width: 20%;
+}
+
+.config-table td.cross-button button {
+  background-color: #0e141f;
+  color: #ffcb36;
+  width: auto;
+  height: auto;
+  margin: 0;
+  padding: 0;
+  border: none;
+  font-size: 3rem;
+}
+
+.config-table thead th {
+  box-sizing: border-box;
+  font-size: 1.2rem;
+  color: white;
+  padding: 0;
+  height: 3rem;
+}
+
+form > table > thead > tr > th.award-name-heading,
+form > table > thead > tr > th.award-number-heading {
+  background-color: #374051;
+}
+
+/* This is for ready-player component's table's heading */
+#root > div > div > table > tr:nth-child(1) > th {
+  background-color: #374051;
+  height: 3rem;
+}
+
+.config-table input {
+  background-color: #0e141f;
+  border-top: 0;
+  border-left: 0;
+  border-right: 0;
+  border-bottom: #374051 1px solid;
+  color: #a89e8a;
+  text-align: center;
+  font-size: 1.2rem;
+  width: 100%;
+}
+
+/* This is for PC configuration table */
+.config-table > tbody > tr > td {
+  font-size: 1.2rem;
+  color: #a89e8a;
 }
 
 div.notification-container {
@@ -109,34 +178,43 @@ div.notification .sub {
   opacity: 1;
 }
 
-input[type="number"] {
-  width: 5rem;
-  height: 3rem;
-  text-align: center;
-  font-size: large;
-  color: #374051;
-  background: #ffffff;
+/* This is just for pc config to align it with "pc configuration" heading */
+form > table#pc-config-table > tbody > tr > td:nth-child(1) {
+  text-align: left;
 }
 
-input[type="text"] {
-  width: 10rem;
-  height: 3rem;
-  text-align: center;
-  font-size: large;
-  color: #374051;
-  background: #ffffff;
+form > table > tbody > tr:nth-child(1) > td.number-tickets {
+  border-bottom: #374051 1px solid;
 }
 
-input[type="submit"] {
-  width: 10rem;
-  height: 3rem;
-  font-size: large;
-  color: #ffffff;
-  background: #70e270;
-  border: 2px solid #ffcb36;
+form > div.buttons-container {
   box-sizing: border-box;
-  border-radius: 10px;
-  cursor: pointer;
+}
+
+form > div.buttons-container button.start-game,
+form > div.buttons-container button.add-row {
+  margin-left: 0.75rem;
+}
+
+form > div.buttons-container button.start-game,
+form > table > tbody > tr:nth-child(2) > td:nth-child(2) > button.ready {
+  background-color: #ffcb36;
+  color: #0e141f;
+  border: 1px solid #a89e8a;
+}
+
+h1.host-configuration,
+h1.pc-configuration,
+h1.players-in-game {
+  margin-left: 0.75rem;
+}
+
+hr {
+  border: 1px solid #374051;
+}
+
+table#pc-config-table {
+  border-spacing: 1rem;
 }
 
 label {
@@ -153,23 +231,25 @@ label {
   color: #ffcb36;
 }
 
-.ready-player-container {
+.ready-players {
   width: 100%;
-  border-collapse: collapse;
+  border-spacing: 0.75rem;
   table-layout: fixed;
-}
-
-.ready-player-container td,
-.ready-player-container th {
-  border: 1px solid #374051;
-  padding: 8px;
+  font-size: 1.2rem;
   text-align: center;
 }
 
-.ready-player-container th {
-  padding-top: 12px;
-  padding-bottom: 12px;
-  color: #ffcb36;
+/* Ready Players 1st and second column color */
+#root > div > div > table > tr > td:nth-child(1),
+#root > div > div > table > tr > td:nth-child(2) {
+  color: #a89e8a;
+}
+
+/* this will be the color of X (when player not ready)
+  otherwise it will be a checkmark which has its color from its class
+*/
+#root > div > div > table > tr > td:nth-child(3) {
+  color: #ff7c35;
 }
 
 .unchecked {
