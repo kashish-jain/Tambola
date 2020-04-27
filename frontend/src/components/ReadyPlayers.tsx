@@ -17,7 +17,7 @@ class ReadyPlayers extends Component<ReadyPlayersProps, ReadyPlayersState> {
     let playersComp = [];
     for (let i = 0; i < this.props.players.length; ++i) {
       playersComp.push(
-        <tr key={this.props.players[i].user.username}>
+        <tr key={i}>
           <td>{this.props.players[i].user.username}</td>
           <td>{this.props.players[i].ready ? "Yes" : "No"}</td>
           <td>{this.props.players[i].numTickets}</td>
