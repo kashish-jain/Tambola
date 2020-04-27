@@ -39,6 +39,13 @@ class Box extends Component<BoxProps, BoxState> {
       this.props.changeTicketState(this.props.index, invertCheck);
     }
   };
+
+  componentDidUpdate(prevProps: BoxProps) {
+    if (prevProps.check !== this.props.check && this.props.check) {
+      this.setState({ check: this.props.check });
+    }
+  }
+
   render() {
     let checkedCssClass = this.state.check ? "checked" : "unchecked";
     return (
