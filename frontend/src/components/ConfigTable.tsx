@@ -23,76 +23,54 @@ class ConfigTable extends React.Component<ConfigTableProps, ConfigTableState> {
 
   render() {
     return (
-      <div>
-        <form onSubmit={this.props.handleSubmit}>
-          <div className="container">
-            <div className="row clearfix">
-              <div className="col-md-12 column">
-                <table
-                  className="table table-bordered table-hover"
-                  id="tab_logic"
-                >
-                  <thead>
-                    <tr>
-                      <th className="text-center"> Award Name </th>
-                      <th className="text-center"> How Many? </th>
-                      <th />
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {this.props.awards.map((item, idx) => (
-                      <tr id="addr0" key={idx}>
-                        <td>
-                          <input
-                            type="text"
-                            name="nameAward"
-                            value={this.props.awards[idx].nameAward}
-                            onChange={this.props.handleChangeHost(idx)}
-                            className="form-control"
-                          />
-                        </td>
-                        <td>
-                          <input
-                            type="number"
-                            name="numAward"
-                            value={this.props.awards[idx].numAward}
-                            onChange={this.props.handleChangeHost(idx)}
-                            className="form-control"
-                          />
-                        </td>
-                        <td>
-                          <button
-                            type="button"
-                            className="btn btn-outline-danger btn-sm remove"
-                            onClick={this.props.handleRemoveSpecificRow(idx)}
-                          >
-                            X
-                          </button>
-                        </td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-                <button
-                  type="button"
-                  onClick={this.props.handleAddRow}
-                  className="btn btn-primary"
-                >
-                  Add Row
-                </button>
-                <button
-                  type="button"
-                  onClick={this.props.handleRemoveRow}
-                  className="btn btn-danger float-right"
-                >
-                  Delete Last Row
-                </button>
-              </div>
-            </div>
-          </div>
-          <input type="submit" value="Start Game" />
-        </form>
-      </div>
+      <form onSubmit={this.props.handleSubmit}>
+        <table className="config-table">
+          <thead>
+            <tr>
+              <th className="award-name-heading"> Award Name </th>
+              <th className="award-number-heading"> How Many? </th>
+              <th />
+            </tr>
+          </thead>
+          <tbody>
+            {this.props.awards.map((item, idx) => (
+              <tr key={idx}>
+                <td className="award-name">
+                  <input
+                    type="text"
+                    name="nameAward"
+                    value={this.props.awards[idx].nameAward}
+                    onChange={this.props.handleChangeHost(idx)}
+                  />
+                </td>
+                <td className="award-number">
+                  <input
+                    type="number"
+                    name="numAward"
+                    value={this.props.awards[idx].numAward}
+                    onChange={this.props.handleChangeHost(idx)}
+                  />
+                </td>
+                <td className="cross-button">
+                  <button
+                    type="button"
+                    onClick={this.props.handleRemoveSpecificRow(idx)}
+                  >
+                    X
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        <button type="button" onClick={this.props.handleAddRow}>
+          Add Row
+        </button>
+        <button type="button" onClick={this.props.handleRemoveRow}>
+          Delete Last Row
+        </button>
+        <input type="submit" value="Start Game" />
+      </form>
     );
   }
 }
