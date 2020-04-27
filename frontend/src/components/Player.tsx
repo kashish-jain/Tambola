@@ -5,11 +5,18 @@ import { BoxState } from "./Box";
 import PcTicket from "./PcTicket";
 import MultipleHostTicket from "./MultipleHostTickets";
 import { Award } from "./Config";
+import Prizes from "./Prizes";
 
 export interface callWin {
   callWinType: string;
   houses: Array<Array<Array<BoxState>>>;
   user: { id: string; username: string; room: string };
+}
+
+export interface resultObj {
+  callWinType: string;
+  calledWinUsername: string;
+  result: string;
 }
 
 // TODO: Name entered by user could be empty; This is disastrous; We'll make name a different
@@ -59,7 +66,12 @@ class Player extends Component<PlayerProps, PlayerState> {
         </div>
       );
     }
-    return <>{mainComponent}</>;
+    return (
+      <>
+        {mainComponent}
+        <Prizes socket={this.props.socket} awards={this.props.awards} />
+      </>
+    );
   }
 }
 

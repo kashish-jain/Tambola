@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Component } from "react";
 import { BoardLine } from "./BoardLine";
+import { Award } from "./Config";
 import Notification from "./Notification";
 
 //TODO: Fix some logic of duplicate keys for rows generated
