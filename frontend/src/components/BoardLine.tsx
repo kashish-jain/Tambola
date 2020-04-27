@@ -1,15 +1,17 @@
-import React, { FunctionComponent } from "react";
-import Box from "./Box";
+import * as React from "react";
+import { FunctionComponent } from "react";
+import Box, { BoxState } from "./Box";
 
-type BoardLineProps = {
-  numbers: Array<number>;
-};
+interface BoardLineProps {
+  index: number;
+  numbers: Array<BoxState>;
+}
 
 export let BoardLine: FunctionComponent<BoardLineProps> = ({
   numbers,
 }: BoardLineProps) => {
   let boxes = numbers.map(function (number) {
-    return <Box value={number} />;
+    return <Box value={number.value} check={number.check} />;
   });
   return <div style={{ display: "flex" }}>{boxes}</div>;
 };
