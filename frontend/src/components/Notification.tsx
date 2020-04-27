@@ -44,9 +44,6 @@ class Notification extends Component<NotificationProps, NotificationState> {
       this.reward.rewardMe();
       this.setState({ notificationObj: callWinObj });
       ticketBoardContainer?.setAttribute("style", "opacity:0.2;");
-      setTimeout(() => {
-        this.deleteNotification();
-      }, 7000);
     });
     this.props.socket.on("resultsForPC", (resultsObj: resultObj) => {
       console.log("result obj for notification", resultsObj);
@@ -55,7 +52,7 @@ class Notification extends Component<NotificationProps, NotificationState> {
       ticketBoardContainer?.setAttribute("style", "opacity:0.2;");
       setTimeout(() => {
         this.deleteNotification();
-      }, 7000);
+      }, 5000);
     });
   }
 
