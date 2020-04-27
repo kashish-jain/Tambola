@@ -153,6 +153,25 @@ label {
   color: #ffcb36;
 }
 
+.ready-player-container {
+  width: 100%;
+  border-collapse: collapse;
+  table-layout: fixed;
+}
+
+.ready-player-container td,
+.ready-player-container th {
+  border: 1px solid #374051;
+  padding: 8px;
+  text-align: center;
+}
+
+.ready-player-container th {
+  padding-top: 12px;
+  padding-bottom: 12px;
+  color: #ffcb36;
+}
+
 .unchecked {
   width: 0;
   border: none;
