@@ -91,7 +91,9 @@ class Config extends Component<ConfigProps, ConfigState> {
     // Player joins by entering his name in the prompt
     let name;
     if (this.state.name == "") {
-      name = prompt("What would you like to be called?");
+      do {
+        name = prompt("What would you like to be called?");
+      } while (name == null || name == "");
       this.setState({ name: name });
     }
 
