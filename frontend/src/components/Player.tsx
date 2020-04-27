@@ -24,7 +24,7 @@ export interface resultObj {
 interface PlayerProps {
   socket: any;
   type: string; // type is either PC or host
-  name: string | null;
+  name: string;
 
   // awards coming for buttons and leaderboard
   awards: Award[];
