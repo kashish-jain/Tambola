@@ -1,8 +1,8 @@
 import * as React from "react";
 import { Component } from "react";
 import { BoardLine } from "./BoardLine";
-import { Award } from "./Config";
 import Notification from "./Notification";
+import { BoxState } from "./Box";
 
 //TODO: Fix some logic of duplicate keys for rows generated
 
@@ -17,7 +17,13 @@ interface BoardProps {
 }
 
 interface BoardState {
-  boardNumbers: Array<number>;
+  // This is the array that actually holds what numbers are checked and what are not in 1-90 order
+  allBoardNumbers: Array<Array<BoxState>>;
+
+  // Array of shuffled numbers
+  shuffledBoardNumbers: Array<number>;
+
+  // This is index of the shuffledBoardNumbers array. So tells basically which number should come next
   goneNumbers: number;
 }
 
@@ -42,22 +48,30 @@ function createArray(): Array<number> {
   return a;
 }
 
-function createNumbersLine(n: number): Array<number> {
+function createNumbersLine(n: number): Array<BoxState> {
   // generates an array of 10 elements; from n - n+9
-  let a = [];
+  let a: Array<BoxState> = [];
   for (let i = 0; i < 10; ++i) {
-    a[i] = n + i;
+    a[i] = { value: n + i, check: false };
   }
   return a;
 }
 
 // Function generates all numbers 1-90 in order for printing the board
-function generateAllBoardNumbers(): Array<Array<number>> {
-  let a = [];
+function generateAllBoardNumbers(): Array<Array<BoxState>> {
+  let a: Array<Array<BoxState>> = [];
   for (let i = 0; i < 9; ++i) {
     a[i] = createNumbersLine(i * 10 + 1);
   }
   return a;
+}
+
+function generateAllLines(allBoardNumbers: Array<Array<BoxState>>) {
+  let allLines = [];
+  for (let i = 0; i < allBoardNumbers.length; ++i) {
+    allLines.push(<BoardLine key={i} index={i} numbers={allBoardNumbers[i]} />);
+  }
+  return allLines;
 }
 
 class Board extends Component<BoardProps, BoardState> {
@@ -65,42 +79,48 @@ class Board extends Component<BoardProps, BoardState> {
     super(props);
     let boardNumbersArray = shuffle(createArray());
     this.state = {
-      boardNumbers: boardNumbersArray,
+      shuffledBoardNumbers: boardNumbersArray,
       goneNumbers: 0,
+      allBoardNumbers: generateAllBoardNumbers(),
     };
   }
 
-  allBoardNumbers: Array<Array<number>> = generateAllBoardNumbers();
-  allLines = this.allBoardNumbers.map(function (numberRow) {
-    return <BoardLine key={1} numbers={numberRow} />;
-  });
-
-  // When a new number is generated, we then change the color of that number's box
-  makeBoxGone = (n: number) => {};
+  handleNewNumber = (newNumber: number) => {
+    let columnNumber = newNumber % 10 === 0 ? 9 : (newNumber % 10) - 1;
+    let rowNum =
+      newNumber % 10 === 0 ? newNumber / 10 - 1 : Math.floor(newNumber / 10);
+    let allBoardNumbers = this.state.allBoardNumbers;
+    allBoardNumbers[rowNum][columnNumber] = {
+      value: newNumber,
+      check: true,
+    };
+    this.setState({
+      allBoardNumbers: allBoardNumbers,
+      goneNumbers: this.state.goneNumbers + 1,
+    });
+  };
 
   render() {
     let newNumber = 0;
+    let allLines = generateAllLines(this.state.allBoardNumbers);
     return (
       <>
         <button
           className={"new-number"}
           onClick={() => {
-            newNumber = this.state.boardNumbers[this.state.goneNumbers];
-            this.setState({
-              boardNumbers: this.state.boardNumbers,
-              goneNumbers: this.state.goneNumbers + 1,
-            });
+            newNumber = this.state.shuffledBoardNumbers[this.state.goneNumbers];
+            this.handleNewNumber(newNumber);
             this.props.socket.emit("newNumber", newNumber);
           }}
         >
           Generate New
         </button>
         <p className={"new-number"}>
-          {this.state.boardNumbers[this.state.goneNumbers - 1]}
+          {this.state.shuffledBoardNumbers[this.state.goneNumbers - 1]}
         </p>
         <div className="notification-parent">
           {/* This div is for setting the opacity when notification is shown */}
-          <div id="ticket-board-container">{this.allLines}</div>
+          <div id="ticket-board-container">{allLines}</div>
           <Notification socket={this.props.socket} />
         </div>
       </>

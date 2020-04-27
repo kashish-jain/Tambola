@@ -15,7 +15,6 @@ interface HostTicketState {}
 class HostTicket extends Component<HostTicketProps, HostTicketState> {
   constructor(props: HostTicketProps) {
     super(props);
-    this.state = { showTicket: true };
   }
 
   handleResultCall = (result: string) => {
@@ -28,9 +27,6 @@ class HostTicket extends Component<HostTicketProps, HostTicketState> {
     this.props.removeTicketFromHost(
       this.props.callWinObj.user.id + this.props.callWinObj.callWinType
     );
-    this.setState({
-      showTicket: false,
-    });
   };
 
   render() {
