@@ -1,9 +1,9 @@
 import * as React from "react";
 import { Component } from "react";
-import { User } from "./Config";
+import { PcStatus } from "./Config";
 
 interface ReadyPlayersProps {
-  players: User[];
+  players: PcStatus[];
 }
 
 interface ReadyPlayersState {}
@@ -17,16 +17,22 @@ class ReadyPlayers extends Component<ReadyPlayersProps, ReadyPlayersState> {
     let playersComp = [];
     for (let i = 0; i < this.props.players.length; ++i) {
       playersComp.push(
-        <p key={this.props.players[i].username}>
-          {this.props.players[i].username}
-        </p>
+        <tr key={i}>
+          <td>{this.props.players[i].user.username}</td>
+          <td>{this.props.players[i].ready ? "Yes" : "No"}</td>
+          <td>{this.props.players[i].numTickets}</td>
+        </tr>
       );
     }
     return (
-      <>
-        <p>Ready Players:</p>
+      <table className="ready-player-container">
+        <tr>
+          <th>Name</th>
+          <th>Ready</th>
+          <th>Number of Tickets</th>
+        </tr>
         {playersComp}
-      </>
+      </table>
     );
   }
 }

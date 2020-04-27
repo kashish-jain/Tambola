@@ -27,6 +27,8 @@ io.on("connection", (socket) => {
       socket.emit("userConnected", { type: "Host" });
     } else {
       socket.emit("userConnected", { type: "PC" });
+
+      // Let host know who joined
       io.to(user.room).emit("notifyHostConnection", user);
     }
 
@@ -92,14 +94,17 @@ io.on("connection", (socket) => {
     io.to(user.room).emit("HostConfigDone", awards);
   });
 
-  socket.on("PcReady", () => {
+  // Know when a player is ready with number of tickets he is going to play with
+  socket.on("PcReady", (numHouses) => {
     const user = getCurrentUser(socket.id);
-    io.to(user.room).emit("PcReady", user);
+
+    // Let host know that the player is ready
+    io.to(user.room).emit("PcReady", user, numHouses);
   });
 
-  socket.on("readyPlayers", (user, readyPlayers) => {
-    console.log("readyPlayers", readyPlayers);
-    io.to(user.id).emit("readyPlayers", readyPlayers);
+  socket.on("PcsStatus", (user, PcsStatus) => {
+    console.log("readyPlayers", PcsStatus);
+    io.to(user.room).emit("PcsStatus", PcsStatus);
   });
 
   // deal with disconnects here later
@@ -107,7 +112,12 @@ io.on("connection", (socket) => {
   //  - dealing with host's disconnection
   //  - dealing with PC's disconnection and joining back - use cookies I guess
   socket.on("disconnect", (reason) => {
-    const user = userLeave(socket.id);
+    let user = getCurrentUser(socket.id);
+    //Tell the host that a user got disconnected
+    if (user) {
+      io.to(user.room).emit("userDisconnect", user);
+    }
+    user = userLeave(socket.id);
     console.log("userDisconnected from room:", user ? user.room : null);
     console.log("reason:", reason);
   });
