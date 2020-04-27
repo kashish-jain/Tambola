@@ -1,16 +1,10 @@
 import * as React from "react";
 import { Component } from "react";
-import { callWin } from "./Player";
+import { callWin, resultObj } from "./Player";
 import Reward from "react-rewards";
 
 // Important: To make the notifications to appear properly and rewards to work properly
 // The parent div should have position: relative
-
-interface resultObj {
-  callWinType: string;
-  calledWinUsername: string;
-  result: string;
-}
 
 interface NotificationProps {
   socket: any;
@@ -55,7 +49,7 @@ class Notification extends Component<NotificationProps, NotificationState> {
       }, 7000);
     });
     this.props.socket.on("resultsForPC", (resultsObj: resultObj) => {
-      console.log("result obj", resultsObj);
+      console.log("result obj for notification", resultsObj);
       this.reward.rewardMe();
       this.setState({ notificationObj: resultsObj });
       ticketBoardContainer?.setAttribute("style", "opacity:0.2;");

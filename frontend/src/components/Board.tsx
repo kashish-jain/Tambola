@@ -1,7 +1,9 @@
 import * as React from "react";
 import { Component } from "react";
 import { BoardLine } from "./BoardLine";
+import { Award } from "./Config";
 import Notification from "./Notification";
+import Prizes from "./Prizes";
 
 //TODO: Fix some logic of duplicate keys for rows generated
 
@@ -13,6 +15,7 @@ import Notification from "./Notification";
 
 interface BoardProps {
   socket: any;
+  awards: Award[];
 }
 
 interface BoardState {
@@ -101,6 +104,9 @@ class Board extends Component<BoardProps, BoardState> {
           {/* This div is for setting the opacity when notification is shown */}
           <div id="ticket-board-container">{this.allLines}</div>
           <Notification socket={this.props.socket} />
+        </div>
+        <div>
+          <Prizes socket={this.props.socket} awards={this.props.awards} />
         </div>
       </>
     );

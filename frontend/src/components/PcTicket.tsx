@@ -7,6 +7,7 @@ import WinningButtons from "./WinningButtons";
 import NewNumber from "./NewNumber";
 import Notification from "./Notification";
 import { Award } from "./Config";
+import Prizes from "./Prizes";
 
 interface PcTicketProps {
   socket: any;
@@ -77,6 +78,7 @@ class PcTicket extends Component<PcTicketProps, PcTicketState> {
           </div>
 
           <Notification socket={this.props.socket} />
+          <Prizes socket={this.props.socket} awards={this.props.awards} />
         </div>
 
         {this.winningButtons}

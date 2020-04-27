@@ -12,6 +12,12 @@ export interface callWin {
   user: { id: string; username: string; room: string };
 }
 
+export interface resultObj {
+  callWinType: string;
+  calledWinUsername: string;
+  result: string;
+}
+
 // TODO: Name entered by user could be empty; This is disastrous; We'll make name a different
 // component soon.
 interface PlayerProps {
@@ -54,7 +60,7 @@ class Player extends Component<PlayerProps, PlayerState> {
     } else if (this.props.type === "Host") {
       mainComponent = (
         <div>
-          <Board socket={this.props.socket} />
+          <Board socket={this.props.socket} awards={this.props.awards} />
           <MultipleHostTicket socket={this.props.socket} />
         </div>
       );
