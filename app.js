@@ -104,7 +104,7 @@ io.on("connection", (socket) => {
 
   socket.on("PcsStatus", (user, PcsStatus) => {
     console.log("readyPlayers", PcsStatus);
-    io.to(user.id).emit("PcsStatus", PcsStatus);
+    io.to(user.room).emit("PcsStatus", PcsStatus);
   });
 
   // deal with disconnects here later
