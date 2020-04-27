@@ -5,6 +5,7 @@ import { BoxState } from "./Box";
 import PcTicket from "./PcTicket";
 import MultipleHostTicket from "./MultipleHostTickets";
 import { Award } from "./Config";
+import Prizes from "./Prizes";
 
 export interface callWin {
   callWinType: string;
@@ -60,12 +61,17 @@ class Player extends Component<PlayerProps, PlayerState> {
     } else if (this.props.type === "Host") {
       mainComponent = (
         <div>
-          <Board socket={this.props.socket} awards={this.props.awards} />
+          <Board socket={this.props.socket} />
           <MultipleHostTicket socket={this.props.socket} />
         </div>
       );
     }
-    return <>{mainComponent}</>;
+    return (
+      <>
+        {mainComponent}
+        <Prizes socket={this.props.socket} awards={this.props.awards} />
+      </>
+    );
   }
 }
 
