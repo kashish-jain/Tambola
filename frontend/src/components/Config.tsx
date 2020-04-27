@@ -31,7 +31,7 @@ interface ConfigProps {
 
 interface ConfigState {
   type: string;
-  name: string | null;
+  name: string;
 
   // Config
   readyHost: boolean;
