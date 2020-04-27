@@ -78,6 +78,10 @@ p.new-number {
   transition: 0.2s;
 }
 
+.checkmark {
+  color: #ffcb36;
+}
+
 .config-table {
   width: 100%;
   border-spacing: 0.75rem;
@@ -122,6 +126,12 @@ p.new-number {
 form > table > thead > tr > th.award-name-heading,
 form > table > thead > tr > th.award-number-heading {
   background-color: #374051;
+}
+
+/* This is for ready-player component's table's heading */
+#root > div > div > table > tr:nth-child(1) > th {
+  background-color: #374051;
+  height: 3rem;
 }
 
 .config-table input {
@@ -195,8 +205,13 @@ form > table > tbody > tr:nth-child(2) > td:nth-child(2) > button.ready {
 }
 
 h1.host-configuration,
-h1.pc-configuration {
+h1.pc-configuration,
+h1.players-in-game {
   margin-left: 0.75rem;
+}
+
+hr {
+  border: 1px solid #374051;
 }
 
 table#pc-config-table {
@@ -217,23 +232,25 @@ label {
   color: #ffcb36;
 }
 
-.ready-player-container {
+.ready-players {
   width: 100%;
-  border-collapse: collapse;
+  border-spacing: 0.75rem;
   table-layout: fixed;
-}
-
-.ready-player-container td,
-.ready-player-container th {
-  border: 1px solid #374051;
-  padding: 8px;
+  font-size: 1.2rem;
   text-align: center;
 }
 
-.ready-player-container th {
-  padding-top: 12px;
-  padding-bottom: 12px;
-  color: #ffcb36;
+/* Ready Players 1st and second column color */
+#root > div > div > table > tr > td:nth-child(1),
+#root > div > div > table > tr > td:nth-child(2) {
+  color: #a89e8a;
+}
+
+/* this will be the color of X (when player not ready)
+  otherwise it will be a checkmark which has its color from its class
+*/
+#root > div > div > table > tr > td:nth-child(3) {
+  color: #ff7c35;
 }
 
 .unchecked {

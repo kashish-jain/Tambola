@@ -266,15 +266,6 @@ class Config extends Component<ConfigProps, ConfigState> {
           <h1 className="pc-configuration">PC Configuration</h1>
           <hr />
           <form onSubmit={this.handleSubmit}>
-            {/* <label>
-              Number of Tickets:
-              <input
-                type="text"
-                value={this.state.numHouses}
-                onChange={this.handleChangePC}
-              />
-            </label>
-            <button type="submit">Ready</button> */}
             <table className="config-table" id="pc-config-table">
               <tbody>
                 <tr>
