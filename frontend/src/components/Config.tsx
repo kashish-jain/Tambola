@@ -247,7 +247,7 @@ class Config extends Component<ConfigProps, ConfigState> {
       mainComponent = (
         <>
           <Snackbar
-            message="Click to copy the join link to your game"
+            message="Copy the join link to your game"
             actionText="Copy URL"
           />
           <h1 className="host-configuration">Host Configuration</h1>
