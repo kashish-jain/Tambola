@@ -3,6 +3,7 @@ import { Component } from "react";
 import ConfigTable from "./ConfigTable";
 import Player from "./Player";
 import ReadyPlayers from "./ReadyPlayers";
+import Snackbar from "./Snackbar";
 
 export interface Award {
   // Actual type information:
@@ -245,6 +246,10 @@ class Config extends Component<ConfigProps, ConfigState> {
       // pass handleSubmit as a prop
       mainComponent = (
         <>
+          <Snackbar
+            message="Click to copy the join link to your game"
+            actionText="Copy URL"
+          />
           <h1 className="host-configuration">Host Configuration</h1>
           <hr />
           <ConfigTable
