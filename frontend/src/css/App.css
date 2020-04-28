@@ -240,8 +240,8 @@ label {
 }
 
 /* Ready Players 1st and second column color */
-#root > div > div > table > tr > td:nth-child(1),
-#root > div > div > table > tr > td:nth-child(2) {
+#root > div > div > table.ready-players > tr > td:nth-child(1),
+#root > div > div > table.ready-players > tr > td:nth-child(2) {
   color: #a89e8a;
 }
 

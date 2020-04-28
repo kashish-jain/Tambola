@@ -76,7 +76,7 @@ class PcTicket extends Component<PcTicketProps, PcTicketState> {
             />
           </div>
 
-          <Notification socket={this.props.socket} />
+          <Notification socket={this.props.socket} type="Pc" />
         </div>
 
         {this.winningButtons}

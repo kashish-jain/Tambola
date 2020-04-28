@@ -69,7 +69,7 @@ class ConfigTable extends React.Component<ConfigTableProps, ConfigTableState> {
             type="button"
             onClick={this.props.handleAddRow}
           >
-            Add Row
+            Add Award
           </button>
           <button className="start-game" type="submit">
             Start Game

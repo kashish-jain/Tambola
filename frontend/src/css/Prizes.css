@@ -1,0 +1,40 @@
+.prizes-container {
+  margin-top: 1rem;
+}
+
+table.prizes {
+  width: 100%;
+  border-spacing: 0.75rem;
+  color: #a89e8a;
+}
+
+table.prizes tr {
+  box-sizing: border-box;
+  text-align: center;
+}
+
+table.prizes td.award {
+  width: 30%;
+}
+
+table.prizes td.left {
+  width: 20%;
+  color: #ffcb36;
+}
+
+table.prizes td.won-by {
+  width: 50%;
+}
+
+table.prizes > tr > th {
+  box-sizing: border-box;
+  font-size: 1.2rem;
+  padding: 0;
+  height: 3rem;
+  background-color: #374051;
+  color: white;
+}
+
+.zero-awards-left {
+  color: #ff7c35;
+}
