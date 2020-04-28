@@ -2,6 +2,7 @@ import * as React from "react";
 import { Component } from "react";
 import { resultObj } from "./Player";
 import { Award } from "./Config";
+import "../css/Prizes.css";
 
 interface PrizesProps {
   socket: any;
@@ -27,7 +28,10 @@ class Prizes extends Component<PrizesProps, PrizesState> {
   }
   componentDidMount() {
     this.props.socket.on("resultsForPC", (resultsObj: resultObj) => {
-      console.log("result obj for updating available prizes", resultsObj);
+      console.log(
+        "result obj for updating available prizes",
+        this.state.whoWonWhat
+      );
       if (resultsObj.result == "Confirm Win!") {
         let currAwards = this.state.remainingAwards;
         let currWhoWonWhat = this.state.whoWonWhat;
@@ -38,7 +42,6 @@ class Prizes extends Component<PrizesProps, PrizesState> {
             --currNumAward;
             currAwards[i].numAward = currNumAward.toString();
 
-            // update whoWonWhat
             if (currWhoWonWhat[resultsObj.callWinType] === undefined) {
               currWhoWonWhat[resultsObj.callWinType] = [
                 resultsObj.calledWinUsername,
@@ -59,25 +62,37 @@ class Prizes extends Component<PrizesProps, PrizesState> {
   }
   render() {
     // use state.remainingAwards to make a table
+    let zeroAwardsLeft = <span className="zero-awards-left">x0</span>;
     let prizeComp = [];
     for (let i = 0; i < this.state.remainingAwards.length; ++i) {
       prizeComp.push(
         <tr key={i}>
-          <td>{this.state.remainingAwards[i].nameAward}</td>
-          <td>x{this.state.remainingAwards[i].numAward}</td>
-          <td>
-            {this.state.whoWonWhat[this.state.remainingAwards[i].nameAward]}
+          <td className="award">{this.state.remainingAwards[i].nameAward}</td>
+          <td className="left">
+            {this.state.remainingAwards[i].numAward === "0"
+              ? zeroAwardsLeft
+              : "x" + this.state.remainingAwards[i].numAward}
+          </td>
+          <td className="won-by">
+            {this.state.whoWonWhat[
+              this.state.remainingAwards[i].nameAward
+            ]?.join(", ")}
           </td>
         </tr>
       );
     }
     return (
-      <table className="ready-player-container">
-        <tr>
-          <th colSpan={2}>Prizes</th>
-        </tr>
-        {prizeComp}
-      </table>
+      <div className="prizes-container">
+        <hr />
+        <table className="prizes">
+          <tr>
+            <th className="award">Award</th>
+            <th className="left">Left</th>
+            <th className="won-by">Won By</th>
+          </tr>
+          {prizeComp}
+        </table>
+      </div>
     );
   }
 }
