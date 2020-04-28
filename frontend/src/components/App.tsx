@@ -1,6 +1,6 @@
 import React from "react";
 import { Component } from "react";
-import "../App.css";
+import "../css/App.css";
 import io from "socket.io-client";
 import Config from "./Config";
 

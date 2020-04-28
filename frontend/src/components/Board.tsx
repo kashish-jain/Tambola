@@ -121,7 +121,7 @@ class Board extends Component<BoardProps, BoardState> {
         <div className="notification-parent">
           {/* This div is for setting the opacity when notification is shown */}
           <div id="ticket-board-container">{allLines}</div>
-          <Notification socket={this.props.socket} />
+          <Notification socket={this.props.socket} type="host" />
         </div>
       </>
     );

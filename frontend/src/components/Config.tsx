@@ -279,7 +279,8 @@ class Config extends Component<ConfigProps, ConfigState> {
                   <td className="number-tickets">Number of Tickets:</td>
                   <td>
                     <input
-                      type="text"
+                      type="number"
+                      max="6"
                       value={this.state.numHouses}
                       onChange={this.handleChangePC}
                     />

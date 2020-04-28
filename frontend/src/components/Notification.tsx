@@ -8,6 +8,7 @@ import Reward from "react-rewards";
 
 interface NotificationProps {
   socket: any;
+  type: string;
 }
 
 interface NotificationState {
@@ -44,18 +45,24 @@ class Notification extends Component<NotificationProps, NotificationState> {
       this.reward.rewardMe();
       this.setState({ notificationObj: callWinObj });
       ticketBoardContainer?.setAttribute("style", "opacity:0.2;");
-      setTimeout(() => {
-        this.deleteNotification();
-      }, 7000);
+
+      // Notification gets deleted only at host's screen because he has to match the ticket with board
+      if (this.props.type == "host") {
+        setTimeout(() => {
+          this.deleteNotification();
+        }, 5000);
+      }
     });
     this.props.socket.on("resultsForPC", (resultsObj: resultObj) => {
       console.log("result obj for notification", resultsObj);
       this.reward.rewardMe();
       this.setState({ notificationObj: resultsObj });
       ticketBoardContainer?.setAttribute("style", "opacity:0.2;");
+
+      // Result notification gets deleted after 5seconds on everyone's screen
       setTimeout(() => {
         this.deleteNotification();
-      }, 7000);
+      }, 5000);
     });
   }
 
