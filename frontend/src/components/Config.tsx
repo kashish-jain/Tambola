@@ -250,7 +250,7 @@ class Config extends Component<ConfigProps, ConfigState> {
             message="Copy the join link to your game"
             actionText="Copy URL"
           />
-          <h1 className="host-configuration">Host Configuration</h1>
+          <h1 className="host-configuration">Game Setup</h1>
           <hr />
           <ConfigTable
             awards={this.state.awards}
