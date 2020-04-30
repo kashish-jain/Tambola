@@ -7,6 +7,10 @@ body {
   overflow-x: hidden;
 }
 
+.board-component-main {
+  text-align: center;
+}
+
 .box {
   position: relative;
   display: inline-block;
@@ -65,11 +69,16 @@ button {
   cursor: pointer;
 }
 
-p.new-number {
+p.new-number-host {
   font-weight: bolder;
-  font-size: 5rem;
+  font-size: 4rem;
   color: #ffcb36;
-  margin: 1rem;
+  text-align: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin: 0;
 }
 
 .checked {
@@ -150,6 +159,16 @@ form > table > thead > tr > th.award-number-heading {
 .config-table > tbody > tr > td {
   font-size: 1.2rem;
   color: #a89e8a;
+}
+
+div.new-number-host-container {
+  display: inline-block;
+  width: 6rem;
+  height: 6rem;
+  border: 1px solid #ffcb36;
+  border-radius: 10px;
+  margin: 1rem;
+  position: relative;
 }
 
 div.notification-container {
