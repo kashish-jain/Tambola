@@ -1,5 +1,6 @@
 import * as React from "react";
 import { Component } from "react";
+import "../css/Snackbar.css";
 
 interface SnackbarProps {
   message: string; // "Click to copy the join link to your game"
@@ -41,20 +42,9 @@ class Snackbar extends Component<SnackbarProps, SnackbarState> {
     }
     return (
       <div className={animation}>
-        <div
-          style={{
-            position: "fixed",
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-around",
-            left: "0.75rem",
-            right: "0.75rem",
-            borderRadius: "10px",
-            background: "#ffcb36",
-          }}
-        >
-          <p style={{ color: "#000000" }}>{this.props.message}</p>
-          <button style={{ width: "30%" }} onClick={this.handleCopyUrl}>
+        <div className="snackbar">
+          <p className="snackbar-text">{this.props.message}</p>
+          <button className="snackbar-action" onClick={this.handleCopyUrl}>
             {this.props.actionText}
           </button>
         </div>
