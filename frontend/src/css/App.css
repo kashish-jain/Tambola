@@ -197,6 +197,10 @@ div.notification .sub {
   opacity: 1;
 }
 
+div.pc-ticket {
+  text-align: center;
+}
+
 /* This is just for pc config to align it with "pc configuration" heading */
 form > table#pc-config-table > tbody > tr > td:nth-child(1) {
   text-align: left;
@@ -293,9 +297,11 @@ label {
 
 .winning-buttons {
   display: flex;
-  margin: 1rem 0;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  margin-top: 0.5rem;
 }
 
 .winning-buttons > button {
-  margin: 0 0.5rem;
+  margin-top: 0.5rem;
 }

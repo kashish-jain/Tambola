@@ -98,7 +98,7 @@ class Notification extends Component<NotificationProps, NotificationState> {
           type="confetti"
           config={{
             elementCount: 100,
-            angle: 60,
+            angle: 90,
             spread: 90,
             decay: 0.95,
             lifetime: 150,
