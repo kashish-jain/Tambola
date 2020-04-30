@@ -33,23 +33,28 @@ class Snackbar extends Component<SnackbarProps, SnackbarState> {
   };
 
   render() {
+    let animation;
     if (this.state.hidden === true) {
-      return <></>;
+      animation = "animated bounceOutUp";
+    } else {
+      animation = "animated bounceInDown";
     }
     return (
-      <div>
+      <div className={animation}>
         <div
           style={{
             position: "fixed",
             display: "flex",
+            alignItems: "center",
             justifyContent: "space-around",
             left: "0.75rem",
             right: "0.75rem",
+            borderRadius: "10px",
             background: "#ffcb36",
           }}
         >
           <p style={{ color: "#000000" }}>{this.props.message}</p>
-          <button style={{ width: "25%" }} onClick={this.handleCopyUrl}>
+          <button style={{ width: "30%" }} onClick={this.handleCopyUrl}>
             {this.props.actionText}
           </button>
         </div>
