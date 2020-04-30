@@ -209,6 +209,20 @@ h1.players-in-game {
   margin-left: 0.75rem;
 }
 
+.game-ended {
+  opacity: 0.2;
+  pointer-events: none;
+}
+
+div.game-ended-notification-container {
+  text-align: center;
+  color: #ffcb36;
+}
+
+div.game-ended-notification-container > p {
+  font-size: 3rem;
+}
+
 hr {
   border: 1px solid #374051;
 }

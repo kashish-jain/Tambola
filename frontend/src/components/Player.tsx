@@ -33,7 +33,9 @@ interface PlayerProps {
   numHouses: number;
 }
 
-interface PlayerState {}
+interface PlayerState {
+  hasGameEnded: boolean;
+}
 
 class Player extends Component<PlayerProps, PlayerState> {
   // The declarations are just for Host type
@@ -43,14 +45,33 @@ class Player extends Component<PlayerProps, PlayerState> {
 
   constructor(props: PlayerProps) {
     super(props);
+    this.state = {
+      hasGameEnded: false,
+    };
   }
 
+  // This function will be called if game ends
+  endGame = () => {
+    this.setState({ hasGameEnded: true });
+  };
+
   render() {
-    // ticket or board depending if host or pc
     let mainComponent = null;
+    let gameEndedDiv = null;
+    let gameEndedCssClass = "";
+    if (this.state.hasGameEnded) {
+      // This css class changes the opacity and disable all the clicks.
+      // This is different from how it is handled in Notifications component
+      gameEndedCssClass = "game-ended";
+      gameEndedDiv = (
+        <div className="game-ended-notification-container">
+          <p className="main animated rubberBand">Game Over</p>
+        </div>
+      );
+    }
     if (this.props.type === "PC") {
       mainComponent = (
-        <div>
+        <div className={gameEndedCssClass}>
           <PcTicket
             socket={this.props.socket}
             numHouses={this.props.numHouses}
@@ -60,17 +81,22 @@ class Player extends Component<PlayerProps, PlayerState> {
       );
     } else if (this.props.type === "Host") {
       mainComponent = (
-        <div>
+        <div className={gameEndedCssClass}>
           <Board socket={this.props.socket} />
           <MultipleHostTicket socket={this.props.socket} />
         </div>
       );
     }
     return (
-      <>
+      <div>
         {mainComponent}
-        <Prizes socket={this.props.socket} awards={this.props.awards} />
-      </>
+        {gameEndedDiv}
+        <Prizes
+          socket={this.props.socket}
+          awards={this.props.awards}
+          endGame={this.endGame}
+        />
+      </div>
     );
   }
 }
