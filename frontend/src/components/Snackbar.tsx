@@ -37,16 +37,14 @@ class Snackbar extends Component<SnackbarProps, SnackbarState> {
       return <></>;
     }
     return (
-      <>
+      <div>
         <div
           style={{
-            position: "absolute",
+            position: "fixed",
             display: "flex",
             justifyContent: "space-around",
-            marginLeft: "0.75rem",
-            marginTop: "0.50rem",
-            top: "1%",
-            width: "90%",
+            left: "0.75rem",
+            right: "0.75rem",
             background: "#ffcb36",
           }}
         >
@@ -55,7 +53,7 @@ class Snackbar extends Component<SnackbarProps, SnackbarState> {
             {this.props.actionText}
           </button>
         </div>
-      </>
+      </div>
     );
   }
 }
