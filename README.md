@@ -1,2 +1,2 @@
 To run Development Environment
-npm run start
+npm run dev-start
