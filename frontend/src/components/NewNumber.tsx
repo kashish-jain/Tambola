@@ -28,12 +28,18 @@ class NewNumber extends Component<NewNumberProps, NewNumberState> {
     );
   }
   render() {
-    let newNumberComponent =
-      this.state.newNumber == 0 ? null : (
-        <p className="new-number-player">
-          New Number <span>{this.state.newNumber}</span>
-        </p>
-      );
+    let newNumberComponent = (
+      <>
+        <p className="new-number-player">New Number </p>
+        <div>
+          <div className="new-number-player-container">
+            <p className="only-new-number-player">
+              {this.state.newNumber ? this.state.newNumber : ""}
+            </p>
+          </div>
+        </div>
+      </>
+    );
     return newNumberComponent;
   }
 }

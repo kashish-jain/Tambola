@@ -7,6 +7,10 @@ body {
   overflow-x: hidden;
 }
 
+.board-component-main {
+  text-align: center;
+}
+
 .box {
   position: relative;
   display: inline-block;
@@ -65,11 +69,24 @@ button {
   cursor: pointer;
 }
 
-p.new-number {
+p.new-number-host,
+p.only-new-number-player {
   font-weight: bolder;
-  font-size: 5rem;
   color: #ffcb36;
-  margin: 1rem;
+  text-align: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  margin: 0;
+}
+
+p.new-number-host {
+  font-size: 4rem;
+}
+
+p.only-new-number-player {
+  font-size: 3rem;
 }
 
 .checked {
@@ -152,6 +169,30 @@ form > table > thead > tr > th.award-number-heading {
   color: #a89e8a;
 }
 
+div.host-ticket {
+  margin-top: 1rem;
+  text-align: center;
+}
+
+div.new-number-host-container,
+div.new-number-player-container {
+  display: inline-block;
+  border: 1px solid #ffcb36;
+  border-radius: 10px;
+  margin: 1rem;
+  position: relative;
+}
+
+div.new-number-host-container {
+  width: 6rem;
+  height: 6rem;
+}
+
+div.new-number-player-container {
+  width: 5rem;
+  height: 5rem;
+}
+
 div.notification-container {
   position: absolute;
   height: 100%;
@@ -162,20 +203,31 @@ div.notification-container {
   color: #ffcb36;
 }
 
+div.notification {
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+  margin: 0;
+}
+
 div.notification-parent {
   position: relative;
 }
 
 div.notification .main {
-  font-size: 4rem;
-  margin-bottom: 1rem;
+  font-size: 3rem;
+  margin: 0 0 1rem 0;
   opacity: 1;
 }
 
 div.notification .sub {
   font-size: 2rem;
-  margin-top: 0;
+  margin: 0;
   opacity: 1;
+}
+
+div.pc-ticket {
+  text-align: center;
 }
 
 /* This is just for pc config to align it with "pc configuration" heading */
@@ -209,6 +261,31 @@ h1.players-in-game {
   margin-left: 0.75rem;
 }
 
+.host-ticket > p.win-call-type {
+  font-size: 2rem;
+  color: #ffcb36;
+  margin: 0;
+}
+
+.host-ticket > p.player-name {
+  color: #a89e8a;
+  margin-top: 0;
+}
+
+.game-ended {
+  opacity: 0.2;
+  pointer-events: none;
+}
+
+div.game-ended-notification-container {
+  text-align: center;
+  color: #ffcb36;
+}
+
+div.game-ended-notification-container > p {
+  font-size: 3rem;
+}
+
 hr {
   border: 1px solid #374051;
 }
@@ -223,12 +300,7 @@ label {
 
 .new-number-player {
   font-size: 3rem;
-  margin: 1rem 0rem;
-}
-
-.new-number-player > span {
-  font-size: 3rem;
-  color: #ffcb36;
+  margin: 1rem 0 0 0;
 }
 .no-click {
   pointer-events: none;
@@ -261,11 +333,13 @@ label {
   transition: 0.2s;
 }
 
-.winning-buttons {
+.winning-buttons,
+.result-buttons {
   display: flex;
-  margin: 1rem 0;
+  justify-content: space-around;
+  flex-wrap: wrap;
 }
 
 .winning-buttons > button {
-  margin: 0 0.5rem;
+  margin-top: 0.5rem;
 }
