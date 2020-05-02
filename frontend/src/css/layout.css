@@ -1,0 +1,43 @@
+.main-container {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+div.prizes-container {
+  width: 100%;
+}
+
+div.everything-but-prizes {
+  width: 100%;
+}
+
+p.award-status {
+  display: none;
+}
+
+@media only screen and (min-width: 768px) {
+  div.config-container {
+    width: 50%;
+    margin: auto;
+  }
+
+  div.prizes-container,
+  div.everything-but-prizes {
+    box-sizing: border-box;
+  }
+  div.prizes-container {
+    width: 40%;
+    border-left: 1px solid #374051;
+    margin-top: 0;
+  }
+
+  div.everything-but-prizes {
+    width: 60%;
+    border-right: 1px solid #374051;
+  }
+  p.award-status {
+    display: block;
+    font-size: 3rem;
+    margin: 1rem 0 0;
+  }
+}

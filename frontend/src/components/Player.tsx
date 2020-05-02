@@ -60,40 +60,41 @@ class Player extends Component<PlayerProps, PlayerState> {
 
   render() {
     let mainComponent = null;
-    let gameEndedDiv = null;
+    let gameOverP = null;
     let gameEndedCssClass = "";
     if (this.state.hasGameEnded) {
       // This css class changes the opacity and disable all the clicks.
       // This is different from how it is handled in Notifications component
       gameEndedCssClass = "game-ended no-click";
-      gameEndedDiv = (
-        <div className="game-ended-notification-container">
-          <p className="main animated rubberBand">Game Over</p>
-        </div>
-      );
+      gameOverP = <p className="game-over animated rubberBand">Game Over</p>;
     }
     if (this.props.type === "PC") {
       mainComponent = (
-        <div className={gameEndedCssClass}>
-          <PcTicket
-            socket={this.props.socket}
-            numHouses={this.props.numHouses}
-            awards={this.props.awards}
-          />
+        <div className="everything-but-prizes">
+          <div className={gameEndedCssClass}>
+            <PcTicket
+              socket={this.props.socket}
+              numHouses={this.props.numHouses}
+              awards={this.props.awards}
+            />
+          </div>
+          {gameOverP}
         </div>
       );
     } else if (this.props.type === "Host") {
       mainComponent = (
-        <div className={gameEndedCssClass}>
-          <Board socket={this.props.socket} />
-          <MultipleHostTicket socket={this.props.socket} />
+        <div className="everything-but-prizes">
+          <div className={gameEndedCssClass}>
+            <Board socket={this.props.socket} />
+            <MultipleHostTicket socket={this.props.socket} />
+          </div>
+          {gameOverP}
         </div>
       );
     }
     return (
-      <div>
+      <div className="main-container">
         {mainComponent}
-        {gameEndedDiv}
         <Prizes
           socket={this.props.socket}
           awards={this.props.awards}

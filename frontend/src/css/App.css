@@ -1,4 +1,5 @@
 @import "~animate.css/animate.min.css";
+@import "./layout.css";
 
 body {
   background-color: #0e141f;
@@ -146,7 +147,7 @@ form > table > thead > tr > th.award-number-heading {
 }
 
 /* This is for ready-player component's table's heading */
-#root > div > div > table > tr:nth-child(1) > th {
+#root > div > div > div > table > tr:nth-child(1) > th {
   background-color: #374051;
   height: 3rem;
 }
@@ -172,6 +173,12 @@ form > table > thead > tr > th.award-number-heading {
 div.host-ticket {
   margin-top: 1rem;
   text-align: center;
+}
+
+div.line,
+div.board-line {
+  display: flex;
+  justify-content: center;
 }
 
 div.new-number-host-container,
@@ -257,7 +264,8 @@ form > table > tbody > tr:nth-child(2) > td:nth-child(2) > button.ready {
 
 h1.host-configuration,
 h1.pc-configuration,
-h1.players-in-game {
+h1.players-in-game,
+p.award-status {
   margin-left: 0.75rem;
 }
 
@@ -274,16 +282,6 @@ h1.players-in-game {
 
 .game-ended {
   opacity: 0.2;
-  pointer-events: none;
-}
-
-div.game-ended-notification-container {
-  text-align: center;
-  color: #ffcb36;
-}
-
-div.game-ended-notification-container > p {
-  font-size: 3rem;
 }
 
 hr {
@@ -306,6 +304,16 @@ label {
   pointer-events: none;
 }
 
+p.game-over {
+  font-size: 3rem;
+  font-weight: bolder;
+  color: #ffcb36;
+  text-align: center;
+  position: relative;
+  top: -50%;
+  transform: translateY(50%);
+}
+
 .ready-players {
   width: 100%;
   border-spacing: 0.75rem;
@@ -315,15 +323,15 @@ label {
 }
 
 /* Ready Players 1st and second column color */
-#root > div > div > table.ready-players > tr > td:nth-child(1),
-#root > div > div > table.ready-players > tr > td:nth-child(2) {
+#root > div > div > div > table.ready-players > tr > td:nth-child(1),
+#root > div > div > div > table.ready-players > tr > td:nth-child(2) {
   color: #a89e8a;
 }
 
 /* this will be the color of X (when player not ready)
   otherwise it will be a checkmark which has its color from its class
 */
-#root > div > div > table > tr > td:nth-child(3) {
+#root > div > div > div > table.ready-players > tr > td:nth-child(3) {
   color: #ff7c35;
 }
 
