@@ -284,15 +284,6 @@ p.award-status {
   opacity: 0.2;
 }
 
-div.game-ended-notification-container {
-  text-align: center;
-  color: #ffcb36;
-}
-
-div.game-ended-notification-container > p {
-  font-size: 3rem;
-}
-
 hr {
   border: 1px solid #374051;
 }
@@ -313,6 +304,16 @@ label {
   pointer-events: none;
 }
 
+p.game-over {
+  font-size: 3rem;
+  font-weight: bolder;
+  color: #ffcb36;
+  text-align: center;
+  position: relative;
+  top: -50%;
+  transform: translateY(50%);
+}
+
 .ready-players {
   width: 100%;
   border-spacing: 0.75rem;
@@ -330,7 +331,7 @@ label {
 /* this will be the color of X (when player not ready)
   otherwise it will be a checkmark which has its color from its class
 */
-#root > div > div > div > table > tr > td:nth-child(3) {
+#root > div > div > div > table.ready-players > tr > td:nth-child(3) {
   color: #ff7c35;
 }
 
