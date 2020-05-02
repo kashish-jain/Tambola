@@ -268,7 +268,7 @@ class Config extends Component<ConfigProps, ConfigState> {
       //    Number of Tickets
       mainComponent = (
         <div className="config-container">
-          <h1 className="pc-configuration">PC Configuration</h1>
+          <h1 className="pc-configuration">Player Setup</h1>
           <hr />
           <form onSubmit={this.handleSubmit}>
             <table className="config-table" id="pc-config-table">
