@@ -70,7 +70,7 @@ class Player extends Component<PlayerProps, PlayerState> {
     }
     if (this.props.type === "PC") {
       mainComponent = (
-        <div className="everything-but-prices">
+        <div className="everything-but-prizes">
           <div className={gameEndedCssClass}>
             <PcTicket
               socket={this.props.socket}
@@ -83,7 +83,7 @@ class Player extends Component<PlayerProps, PlayerState> {
       );
     } else if (this.props.type === "Host") {
       mainComponent = (
-        <div className="everything-but-prices">
+        <div className="everything-but-prizes">
           <div className={gameEndedCssClass}>
             <Board socket={this.props.socket} />
             <MultipleHostTicket socket={this.props.socket} />

@@ -7,7 +7,7 @@ div.prizes-container {
   width: 100%;
 }
 
-div.everything-but-prices {
+div.everything-but-prizes {
   width: 100%;
 }
 
@@ -22,7 +22,7 @@ p.award-status {
   }
 
   div.prizes-container,
-  div.everything-but-prices {
+  div.everything-but-prizes {
     box-sizing: border-box;
   }
   div.prizes-container {
@@ -31,7 +31,7 @@ p.award-status {
     margin-top: 0;
   }
 
-  div.everything-but-prices {
+  div.everything-but-prizes {
     width: 60%;
     border-right: 1px solid #374051;
   }
