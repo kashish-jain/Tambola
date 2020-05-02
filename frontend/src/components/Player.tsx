@@ -53,6 +53,9 @@ class Player extends Component<PlayerProps, PlayerState> {
   // This function will be called if game ends
   endGame = () => {
     this.setState({ hasGameEnded: true });
+    document
+      .getElementsByClassName("prizes-container")[0]
+      .scrollIntoView({ behavior: "smooth", block: "center" });
   };
 
   render() {

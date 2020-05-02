@@ -117,7 +117,7 @@ class Prizes extends Component<PrizesProps, PrizesState> {
             angle: 75,
             spread: 40,
             decay: 0.95,
-            lifetime: 300,
+            lifetime: 100,
           }}
         ></Reward>
       </div>
