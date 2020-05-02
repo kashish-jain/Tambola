@@ -34,10 +34,12 @@ class HostTicket extends Component<HostTicketProps, HostTicketState> {
       <div>
         <br></br>
         <p>{this.props.callWinObj.user.username}'s Ticket</p>
-        <Ticket
-          houses={this.props.callWinObj.houses}
-          numHouses={this.props.callWinObj.houses.length}
-        />
+        <div className="no-click">
+          <Ticket
+            houses={this.props.callWinObj.houses}
+            numHouses={this.props.callWinObj.houses.length}
+          />
+        </div>
         <p>Win Call: {this.props.callWinObj.callWinType}</p>
         <ResultButtons
           key={0}
