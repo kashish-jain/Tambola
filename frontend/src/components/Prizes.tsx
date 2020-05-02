@@ -63,9 +63,10 @@ class Prizes extends Component<PrizesProps, PrizesState> {
         if (!anyAwardsLeft) {
           this.props.endGame();
           // Keep rewarding the player after every 2 sec
-          setInterval(() => {
+          /*setInterval(() => {
             this.reward.rewardMe();
-          }, 2000);
+          }, 2000); TESTING*/
+          this.reward.rewardMe();
         }
         this.setState({
           remainingAwards: currAwards,

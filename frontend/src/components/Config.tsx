@@ -83,7 +83,11 @@ class Config extends Component<ConfigProps, ConfigState> {
     };
   }
 
+  defaultAwards: Award[] = [];
   componentDidMount() {
+    // store default awards
+    this.defaultAwards = this.state.awards;
+
     // Extracting roomID from the URL
     let roomID = window.location.pathname.substr(
       window.location.pathname.lastIndexOf("/") + 1
@@ -154,6 +158,7 @@ class Config extends Component<ConfigProps, ConfigState> {
 
     // server sending awards from Host as Host is ready
     this.props.socket.on("HostConfigDone", (awards: any) => {
+      this.defaultAwards = this.state.awards;
       this.setState({
         awards: awards,
         readyHost: true,
@@ -168,11 +173,18 @@ class Config extends Component<ConfigProps, ConfigState> {
     // listener for Restart Game
     this.props.socket.on("RestartGame", () => {
       console.log("RestartGame");
-      let myType = this.state.type;
+      let prevStatePcsStatus = this.state.PcsStatus;
+
+      // updating data for Ready table on config screen
+      for (let i = 0; i < prevStatePcsStatus.length; ++i) {
+        prevStatePcsStatus[i].ready = false;
+      }
 
       this.setState({
         readyClient: false,
         readyHost: false,
+        PcsStatus: prevStatePcsStatus,
+        awards: this.defaultAwards, // setting awards to default awards from prev game
       });
     });
   }
