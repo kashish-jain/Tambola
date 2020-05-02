@@ -47,6 +47,7 @@ class Ticket extends Component<TicketProps, TicketState> {
             houseNumbers={this.props.houses[i]}
             houseIndex={i}
           />
+          <br />
         </>
       );
     }

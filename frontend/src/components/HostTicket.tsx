@@ -31,14 +31,16 @@ class HostTicket extends Component<HostTicketProps, HostTicketState> {
 
   render() {
     let playerTicket = (
-      <div>
+      <div className="host-ticket">
         <br></br>
-        <p>{this.props.callWinObj.user.username}'s Ticket</p>
+        <p className="win-call-type">{this.props.callWinObj.callWinType}</p>
+        <p className="player-name">
+          {this.props.callWinObj.user.username}'s Ticket
+        </p>
         <Ticket
           houses={this.props.callWinObj.houses}
           numHouses={this.props.callWinObj.houses.length}
         />
-        <p>Win Call: {this.props.callWinObj.callWinType}</p>
         <ResultButtons
           key={0}
           win={"Confirm Win!"}
