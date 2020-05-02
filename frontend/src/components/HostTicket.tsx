@@ -37,10 +37,12 @@ class HostTicket extends Component<HostTicketProps, HostTicketState> {
         <p className="player-name">
           {this.props.callWinObj.user.username}'s Ticket
         </p>
-        <Ticket
-          houses={this.props.callWinObj.houses}
-          numHouses={this.props.callWinObj.houses.length}
-        />
+        <div className="no-click">
+          <Ticket
+            houses={this.props.callWinObj.houses}
+            numHouses={this.props.callWinObj.houses.length}
+          />
+        </div>
         <ResultButtons
           key={0}
           win={"Confirm Win!"}

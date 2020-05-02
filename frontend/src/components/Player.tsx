@@ -65,7 +65,7 @@ class Player extends Component<PlayerProps, PlayerState> {
     if (this.state.hasGameEnded) {
       // This css class changes the opacity and disable all the clicks.
       // This is different from how it is handled in Notifications component
-      gameEndedCssClass = "game-ended";
+      gameEndedCssClass = "game-ended no-click";
       gameEndedDiv = (
         <div className="game-ended-notification-container">
           <p className="main animated rubberBand">Game Over</p>
