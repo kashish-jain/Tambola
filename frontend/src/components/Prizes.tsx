@@ -43,7 +43,7 @@ class Prizes extends Component<PrizesProps, PrizesState> {
         for (let i = 0; i < currAwards.length; ++i) {
           if (currAwards[i].nameAward == resultsObj.callWinType) {
             // decrement currAwards[i].numAward
-            let currNumAward = +currAwards[i].numAward;
+            let currNumAward = parseInt(currAwards[i].numAward);
             --currNumAward;
             currAwards[i].numAward = currNumAward.toString();
 
