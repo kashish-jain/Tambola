@@ -64,7 +64,7 @@ class PcTicket extends Component<PcTicketProps, PcTicketState> {
 
   render() {
     return (
-      <>
+      <div className="pc-ticket">
         <NewNumber socket={this.props.socket} />
         <div className="notification-parent">
           {/* This div is for setting the opacity when notification is shown */}
@@ -80,7 +80,7 @@ class PcTicket extends Component<PcTicketProps, PcTicketState> {
         </div>
 
         {this.winningButtons}
-      </>
+      </div>
     );
   }
 }

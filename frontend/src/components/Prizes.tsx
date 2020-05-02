@@ -2,11 +2,13 @@ import * as React from "react";
 import { Component } from "react";
 import { resultObj } from "./Player";
 import { Award } from "./Config";
+import Reward from "react-rewards";
 import "../css/Prizes.css";
 
 interface PrizesProps {
   socket: any;
   awards: Award[];
+  endGame: () => void;
 }
 
 interface PrizesState {
@@ -19,26 +21,29 @@ interface PrizesState {
   whoWonWhat: {
     [nameAward: string]: string[];
   };
+  hasGameEnded: boolean;
 }
 
 class Prizes extends Component<PrizesProps, PrizesState> {
+  reward: any;
   constructor(props: PrizesProps) {
     super(props);
-    this.state = { remainingAwards: this.props.awards, whoWonWhat: {} };
+    this.state = {
+      remainingAwards: this.props.awards,
+      whoWonWhat: {},
+      hasGameEnded: false,
+    };
   }
   componentDidMount() {
     this.props.socket.on("resultsForPC", (resultsObj: resultObj) => {
-      console.log(
-        "result obj for updating available prizes",
-        this.state.whoWonWhat
-      );
       if (resultsObj.result == "Confirm Win!") {
         let currAwards = this.state.remainingAwards;
         let currWhoWonWhat = this.state.whoWonWhat;
+        let anyAwardsLeft: boolean = false;
         for (let i = 0; i < currAwards.length; ++i) {
           if (currAwards[i].nameAward == resultsObj.callWinType) {
             // decrement currAwards[i].numAward
-            let currNumAward = +currAwards[i].numAward;
+            let currNumAward = parseInt(currAwards[i].numAward);
             --currNumAward;
             currAwards[i].numAward = currNumAward.toString();
 
@@ -52,10 +57,20 @@ class Prizes extends Component<PrizesProps, PrizesState> {
               );
             }
           }
+          // Check if anyAwardsLeft, if not then game has ended
+          if (parseInt(currAwards[i].numAward) > 0) anyAwardsLeft = true;
+        }
+        if (!anyAwardsLeft) {
+          this.props.endGame();
+          // Keep rewarding the player after every 2 sec
+          setInterval(() => {
+            this.reward.rewardMe();
+          }, 2000);
         }
         this.setState({
           remainingAwards: currAwards,
           whoWonWhat: currWhoWonWhat,
+          hasGameEnded: !anyAwardsLeft,
         });
       }
     });
@@ -92,6 +107,19 @@ class Prizes extends Component<PrizesProps, PrizesState> {
           </tr>
           {prizeComp}
         </table>
+        <Reward
+          ref={(ref: any) => {
+            this.reward = ref;
+          }}
+          type="confetti"
+          config={{
+            elementCount: 50,
+            angle: 75,
+            spread: 40,
+            decay: 0.95,
+            lifetime: 100,
+          }}
+        ></Reward>
       </div>
     );
   }

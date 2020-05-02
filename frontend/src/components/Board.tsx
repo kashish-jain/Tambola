@@ -104,7 +104,7 @@ class Board extends Component<BoardProps, BoardState> {
     let newNumber = 0;
     let allLines = generateAllLines(this.state.allBoardNumbers);
     return (
-      <>
+      <div className="board-component-main">
         <button
           className={"new-number"}
           onClick={() => {
@@ -115,15 +115,21 @@ class Board extends Component<BoardProps, BoardState> {
         >
           Generate New
         </button>
-        <p className={"new-number"}>
-          {this.state.shuffledBoardNumbers[this.state.goneNumbers - 1]}
-        </p>
+        <div>
+          <div className="new-number-host-container">
+            <p className={"new-number-host"}>
+              {this.state.shuffledBoardNumbers[this.state.goneNumbers - 1]
+                ? this.state.shuffledBoardNumbers[this.state.goneNumbers - 1]
+                : ""}
+            </p>
+          </div>
+        </div>
         <div className="notification-parent">
           {/* This div is for setting the opacity when notification is shown */}
           <div id="ticket-board-container">{allLines}</div>
           <Notification socket={this.props.socket} type="host" />
         </div>
-      </>
+      </div>
     );
   }
 }
