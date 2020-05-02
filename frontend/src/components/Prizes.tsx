@@ -64,9 +64,9 @@ class Prizes extends Component<PrizesProps, PrizesState> {
           this.props.endGame();
           // Keep rewarding the player after every 2 sec
           /*setInterval(() => {
-            this.reward.rewardMe();
+            // this.reward.rewardMe();
           }, 2000); TESTING*/
-          this.reward.rewardMe();
+          // this.reward.rewardMe();
         }
         this.setState({
           remainingAwards: currAwards,
@@ -108,19 +108,6 @@ class Prizes extends Component<PrizesProps, PrizesState> {
           </tr>
           {prizeComp}
         </table>
-        <Reward
-          ref={(ref: any) => {
-            this.reward = ref;
-          }}
-          type="confetti"
-          config={{
-            elementCount: 50,
-            angle: 75,
-            spread: 40,
-            decay: 0.95,
-            lifetime: 100,
-          }}
-        ></Reward>
       </div>
     );
   }

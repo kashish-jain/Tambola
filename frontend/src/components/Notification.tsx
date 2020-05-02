@@ -42,7 +42,7 @@ class Notification extends Component<NotificationProps, NotificationState> {
       "ticket-board-container"
     );
     this.props.socket.on("callWinToHost", (callWinObj: callWin) => {
-      this.reward.rewardMe();
+      // this.reward.rewardMe();
       this.setState({ notificationObj: callWinObj });
       ticketBoardContainer?.setAttribute("style", "opacity:0.2;");
 
@@ -54,7 +54,7 @@ class Notification extends Component<NotificationProps, NotificationState> {
       }
     });
     this.props.socket.on("resultsForPC", (resultsObj: resultObj) => {
-      this.reward.rewardMe();
+      // this.reward.rewardMe();
       this.setState({ notificationObj: resultsObj });
       ticketBoardContainer?.setAttribute("style", "opacity:0.2;");
 
@@ -87,24 +87,7 @@ class Notification extends Component<NotificationProps, NotificationState> {
         </div>
       </div>
     ) : null;
-    return (
-      <>
-        {notificationComp}
-        <Reward
-          ref={(ref: any) => {
-            this.reward = ref;
-          }}
-          type="confetti"
-          config={{
-            elementCount: 100,
-            angle: 90,
-            spread: 90,
-            decay: 0.95,
-            lifetime: 150,
-          }}
-        ></Reward>
-      </>
-    );
+    return <>{notificationComp}</>;
   }
 }
 
