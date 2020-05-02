@@ -245,7 +245,7 @@ class Config extends Component<ConfigProps, ConfigState> {
       //    Choosing Awards
       // pass handleSubmit as a prop
       mainComponent = (
-        <>
+        <div className="config-container">
           <Snackbar
             message="Copy the join link to your game"
             actionText="Copy URL"
@@ -261,15 +261,13 @@ class Config extends Component<ConfigProps, ConfigState> {
             handleSubmit={this.handleSubmit}
           />
           <ReadyPlayers players={this.state.PcsStatus} />
-        </>
+        </div>
       );
     } else if (this.state.type == "PC") {
-      // TODO: ADD A MESSAGE FOR SAYING HOST NOT READY
-
       // form for PC configuration
       //    Number of Tickets
       mainComponent = (
-        <>
+        <div className="config-container">
           <h1 className="pc-configuration">PC Configuration</h1>
           <hr />
           <form onSubmit={this.handleSubmit}>
@@ -298,7 +296,7 @@ class Config extends Component<ConfigProps, ConfigState> {
             </table>
           </form>
           <ReadyPlayers players={this.state.PcsStatus} />
-        </>
+        </div>
       );
     }
     return <>{mainComponent}</>;

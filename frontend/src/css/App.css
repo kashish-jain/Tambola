@@ -147,7 +147,7 @@ form > table > thead > tr > th.award-number-heading {
 }
 
 /* This is for ready-player component's table's heading */
-#root > div > div > table > tr:nth-child(1) > th {
+#root > div > div > div > table > tr:nth-child(1) > th {
   background-color: #374051;
   height: 3rem;
 }
@@ -322,15 +322,15 @@ label {
 }
 
 /* Ready Players 1st and second column color */
-#root > div > div > table.ready-players > tr > td:nth-child(1),
-#root > div > div > table.ready-players > tr > td:nth-child(2) {
+#root > div > div > div > table.ready-players > tr > td:nth-child(1),
+#root > div > div > div > table.ready-players > tr > td:nth-child(2) {
   color: #a89e8a;
 }
 
 /* this will be the color of X (when player not ready)
   otherwise it will be a checkmark which has its color from its class
 */
-#root > div > div > table > tr > td:nth-child(3) {
+#root > div > div > div > table > tr > td:nth-child(3) {
   color: #ff7c35;
 }
 
