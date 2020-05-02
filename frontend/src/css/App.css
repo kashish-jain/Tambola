@@ -1,4 +1,5 @@
 @import "~animate.css/animate.min.css";
+@import "./layout.css";
 
 body {
   background-color: #0e141f;
@@ -174,6 +175,12 @@ div.host-ticket {
   text-align: center;
 }
 
+div.line,
+div.board-line {
+  display: flex;
+  justify-content: center;
+}
+
 div.new-number-host-container,
 div.new-number-player-container {
   display: inline-block;
@@ -257,7 +264,8 @@ form > table > tbody > tr:nth-child(2) > td:nth-child(2) > button.ready {
 
 h1.host-configuration,
 h1.pc-configuration,
-h1.players-in-game {
+h1.players-in-game,
+p.award-status {
   margin-left: 0.75rem;
 }
 
@@ -274,7 +282,6 @@ h1.players-in-game {
 
 .game-ended {
   opacity: 0.2;
-  pointer-events: none;
 }
 
 div.game-ended-notification-container {

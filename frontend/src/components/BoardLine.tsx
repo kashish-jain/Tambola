@@ -13,5 +13,5 @@ export let BoardLine: FunctionComponent<BoardLineProps> = ({
   let boxes = numbers.map(function (number) {
     return <Box value={number.value} check={number.check} />;
   });
-  return <div style={{ display: "flex" }}>{boxes}</div>;
+  return <div className="board-line">{boxes}</div>;
 };
