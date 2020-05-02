@@ -62,13 +62,33 @@ class Player extends Component<PlayerProps, PlayerState> {
     let mainComponent = null;
     let gameEndedDiv = null;
     let gameEndedCssClass = "";
-    if (this.state.hasGameEnded) {
+    if (this.state.hasGameEnded && this.props.type == "Host") {
       // This css class changes the opacity and disable all the clicks.
       // This is different from how it is handled in Notifications component
       gameEndedCssClass = "game-ended no-click";
       gameEndedDiv = (
         <div className="game-ended-notification-container">
           <p className="main animated rubberBand">Game Over</p>
+          <button
+            onClick={() => {
+              // emit event for restart
+              this.props.socket.emit("RestartGameFromHost");
+            }}
+          >
+            Restart Game
+          </button>
+        </div>
+      );
+    } else if (this.state.hasGameEnded && this.props.type == "PC") {
+      // This css class changes the opacity and disable all the clicks.
+      // This is different from how it is handled in Notifications component
+      gameEndedCssClass = "game-ended no-click";
+      gameEndedDiv = (
+        <div className="game-ended-notification-container">
+          <p className="main animated rubberBand">Game Over</p>
+          <p className="main animated rubberBand">
+            Waiting for Host to restart the game.
+          </p>
         </div>
       );
     }

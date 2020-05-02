@@ -164,6 +164,17 @@ class Config extends Component<ConfigProps, ConfigState> {
     this.props.socket.on("PcsStatus", (PcsStatus: PcStatus[]) => {
       this.setState({ PcsStatus: PcsStatus });
     });
+
+    // listener for Restart Game
+    this.props.socket.on("RestartGame", () => {
+      console.log("RestartGame");
+      let myType = this.state.type;
+
+      this.setState({
+        readyClient: false,
+        readyHost: false,
+      });
+    });
   }
 
   // For Host Config

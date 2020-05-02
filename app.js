@@ -107,6 +107,14 @@ io.on("connection", (socket) => {
     io.to(user.room).emit("PcsStatus", PcsStatus);
   });
 
+  // dealing with Restart event here
+  socket.on("RestartGameFromHost", () => {
+    const user = getCurrentUser(socket.id);
+
+    console.log("RestartGameFromHost");
+    io.to(user.room).emit("RestartGame");
+  });
+
   // deal with disconnects here later
   // CASES:
   //  - dealing with host's disconnection
