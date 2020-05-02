@@ -175,15 +175,12 @@ div.host-ticket {
   text-align: center;
 }
 
-<<<<<<< HEAD
 div.line,
 div.board-line {
   display: flex;
   justify-content: center;
 }
 
-=======
->>>>>>> master
 div.new-number-host-container,
 div.new-number-player-container {
   display: inline-block;
@@ -285,10 +282,6 @@ p.award-status {
 
 .game-ended {
   opacity: 0.2;
-<<<<<<< HEAD
-=======
-  pointer-events: none;
->>>>>>> master
 }
 
 div.game-ended-notification-container {
