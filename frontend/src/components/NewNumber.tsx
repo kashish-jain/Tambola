@@ -1,5 +1,6 @@
 import * as React from "react";
 import { Component } from "react";
+import GoneNumbers from "./GoneNumbers";
 
 interface NewNumberProps {
   socket: any;
@@ -14,15 +15,18 @@ interface newNumberObj_t {
 }
 
 class NewNumber extends Component<NewNumberProps, NewNumberState> {
+  goneNumbers: Array<number>;
   constructor(props: NewNumberProps) {
     super(props);
     this.state = { newNumber: 0 };
+    this.goneNumbers = [];
   }
 
   componentDidMount() {
     this.props.socket.on(
       "newNumberFromHost",
       (newNumberObj: newNumberObj_t) => {
+        this.goneNumbers.push(newNumberObj.newNumber);
         this.setState({ newNumber: newNumberObj.newNumber });
       }
     );
@@ -38,6 +42,7 @@ class NewNumber extends Component<NewNumberProps, NewNumberState> {
             </p>
           </div>
         </div>
+        <GoneNumbers numbers={this.goneNumbers} />
       </>
     );
     return newNumberComponent;

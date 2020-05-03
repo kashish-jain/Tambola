@@ -1,0 +1,15 @@
+div.gone-numbers-menu {
+  margin-top: 1rem;
+  background-color: #070a0f;
+  overflow: auto;
+  white-space: nowrap;
+}
+
+div.gone-numbers-menu > p {
+  color: #eeeeee;
+  text-align: center;
+  padding: 1rem;
+  display: inline-block;
+  margin: 0;
+  font-size: 2rem;
+}
