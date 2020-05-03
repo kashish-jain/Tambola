@@ -7,6 +7,8 @@ const {
   getCurrentUser,
   userLeave,
   getRoomUsers,
+  wasHost,
+  isThereAHost,
 } = require("./utils/users");
 
 const app = express();
@@ -30,6 +32,11 @@ io.on("connection", (socket) => {
 
       // Let host know who joined
       io.to(user.room).emit("notifyHostConnection", user);
+    }
+
+    // if a room has more than one connections but no host, give out a message
+    if (len > 1 && !isThereAHost(user.room)) {
+      io.to(user.room).emit("HostDisconnected", user);
     }
 
     // Welcome current user
@@ -137,10 +144,18 @@ io.on("connection", (socket) => {
   //  - dealing with PC's disconnection and joining back - use cookies I guess
   socket.on("disconnect", (reason) => {
     let user = getCurrentUser(socket.id);
-    // Tell the host that a user got disconnected
+
     if (user) {
+      // Tell the host that a user got disconnected
       io.to(user.room).emit("userDisconnect", user);
+
+      // tell everyone if the disconnected user was a host
+      if (wasHost(user)) {
+        io.to(user.room).emit("HostDisconnected", user);
+      }
     }
+
+    // logging
     user = userLeave(socket.id);
     console.log(
       "userDisconnected: ",

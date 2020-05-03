@@ -46,6 +46,9 @@ interface ConfigState {
 
   // List of players who are ready to play
   PcsStatus: PcStatus[];
+
+  // notification for host disconnected
+  hostDisconnected: boolean;
 }
 
 class Config extends Component<ConfigProps, ConfigState> {
@@ -80,6 +83,7 @@ class Config extends Component<ConfigProps, ConfigState> {
           numAward: "1",
         },
       ],
+      hostDisconnected: false,
     };
   }
 
@@ -139,6 +143,7 @@ class Config extends Component<ConfigProps, ConfigState> {
         });
 
         this.props.socket.on("userDisconnect", (user: User) => {
+          // dealing with ready/not ready
           let PcsStatus = this.state.PcsStatus;
           for (let i = 0; i < PcsStatus.length; ++i) {
             if (PcsStatus[i].user.id == user.id) {
@@ -163,6 +168,14 @@ class Config extends Component<ConfigProps, ConfigState> {
     // Know the status of all the players if someone new joined or got ready
     this.props.socket.on("PcsStatus", (PcsStatus: PcStatus[]) => {
       this.setState({ PcsStatus: PcsStatus });
+    });
+
+    // Host disconnect
+    this.props.socket.on("HostDisconnected", (userHost: User) => {
+      console.log(userHost, ": host disconnected");
+      this.setState({
+        hostDisconnected: true,
+      });
     });
   }
 
@@ -228,6 +241,21 @@ class Config extends Component<ConfigProps, ConfigState> {
   };
 
   render() {
+    // game is over if there is no host
+    if (this.state.hostDisconnected) {
+      return (
+        <h1 className="host-configuration">
+          Host left the game. Please close this tab. Generate a new room if you
+          want to play more.{" "}
+          <button>
+            <a href="/" style={{ color: "white" }}>
+              Back
+            </a>
+          </button>
+        </h1>
+      );
+    }
+
     let mainComponent = null;
     if (this.state.readyHost && this.state.readyClient) {
       // display player
