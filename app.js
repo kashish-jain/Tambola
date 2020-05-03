@@ -51,30 +51,40 @@ io.on("connection", (socket) => {
 
     // call for host (just send to host)?
     // right now notifications are directly generated from this object on PC's screen
-    io.to(user.room).emit("callWinToHost", { callWinType, houses, user });
-    console.log(callWinType, "from", user.username, "in room:", user.room);
+    if (user) {
+      io.to(user.room).emit("callWinToHost", { callWinType, houses, user });
+      console.log(callWinType, "from", user.username, "in room:", user.room);
+    } else {
+      console.log("ISSUE: win call coming from null user");
+    }
   });
 
   // results from host
   socket.on("resultsFromHost", ({ result, callWinType, userCalledForWin }) => {
-    const room = getCurrentUser(socket.id).room;
+    let user = getCurrentUser(socket.id);
 
-    // call to PCs notifying someone won something
-    let calledWinUsername = userCalledForWin.username;
-    console.log(
-      result,
-      "on",
-      calledWinUsername,
-      "for",
-      callWinType,
-      "in room:",
-      room
-    );
-    io.to(room).emit("resultsForPC", {
-      result,
-      callWinType,
-      calledWinUsername,
-    });
+    if (user) {
+      const room = user.room;
+
+      // call to PCs notifying someone won something
+      let calledWinUsername = userCalledForWin.username;
+      console.log(
+        result,
+        "on",
+        calledWinUsername,
+        "for",
+        callWinType,
+        "in room:",
+        room
+      );
+      io.to(room).emit("resultsForPC", {
+        result,
+        callWinType,
+        calledWinUsername,
+      });
+    } else {
+      console.log("ISSUE: results coming from null host");
+    }
   });
 
   // events for host calling number from front-end button click
@@ -82,16 +92,24 @@ io.on("connection", (socket) => {
     const user = getCurrentUser(socket.id);
 
     // event for notifying PCs that new number was called
-    io.to(user.room).emit("newNumberFromHost", { newNumber: num });
-    console.log("newNumberFromHost:", num, "in room:", user.room);
+    if (user) {
+      io.to(user.room).emit("newNumberFromHost", { newNumber: num });
+      console.log("newNumberFromHost:", num, "in room:", user.room);
+    } else {
+      console.log("ISSUE: new number coming from null user");
+    }
   });
 
   // receiver for Host Config done and emitter for Host Config done
   socket.on("HostConfigDone", (awards) => {
     const user = getCurrentUser(socket.id);
 
-    console.log("HostConfigDone");
-    io.to(user.room).emit("HostConfigDone", awards);
+    if (user) {
+      console.log("HostConfigDone: ", user.username);
+      io.to(user.room).emit("HostConfigDone", awards);
+    } else {
+      console.log("ISSUE: Host Config attempted with null user");
+    }
   });
 
   // Know when a player is ready with number of tickets he is going to play with
@@ -99,12 +117,18 @@ io.on("connection", (socket) => {
     const user = getCurrentUser(socket.id);
 
     // Let host know that the player is ready
-    io.to(user.room).emit("PcReady", user, numHouses);
+    if (user) {
+      io.to(user.room).emit("PcReady", user, numHouses);
+    } else {
+      console.log("ISSUE: PcReady coming from null user");
+    }
   });
 
   socket.on("PcsStatus", (user, PcsStatus) => {
     console.log("readyPlayers", PcsStatus);
-    io.to(user.room).emit("PcsStatus", PcsStatus);
+    if (user) {
+      io.to(user.room).emit("PcsStatus", PcsStatus);
+    }
   });
 
   // deal with disconnects here later
@@ -113,7 +137,7 @@ io.on("connection", (socket) => {
   //  - dealing with PC's disconnection and joining back - use cookies I guess
   socket.on("disconnect", (reason) => {
     let user = getCurrentUser(socket.id);
-    //Tell the host that a user got disconnected
+    // Tell the host that a user got disconnected
     if (user) {
       io.to(user.room).emit("userDisconnect", user);
     }
