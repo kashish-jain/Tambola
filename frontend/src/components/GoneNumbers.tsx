@@ -34,7 +34,7 @@ class GoneNumbers extends Component<GoneNumbersProps, GoneNumbersState> {
         >
           {this.state.isShown ? "Hide Gone Numbers" : "Show Gone Numbers"}
         </button>
-        <div className="gone-numbers-menu animated fadeIn">{mainComp}</div>
+        <div className="gone-numbers-menu">{mainComp}</div>
       </div>
     );
   }
