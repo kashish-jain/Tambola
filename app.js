@@ -142,7 +142,12 @@ io.on("connection", (socket) => {
       io.to(user.room).emit("userDisconnect", user);
     }
     user = userLeave(socket.id);
-    console.log("userDisconnected from room:", user ? user.room : null);
+    console.log(
+      "userDisconnected: ",
+      user,
+      "from room:",
+      user ? user.room : null
+    );
     console.log("reason:", reason);
   });
 });
