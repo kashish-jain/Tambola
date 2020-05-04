@@ -5,9 +5,7 @@ interface GoneNumbersProps {
   numbers: Array<number>;
 }
 
-interface GoneNumbersState {
-  isShown: boolean;
-}
+interface GoneNumbersState {}
 
 class GoneNumbers extends Component<GoneNumbersProps, GoneNumbersState> {
   constructor(props: GoneNumbersProps) {
@@ -19,22 +17,31 @@ class GoneNumbers extends Component<GoneNumbersProps, GoneNumbersState> {
 
   render() {
     let mainComp = [];
-    if (this.state.isShown) {
-      for (let i = this.props.numbers.length - 1; i >= 0; --i) {
-        mainComp.push(<p key={i}>{this.props.numbers[i]}</p>);
-      }
+    for (let i = this.props.numbers.length - 1; i >= 0; --i) {
+      mainComp.push(<p key={i}>{this.props.numbers[i]}</p>);
     }
-
     return (
       <div className="gone-numbers-container">
         <button
+          id="gone-numbers-button"
           onClick={() => {
-            this.setState({ isShown: !this.state.isShown });
+            let goneNumbers = document.getElementById("gone-numbers-menu");
+            let button = document.getElementById("gone-numbers-button");
+            if (goneNumbers !== null && button !== null) {
+              if (goneNumbers.style.display !== "none") {
+                goneNumbers.style.display = "none";
+                button.innerHTML = "Gone Numbers";
+              } else {
+                goneNumbers.style.display = "block";
+                goneNumbers.classList.add("animated", "fadeIn");
+                button.innerHTML = "X";
+              }
+            }
           }}
         >
-          {this.state.isShown ? "Hide Gone Numbers" : "Show Gone Numbers"}
+          Gone Numbers
         </button>
-        <div className="gone-numbers-menu">{mainComp}</div>
+        <div id="gone-numbers-menu">{mainComp}</div>
       </div>
     );
   }
