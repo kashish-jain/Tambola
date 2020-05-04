@@ -279,6 +279,7 @@ class Config extends Component<ConfigProps, ConfigState> {
                     <input
                       type="number"
                       max="6"
+                      min="1"
                       value={this.state.numHouses}
                       onChange={this.handleChangePC}
                     />
