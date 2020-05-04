@@ -170,7 +170,7 @@ function generate() {
     }
   }
 
-  for (let i = 0; i < 5; ++i) {
+  for (let i = 0; i < 6; ++i) {
     for (let j = 0; j < 9; ++j) {
       sets[i][j].sort((a, b) => {
         return a - b;
@@ -192,18 +192,32 @@ function putElements(set: Array<Array<number>>, house: Array<Array<number>>) {
 
   // // Now the cases where the column will have two numbers;
   let counter = 0;
+  let columnIndicesWithTwoNums = [];
   for (let i = 0; i < 9; ++i) {
+    if (set[i].length === 2) {
+      columnIndicesWithTwoNums.push(i);
+    }
+  }
+  let lenColumnsWithTwoNums = columnIndicesWithTwoNums.length;
+  for (let i = 0; i < lenColumnsWithTwoNums; ++i) {
+    let randomColumnIndexInArray = getRandom(
+      0,
+      columnIndicesWithTwoNums.length - 1
+    );
+    let actualRandomColumnIndex =
+      columnIndicesWithTwoNums[randomColumnIndexInArray];
     let preComp = [
       [0, 1],
       [0, 2],
       [1, 2],
     ];
-    if (set[i].length === 2) {
-      let indices = preComp[counter % 3];
-      house[indices[0]][i] = set[i][0];
-      house[indices[1]][i] = set[i][1];
-      ++counter;
-    }
+    let indices = preComp[counter % 3];
+    house[indices[0]][actualRandomColumnIndex] =
+      set[actualRandomColumnIndex][0];
+    house[indices[1]][actualRandomColumnIndex] =
+      set[actualRandomColumnIndex][1];
+    columnIndicesWithTwoNums.splice(randomColumnIndexInArray, 1);
+    ++counter;
   }
 
   // Cases where column will have 1 number
