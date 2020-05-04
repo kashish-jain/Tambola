@@ -19,3 +19,7 @@ div#gone-numbers-menu > p {
   margin-bottom: 1rem;
   transition: 1s;
 }
+
+.show {
+  display: block;
+}

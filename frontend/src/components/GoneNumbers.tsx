@@ -28,7 +28,11 @@ class GoneNumbers extends Component<GoneNumbersProps, GoneNumbersState> {
             let goneNumbers = document.getElementById("gone-numbers-menu");
             let button = document.getElementById("gone-numbers-button");
             if (goneNumbers !== null && button !== null) {
-              if (goneNumbers.style.display !== "none") {
+              if (
+                window
+                  .getComputedStyle(goneNumbers)
+                  .getPropertyValue("display") !== "none"
+              ) {
                 goneNumbers.style.display = "none";
                 button.innerHTML = "Gone Numbers";
               } else {
