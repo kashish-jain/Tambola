@@ -67,14 +67,6 @@ class Config extends Component<ConfigProps, ConfigState> {
           numAward: "1",
         },
         {
-          nameAward: "Second Line",
-          numAward: "1",
-        },
-        {
-          nameAward: "Third Line",
-          numAward: "1",
-        },
-        {
           nameAward: "Corners",
           numAward: "1",
         },

@@ -112,7 +112,7 @@ io.on("connection", (socket) => {
     const user = getCurrentUser(socket.id);
 
     if (user) {
-      console.log("HostConfigDone: ", user.username);
+      console.log("HostConfigDone:", user.username);
       io.to(user.room).emit("HostConfigDone", awards);
     } else {
       console.log("ISSUE: Host Config attempted with null user");
