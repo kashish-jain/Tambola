@@ -165,6 +165,18 @@ form > table > thead > tr > th.award-number-heading {
   width: 100%;
 }
 
+:-ms-input-placeholder {
+  font-style: italic;
+}
+
+::-moz-placeholder {
+  font-style: italic;
+}
+
+::-webkit-input-placeholder {
+  font-style: italic;
+}
+
 /* This is for PC configuration table */
 .config-table > tbody > tr > td {
   font-size: 1.2rem;
