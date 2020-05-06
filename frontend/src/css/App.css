@@ -301,10 +301,6 @@ hr {
   border: 1px solid #374051;
 }
 
-table#pc-config-table {
-  border-spacing: 1rem;
-}
-
 label {
   font-size: 2rem;
 }
@@ -346,6 +342,19 @@ p.game-over {
 */
 #root > div > div > div > table.ready-players > tr > td:nth-child(3) {
   color: #ff7c35;
+}
+
+table#pc-config-table {
+  border-spacing: 1rem;
+}
+
+.toast-background {
+  background-color: #374051;
+}
+
+.toast-body {
+  color: white;
+  font-size: 1rem;
 }
 
 .unchecked {

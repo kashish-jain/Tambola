@@ -4,6 +4,8 @@ import ConfigTable from "./ConfigTable";
 import Player from "./Player";
 import ReadyPlayers from "./ReadyPlayers";
 import Snackbar from "./Snackbar";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.min.css";
 
 export interface Award {
   // Actual type information:
@@ -222,9 +224,17 @@ class Config extends Component<ConfigProps, ConfigState> {
       readyClient: true,
     });
     if (this.state.type == "Host") {
-      // emitter for config done
-      this.props.socket.emit("HostConfigDone", this.state.awards);
-      console.log("config submitted from host", this.state.awards);
+      // start the game only when there are actual players in the game
+      if (this.state.PcsStatus.length > 0) {
+        this.props.socket.emit("HostConfigDone", this.state.awards);
+        console.log("config submitted from host", this.state.awards);
+      } else {
+        toast("There are no players in the game right now.", {
+          toastId: 1,
+          className: "toast-background",
+          bodyClassName: "toast-body",
+        });
+      }
     } else if (this.state.type == "PC") {
       //let everyone know that i am ready. Backend knows who I am by socket.id
       this.props.socket.emit("PcReady", this.state.numHouses);
@@ -268,6 +278,7 @@ class Config extends Component<ConfigProps, ConfigState> {
             message="Share this 'join link' with other players"
             actionText="Copy URL"
           />
+          <ToastContainer draggable={false} autoClose={3000} />
           <h1 className="host-configuration">Game Setup</h1>
           <hr />
           <ConfigTable
