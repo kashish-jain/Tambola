@@ -39,13 +39,37 @@ $body-color: #a89e8a;
   left: calc(18rem + 420px);
 }
 
+.host-player-container {
+  margin-top: 1.5rem;
+}
+
+.host-player-container > div:first-child {
+  border-right: 1px solid #ffcb36;
+}
+
+.host-player-container > div:last-child {
+  border-left: 1px solid #ffcb36;
+}
 hr {
   margin-top: 10rem;
   border-top: 1px #ffcb36 solid;
 }
 
+.primary-heading {
+  color: #ffffff;
+  text-align: center;
+}
+
+.secondary-heading {
+  color: #ffcb36;
+  text-align: center;
+}
 .pulse {
   animation: pulse 4s infinite;
+}
+
+.rules {
+  margin: 0 1.5rem;
 }
 
 @-webkit-keyframes pulse {
