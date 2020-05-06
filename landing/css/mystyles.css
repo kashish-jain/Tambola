@@ -7115,10 +7115,10 @@ label.panel-block {
 
 .hero-text-container {
   margin-top: 5rem;
-  width: 420px; }
+  text-align: center; }
 
 .largest-text {
-  font-size: 6rem; }
+  font-size: 5rem; }
 
 .main-button {
   margin-top: 3rem;
@@ -7126,18 +7126,6 @@ label.panel-block {
   background-color: #ffcb36;
   color: #0e141f;
   font-size: 1.5rem; }
-
-.illustration-container:after {
-  content: "";
-  position: absolute;
-  width: 100%;
-  max-width: 100%;
-  background-image: url(../images/playing.svg);
-  background-repeat: no-repeat;
-  background-size: auto;
-  height: 70%;
-  top: 4rem;
-  left: calc(18rem + 420px); }
 
 .host-player-container {
   margin-top: 1.5rem; }
@@ -7165,6 +7153,24 @@ hr {
 
 .rules {
   margin: 0 1.5rem; }
+
+@media only screen and (min-width: 992px) {
+  .hero-text-container {
+    text-align: left;
+    width: 420px; }
+  .illustration-container:after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    max-width: 100%;
+    background-image: url(../images/playing2.svg);
+    background-repeat: no-repeat;
+    background-size: auto;
+    height: 70%;
+    top: 4rem;
+    left: 50%; }
+  .largest-text {
+    font-size: 6rem; } }
 
 @-webkit-keyframes pulse {
   0% {

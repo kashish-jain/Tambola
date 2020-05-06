@@ -1,13 +1,56 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Tambola</title>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@0.8.2/css/bulma.min.css"
+    />
+    <link rel="stylesheet" href="./css/mystyles.css" />
+    <script
+      defer
+      src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"
+    ></script>
   </head>
+
   <body>
-    <h1>Go to new Room</h1>
-    <button type="button" id="generate-new-room">Generate</button>
+    <section class="hero is-large">
+      <div class="illustration-container">
+        <header class="section">
+          <div class="container">
+            <div class="brand">
+              <h1>
+                <a href="/">
+                  <img src="./images/logo.svg" alt="Tambola" />
+                </a>
+              </h1>
+            </div>
+          </div>
+        </header>
+        <div>
+          <div class="container">
+            <div class="hero-text-container">
+              <h1 class="title largest-text">
+                Tambola
+              </h1>
+              <h2 class="subtitle is-size-1">
+                Anywhere Anytime
+              </h2>
+              <p class="is-size-3 sub-sub-heading">
+                Same Tambola fun with your loved ones on your browser. Just one
+                click away without the hassle of pens and tickets.
+              </p>
+              <button class="button main-button pulse" id="generate-new-room">
+                Create Game
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <div class="container"><hr /></div>
   </body>
   <script src="js/main.js"></script>
 </html>
