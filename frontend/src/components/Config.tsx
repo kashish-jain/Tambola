@@ -267,7 +267,7 @@ class Config extends Component<ConfigProps, ConfigState> {
       mainComponent = (
         <div className="config-container">
           <Snackbar
-            message="Copy the join link to your game"
+            message="Share this 'join link' with other players"
             actionText="Copy URL"
           />
           <h1 className="host-configuration">Game Setup</h1>
