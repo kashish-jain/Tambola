@@ -239,11 +239,9 @@ class Config extends Component<ConfigProps, ConfigState> {
         <h1 className="host-configuration">
           Host left the game. Please close this tab. Generate a new room if you
           want to play more.{" "}
-          <button>
-            <a href="/" style={{ color: "white" }}>
-              Back
-            </a>
-          </button>
+          <a href="/" style={{ color: "white" }}>
+            <button>Back</button>
+          </a>
         </h1>
       );
     }

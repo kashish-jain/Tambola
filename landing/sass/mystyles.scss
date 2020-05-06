@@ -1,0 +1,108 @@
+@charset "utf-8";
+
+$body-background-color: #0e141f;
+$title-color: #ffffff;
+$subtitle-color: #ffffff;
+$body-color: #a89e8a;
+
+@import "../node_modules/bulma/bulma.sass";
+
+.hero-text-container {
+  margin-top: 5rem;
+  text-align: center;
+}
+
+.largest-text {
+  font-size: 5rem;
+}
+
+.main-button {
+  margin-top: 3rem;
+  width: 320px;
+  background-color: #ffcb36;
+  color: #0e141f;
+  font-size: 1.5rem;
+}
+
+.host-player-container {
+  margin-top: 1.5rem;
+}
+
+.host-player-container > div:first-child {
+  border-right: 1px solid #ffcb36;
+}
+
+.host-player-container > div:last-child {
+  border-left: 1px solid #ffcb36;
+}
+hr {
+  margin-top: 10rem;
+  border-top: 1px #ffcb36 solid;
+}
+
+.primary-heading {
+  color: #ffffff;
+  text-align: center;
+}
+
+.secondary-heading {
+  color: #ffcb36;
+  text-align: center;
+}
+.pulse {
+  animation: pulse 4s infinite;
+}
+
+.rules {
+  margin: 0 1.5rem;
+}
+
+@media only screen and (min-width: 992px) {
+  .hero-text-container {
+    text-align: left;
+    width: 420px;
+  }
+  .illustration-container:after {
+    content: "";
+    position: absolute;
+    width: 100%;
+    max-width: 100%;
+    background-image: url(../images/playing.svg);
+    background-repeat: no-repeat;
+    background-size: auto;
+    //   This will be according to the text size so that the bottom of our button and the svg align
+    // the svg will also need to be resized
+    height: 70%;
+    top: 4rem;
+    left: 50%;
+  }
+  .largest-text {
+    font-size: 6rem;
+  }
+}
+
+@-webkit-keyframes pulse {
+  0% {
+    -webkit-box-shadow: 0 0 0 0 rgba(120, 120, 120, 0.4);
+  }
+  70% {
+    -webkit-box-shadow: 0 0 0 15px rgba(120, 120, 120, 0);
+  }
+  100% {
+    -webkit-box-shadow: 0 0 0 0 rgba(120, 120, 120, 0);
+  }
+}
+@keyframes pulse {
+  0% {
+    -moz-box-shadow: 0 0 0 0 rgba(120, 120, 120, 0.4);
+    box-shadow: 0 0 0 0 rgba(120, 120, 120, 0.4);
+  }
+  70% {
+    -moz-box-shadow: 0 0 0 10px rgba(120, 120, 120, 0);
+    box-shadow: 0 0 0 15px rgba(120, 120, 120, 0);
+  }
+  100% {
+    -moz-box-shadow: 0 0 0 0 rgba(120, 120, 120, 0);
+    box-shadow: 0 0 0 0 rgba(120, 120, 120, 0);
+  }
+}
