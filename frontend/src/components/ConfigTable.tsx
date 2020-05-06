@@ -39,6 +39,7 @@ class ConfigTable extends React.Component<ConfigTableProps, ConfigTableState> {
                   <input
                     type="text"
                     name="nameAward"
+                    placeholder="Enter Award Name"
                     value={this.props.awards[idx].nameAward}
                     onChange={this.props.handleChangeHost(idx)}
                   />
@@ -47,6 +48,8 @@ class ConfigTable extends React.Component<ConfigTableProps, ConfigTableState> {
                   <input
                     type="number"
                     name="numAward"
+                    placeholder="Enter Number of Awards"
+                    min="1"
                     value={this.props.awards[idx].numAward}
                     onChange={this.props.handleChangeHost(idx)}
                   />

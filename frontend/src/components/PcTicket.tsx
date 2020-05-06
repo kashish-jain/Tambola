@@ -2,7 +2,7 @@ import * as React from "react";
 import { Component } from "react";
 import Ticket from "./Ticket";
 import { BoxState } from "./Box";
-import { generateHouse } from "../utils/utils";
+import { generateTicket } from "../utils/utils";
 import WinningButtons from "./WinningButtons";
 import NewNumber from "./NewNumber";
 import Notification from "./Notification";
@@ -20,19 +20,11 @@ interface PcTicketProps {
 
 interface PcTicketState {}
 
-function genHouses(n: number) {
-  let ret_val = [];
-  for (let i = 0; i < n; ++i) {
-    ret_val[i] = generateHouse();
-  }
-  return ret_val;
-}
-
 class PcTicket extends Component<PcTicketProps, PcTicketState> {
   houses: Array<Array<Array<BoxState>>>;
   constructor(props: PcTicketProps) {
     super(props);
-    this.houses = genHouses(this.props.numHouses);
+    this.houses = generateTicket(this.props.numHouses);
   }
 
   changeTicketState = (

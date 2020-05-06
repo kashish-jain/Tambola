@@ -46,6 +46,9 @@ interface ConfigState {
 
   // List of players who are ready to play
   PcsStatus: PcStatus[];
+
+  // notification for host disconnected
+  hostDisconnected: boolean;
 }
 
 class Config extends Component<ConfigProps, ConfigState> {
@@ -64,14 +67,6 @@ class Config extends Component<ConfigProps, ConfigState> {
           numAward: "1",
         },
         {
-          nameAward: "Second Line",
-          numAward: "1",
-        },
-        {
-          nameAward: "Third Line",
-          numAward: "1",
-        },
-        {
           nameAward: "Corners",
           numAward: "1",
         },
@@ -80,6 +75,7 @@ class Config extends Component<ConfigProps, ConfigState> {
           numAward: "1",
         },
       ],
+      hostDisconnected: false,
     };
   }
 
@@ -139,6 +135,7 @@ class Config extends Component<ConfigProps, ConfigState> {
         });
 
         this.props.socket.on("userDisconnect", (user: User) => {
+          // dealing with ready/not ready
           let PcsStatus = this.state.PcsStatus;
           for (let i = 0; i < PcsStatus.length; ++i) {
             if (PcsStatus[i].user.id == user.id) {
@@ -163,6 +160,14 @@ class Config extends Component<ConfigProps, ConfigState> {
     // Know the status of all the players if someone new joined or got ready
     this.props.socket.on("PcsStatus", (PcsStatus: PcStatus[]) => {
       this.setState({ PcsStatus: PcsStatus });
+    });
+
+    // Host disconnect
+    this.props.socket.on("HostDisconnected", (userHost: User) => {
+      console.log(userHost, ": host disconnected");
+      this.setState({
+        hostDisconnected: true,
+      });
     });
   }
 
@@ -228,6 +233,21 @@ class Config extends Component<ConfigProps, ConfigState> {
   };
 
   render() {
+    // game is over if there is no host
+    if (this.state.hostDisconnected) {
+      return (
+        <h1 className="host-configuration">
+          Host left the game. Please close this tab. Generate a new room if you
+          want to play more.{" "}
+          <button>
+            <a href="/" style={{ color: "white" }}>
+              Back
+            </a>
+          </button>
+        </h1>
+      );
+    }
+
     let mainComponent = null;
     if (this.state.readyHost && this.state.readyClient) {
       // display player
@@ -247,7 +267,7 @@ class Config extends Component<ConfigProps, ConfigState> {
       mainComponent = (
         <div className="config-container">
           <Snackbar
-            message="Copy the join link to your game"
+            message="Share this 'join link' with other players"
             actionText="Copy URL"
           />
           <h1 className="host-configuration">Game Setup</h1>
@@ -268,7 +288,7 @@ class Config extends Component<ConfigProps, ConfigState> {
       //    Number of Tickets
       mainComponent = (
         <div className="config-container">
-          <h1 className="pc-configuration">PC Configuration</h1>
+          <h1 className="pc-configuration">Player Setup</h1>
           <hr />
           <form onSubmit={this.handleSubmit}>
             <table className="config-table" id="pc-config-table">
@@ -279,6 +299,7 @@ class Config extends Component<ConfigProps, ConfigState> {
                     <input
                       type="number"
                       max="6"
+                      min="1"
                       value={this.state.numHouses}
                       onChange={this.handleChangePC}
                     />

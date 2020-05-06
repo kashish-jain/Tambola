@@ -16,6 +16,8 @@ class ReadyPlayers extends Component<ReadyPlayersProps, ReadyPlayersState> {
   render() {
     let checkMark = <span className="checkmark">&#10004;</span>;
     let playersComp = [];
+    let waitingMessage = null;
+
     for (let i = 0; i < this.props.players.length; ++i) {
       playersComp.push(
         <tr key={i}>
@@ -25,6 +27,17 @@ class ReadyPlayers extends Component<ReadyPlayersProps, ReadyPlayersState> {
         </tr>
       );
     }
+
+    if (playersComp.length === 0) {
+      waitingMessage = (
+        <p style={{ color: "#a89e8a", marginLeft: "0.75rem" }}>
+          Waiting for other players to join...
+        </p>
+      );
+    } else {
+      waitingMessage = null;
+    }
+
     return (
       <div className="ready-players-container">
         <h1 className="players-in-game">Players in Game</h1>
@@ -37,6 +50,7 @@ class ReadyPlayers extends Component<ReadyPlayersProps, ReadyPlayersState> {
           </tr>
           {playersComp}
         </table>
+        {waitingMessage}
       </div>
     );
   }
