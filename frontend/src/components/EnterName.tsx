@@ -47,21 +47,13 @@ class EnterName extends Component<EnterNameProps, EnterNameState> {
     if (!this.state.submitted) {
       let myStyles: React.CSSProperties = {};
       if (!this.state.isEmpty) {
-        myStyles = { display: "flex", visibility: "visible" };
+        myStyles = { visibility: "visible" };
       } else {
-        myStyles = { display: "flex", visibility: "hidden" };
+        myStyles = { visibility: "hidden" };
       }
       let submitButton = (
         <div style={myStyles}>
-          <button
-            onClick={this.handleSubmit}
-            style={{
-              width: "3.5rem",
-            }}
-          >
-            OK
-          </button>
-          <p style={{ marginLeft: "0.6rem", color: "#ffffff" }}>press ENTER</p>
+          <button onClick={this.handleSubmit}>OK</button>
         </div>
       );
       return (
@@ -69,13 +61,16 @@ class EnterName extends Component<EnterNameProps, EnterNameState> {
           style={{
             position: "absolute",
             top: "50%",
-            left: "50%",
-            transform: "translate(-50%, -50%)",
+            left: "0",
+            right: "0",
+            transform: "translateY(-50%)",
+            textAlign: "center",
           }}
         >
           <p
             style={{
               fontSize: "2rem",
+              textAlign: "center",
             }}
           >
             Hi. What's your name?
@@ -92,6 +87,7 @@ class EnterName extends Component<EnterNameProps, EnterNameState> {
               border: "none",
               fontSize: "4rem",
               color: "#ffcb36",
+              textAlign: "center",
             }}
             spellCheck="false"
             autoFocus
