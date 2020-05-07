@@ -28,7 +28,8 @@ class EnterName extends Component<EnterNameProps, EnterNameState> {
   };
 
   handleKeyPress = (event: any) => {
-    if (event.key === "Enter") {
+    const { value } = event.target;
+    if (event.key === "Enter" && value !== "") {
       console.log("enter press here!");
       this.setState({
         submitted: true,
@@ -56,6 +57,19 @@ class EnterName extends Component<EnterNameProps, EnterNameState> {
           <button onClick={this.handleSubmit}>OK</button>
         </div>
       );
+
+      let style: React.CSSProperties = {
+        outline: "none",
+        background: "#0e141f",
+        border: "none",
+        fontSize: "4rem",
+        color: "#ffcb36",
+        textAlign: "center",
+      };
+      if (this.state.name === "") {
+        style["textAlign"] = "left";
+      }
+
       return (
         <div
           style={{
@@ -81,14 +95,7 @@ class EnterName extends Component<EnterNameProps, EnterNameState> {
             placeholder="Type your answer here..."
             onChange={this.handleChange}
             onKeyPress={this.handleKeyPress}
-            style={{
-              outline: "none",
-              background: "#0e141f",
-              border: "none",
-              fontSize: "4rem",
-              color: "#ffcb36",
-              textAlign: "center",
-            }}
+            style={style}
             spellCheck="false"
             autoFocus
           />
