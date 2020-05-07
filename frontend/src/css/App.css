@@ -123,7 +123,8 @@ p.only-new-number-player {
   width: 20%;
 }
 
-.config-table td.cross-button button {
+.config-table td.cross-button button,
+.close-toast {
   background-color: #0e141f;
   color: #ffcb36;
   width: auto;
@@ -354,7 +355,7 @@ table#pc-config-table {
 
 .toast-body {
   color: white;
-  font-size: 1rem;
+  font-size: 1.5rem;
 }
 
 .unchecked {
