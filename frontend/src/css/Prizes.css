@@ -1,5 +1,7 @@
 .prizes-container {
   margin-top: 1rem;
+  /* this is just to make page a little bit scrollable */
+  margin-bottom: 2rem;
 }
 
 table.prizes {

@@ -7,6 +7,22 @@ import Snackbar from "./Snackbar";
 import Modal from "react-modal";
 import Toast from "./Toast";
 
+const customModalStyles = {
+  content: {
+    top: "50%",
+    left: "50%",
+    right: "auto",
+    bottom: "auto",
+    marginRight: "-50%",
+    transform: "translate(-50%, -50%)",
+    backgroundColor: "#0e141f",
+  },
+  overlay: {
+    backgroundColor: "rgba(255, 255, 255, 0.35)",
+    transition: "all 1s",
+  },
+};
+
 export interface Award {
   // Actual type information:
   // {
@@ -316,11 +332,7 @@ class Config extends Component<ConfigProps, ConfigState> {
             }}
             initiallyHidden={this.hideToastInitially}
           />
-          <Modal
-            isOpen={this.state.isModalOpen}
-            className="modal-content"
-            overlayClassName="modal-overlay"
-          >
+          <Modal isOpen={this.state.isModalOpen} style={customModalStyles}>
             <h3>Some players are still not ready.</h3>
             <h3>Are you sure you want to start the game?</h3>
             <div className="modal-buttons">
