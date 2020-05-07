@@ -7,22 +7,6 @@ import Snackbar from "./Snackbar";
 import Modal from "react-modal";
 import Toast from "./Toast";
 
-const customModalStyles = {
-  content: {
-    top: "50%",
-    left: "50%",
-    right: "auto",
-    bottom: "auto",
-    marginRight: "-50%",
-    transform: "translate(-50%, -50%)",
-    backgroundColor: "#0e141f",
-  },
-  overlay: {
-    backgroundColor: "rgba(255, 255, 255, 0.35)",
-    transition: "all 1s",
-  },
-};
-
 export interface Award {
   // Actual type information:
   // {
@@ -76,6 +60,8 @@ interface ConfigState {
 }
 
 class Config extends Component<ConfigProps, ConfigState> {
+  // For the toast component to hide initially and not add animation on initial render
+  hideToastInitially: boolean;
   constructor(props: ConfigProps) {
     super(props);
     this.state = {
@@ -103,6 +89,7 @@ class Config extends Component<ConfigProps, ConfigState> {
       ],
       hostDisconnected: false,
     };
+    this.hideToastInitially = true;
   }
 
   // Only handles on host's config when he presses start game button.
@@ -273,6 +260,8 @@ class Config extends Component<ConfigProps, ConfigState> {
           this.setState({ isModalOpen: true });
         }
       } else {
+        // To make the toast visible
+        this.hideToastInitially = false;
         this.setState({ isToastOpen: true });
       }
     } else if (this.state.type == "PC") {
@@ -320,22 +309,21 @@ class Config extends Component<ConfigProps, ConfigState> {
             actionText="Copy URL"
           />
           <Toast
-            message={"There are no players in the game right not"}
+            message={"There are no players in the game right now"}
             isShown={this.state.isToastOpen}
             handleClose={() => {
               this.setState({ isToastOpen: false });
             }}
-          />{" "}
-          <Modal isOpen={this.state.isModalOpen} style={customModalStyles}>
+            initiallyHidden={this.hideToastInitially}
+          />
+          <Modal
+            isOpen={this.state.isModalOpen}
+            className="modal-content"
+            overlayClassName="modal-overlay"
+          >
             <h3>Some players are still not ready.</h3>
             <h3>Are you sure you want to start the game?</h3>
-            <div
-              style={{
-                display: "flex",
-                justifyContent: "space-around",
-                flexWrap: "wrap",
-              }}
-            >
+            <div className="modal-buttons">
               <button onClick={this.handlleHostConfigDone}>Yes</button>
               <button
                 onClick={() => {

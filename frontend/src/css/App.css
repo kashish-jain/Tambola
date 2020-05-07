@@ -306,6 +306,20 @@ label {
   font-size: 2rem;
 }
 
+.modal-content {
+  top: 50%;
+  left: 50%;
+  right: auto;
+  bottom: auto;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
+  background-color: #0e141f;
+}
+
+.modal-overlay {
+  background-color: rgba(255, 255, 255, 0.35);
+}
+
 .new-number-player {
   font-size: 3rem;
   margin: 1rem 0 0 0;
@@ -365,7 +379,8 @@ table#pc-config-table {
 }
 
 .winning-buttons,
-.result-buttons {
+.result-buttons,
+.modal-buttons {
   display: flex;
   justify-content: space-around;
   flex-wrap: wrap;
