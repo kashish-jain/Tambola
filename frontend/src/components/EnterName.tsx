@@ -45,27 +45,62 @@ class EnterName extends Component<EnterNameProps, EnterNameState> {
 
   render() {
     if (!this.state.submitted) {
-      let submitButton = null;
+      let myStyles: React.CSSProperties = {};
       if (!this.state.isEmpty) {
-        submitButton = (
-          <div>
-            <button onClick={this.handleSubmit}>OK</button>
-            <p>press ENTER</p>
-          </div>
-        );
+        myStyles = { display: "flex", visibility: "visible" };
+      } else {
+        myStyles = { display: "flex", visibility: "hidden" };
       }
+      let submitButton = (
+        <div style={myStyles}>
+          <button
+            onClick={this.handleSubmit}
+            style={{
+              width: "3.5rem",
+            }}
+          >
+            OK
+          </button>
+          <p style={{ marginLeft: "0.6rem", color: "#ffffff" }}>press ENTER</p>
+        </div>
+      );
       return (
-        <>
-          <p>Hi. What's your name?</p>
+        <div
+          style={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+          }}
+        >
+          <p
+            style={{
+              fontSize: "2rem",
+            }}
+          >
+            Hi. What's your name?
+          </p>
           <input
             type="text"
             value={this.state.name}
-            placeholder="Type your name here..."
+            placeholder="Type your answer here..."
             onChange={this.handleChange}
             onKeyPress={this.handleKeyPress}
+            style={{
+              outline: "none",
+              background: "#0e141f",
+              border: "none",
+              fontSize: "4rem",
+              color: "#ffcb36",
+            }}
+            spellCheck="false"
+            autoFocus
           />
+          <br />
+          <br />
+          <br />
           {submitButton}
-        </>
+        </div>
       );
     } else {
       return <Config socket={this.props.socket} name={this.state.name} />;
