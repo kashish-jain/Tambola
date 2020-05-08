@@ -57,6 +57,7 @@ class Prizes extends Component<PrizesProps, PrizesState> {
               let winningButtons = document.querySelector(
                 `.winning-buttons button:nth-child(${i})`
               ) as HTMLInputElement;
+              console.log(winningButtons);
               winningButtons.disabled = true;
             }
             currAwards[i].numAward = currNumAward.toString();
