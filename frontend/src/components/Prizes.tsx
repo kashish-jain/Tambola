@@ -50,15 +50,20 @@ class Prizes extends Component<PrizesProps, PrizesState> {
             if (currNumAward === 0) {
               console.log(
                 "query selector",
-                `.winning-buttons button:nth-child($i)`
+                `.winning-buttons button:nth-child(${i})`
               );
 
               // Type Casting here to access the disabled property
-              let winningButtons = document.querySelector(
-                `.winning-buttons button:nth-child(${i})`
+              let winningButton = document.querySelector(
+                `.winning-buttons button:nth-child(${i + 1})`
               ) as HTMLInputElement;
-              console.log(winningButtons);
-              winningButtons.disabled = true;
+              console.log(winningButton);
+
+              // Will be null on host's screen
+              if (winningButton) {
+                winningButton.disabled = true;
+                winningButton.style.opacity = "0.5";
+              }
             }
             currAwards[i].numAward = currNumAward.toString();
 
