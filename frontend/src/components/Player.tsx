@@ -6,6 +6,7 @@ import PcTicket from "./PcTicket";
 import MultipleHostTicket from "./MultipleHostTickets";
 import { Award } from "./Config";
 import Prizes from "./Prizes";
+import Walkthrough from "./Walkthrough";
 
 export interface callWin {
   callWinType: string;
@@ -71,6 +72,7 @@ class Player extends Component<PlayerProps, PlayerState> {
     if (this.props.type === "PC") {
       mainComponent = (
         <div className="everything-but-prizes">
+          <Walkthrough type="game" playerType="PC" />
           <div className={gameEndedCssClass}>
             <PcTicket
               socket={this.props.socket}
@@ -84,6 +86,7 @@ class Player extends Component<PlayerProps, PlayerState> {
     } else if (this.props.type === "Host") {
       mainComponent = (
         <div className="everything-but-prizes">
+          <Walkthrough type="game" playerType="Host" />
           <div className={gameEndedCssClass}>
             <Board socket={this.props.socket} />
             <MultipleHostTicket socket={this.props.socket} />

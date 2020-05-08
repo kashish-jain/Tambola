@@ -4,6 +4,7 @@ import ConfigTable from "./ConfigTable";
 import Player from "./Player";
 import ReadyPlayers from "./ReadyPlayers";
 import Snackbar from "./Snackbar";
+import Walkthrough from "./Walkthrough";
 
 export interface Award {
   // Actual type information:
@@ -264,6 +265,7 @@ class Config extends Component<ConfigProps, ConfigState> {
       // pass handleSubmit as a prop
       mainComponent = (
         <div className="config-container">
+          <Walkthrough playerType="Host" type="config" />
           <Snackbar
             message="Share this 'join link' with other players"
             actionText="Copy URL"
@@ -286,6 +288,7 @@ class Config extends Component<ConfigProps, ConfigState> {
       //    Number of Tickets
       mainComponent = (
         <div className="config-container">
+          <Walkthrough playerType="PC" type="config" />
           <h1 className="pc-configuration">Player Setup</h1>
           <hr />
           <form onSubmit={this.handleSubmit}>
