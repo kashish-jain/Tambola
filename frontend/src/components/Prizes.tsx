@@ -45,6 +45,20 @@ class Prizes extends Component<PrizesProps, PrizesState> {
             // decrement currAwards[i].numAward
             let currNumAward = parseInt(currAwards[i].numAward);
             --currNumAward;
+
+            // Disable the button if numAwards have become 0
+            if (currNumAward === 0) {
+              console.log(
+                "query selector",
+                `.winning-buttons button:nth-child($i)`
+              );
+
+              // Type Casting here to access the disabled property
+              let winningButtons = document.querySelector(
+                `.winning-buttons button:nth-child(${i})`
+              ) as HTMLInputElement;
+              winningButtons.disabled = true;
+            }
             currAwards[i].numAward = currNumAward.toString();
 
             if (currWhoWonWhat[resultsObj.callWinType] === undefined) {
