@@ -1,5 +1,4 @@
 import React from "react";
-import { render } from "react-dom";
 import { Award } from "./Config";
 
 interface ConfigTableProps {

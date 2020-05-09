@@ -4,6 +4,24 @@ import ConfigTable from "./ConfigTable";
 import Player from "./Player";
 import ReadyPlayers from "./ReadyPlayers";
 import Snackbar from "./Snackbar";
+import Modal from "react-modal";
+import Toast from "./Toast";
+
+const customModalStyles = {
+  content: {
+    top: "50%",
+    left: "50%",
+    right: "auto",
+    bottom: "auto",
+    marginRight: "-50%",
+    transform: "translate(-50%, -50%)",
+    backgroundColor: "#0e141f",
+  },
+  overlay: {
+    backgroundColor: "rgba(255, 255, 255, 0.35)",
+    transition: "all 1s",
+  },
+};
 
 export interface Award {
   // Actual type information:
@@ -49,9 +67,17 @@ interface ConfigState {
 
   // notification for host disconnected
   hostDisconnected: boolean;
+
+  // For warning modal which opens when host hits start game if some player is not ready
+  isModalOpen: boolean;
+
+  // When host tries to start game when there is no one in the game room
+  isToastOpen: boolean;
 }
 
 class Config extends Component<ConfigProps, ConfigState> {
+  // For the toast component to hide initially and not add animation on initial render
+  hideToastInitially: boolean;
   constructor(props: ConfigProps) {
     super(props);
     this.state = {
@@ -61,9 +87,19 @@ class Config extends Component<ConfigProps, ConfigState> {
       readyHost: false,
       readyClient: false,
       PcsStatus: [],
+      isModalOpen: false,
+      isToastOpen: false,
       awards: [
         {
           nameAward: "First Line",
+          numAward: "1",
+        },
+        {
+          nameAward: "Second Line",
+          numAward: "1",
+        },
+        {
+          nameAward: "Third Line",
           numAward: "1",
         },
         {
@@ -77,7 +113,17 @@ class Config extends Component<ConfigProps, ConfigState> {
       ],
       hostDisconnected: false,
     };
+    this.hideToastInitially = true;
   }
+
+  // Only handles on host's config when he presses start game button.
+  handlleHostConfigDone = () => {
+    if (this.state.isModalOpen) {
+      this.setState({ isModalOpen: false });
+    }
+    this.props.socket.emit("HostConfigDone", this.state.awards);
+    console.log("config submitted from host", this.state.awards);
+  };
 
   componentDidMount() {
     // Extracting roomID from the URL
@@ -222,9 +268,26 @@ class Config extends Component<ConfigProps, ConfigState> {
       readyClient: true,
     });
     if (this.state.type == "Host") {
-      // emitter for config done
-      this.props.socket.emit("HostConfigDone", this.state.awards);
-      console.log("config submitted from host", this.state.awards);
+      // start the game only when there are actual players in the game
+      if (this.state.PcsStatus.length > 0) {
+        // checking if all the players are ready
+        let isEveryOneReady = true;
+        for (let i = 0; i < this.state.PcsStatus.length; ++i) {
+          if (!this.state.PcsStatus[i].ready) {
+            isEveryOneReady = false;
+            continue;
+          }
+        }
+        if (isEveryOneReady) {
+          this.handlleHostConfigDone();
+        } else {
+          this.setState({ isModalOpen: true });
+        }
+      } else {
+        // To make the toast visible
+        this.hideToastInitially = false;
+        this.setState({ isToastOpen: true });
+      }
     } else if (this.state.type == "PC") {
       //let everyone know that i am ready. Backend knows who I am by socket.id
       this.props.socket.emit("PcReady", this.state.numHouses);
@@ -262,12 +325,35 @@ class Config extends Component<ConfigProps, ConfigState> {
       // form for host configuration
       //    Choosing Awards
       // pass handleSubmit as a prop
+
       mainComponent = (
         <div className="config-container">
           <Snackbar
             message="Share this 'join link' with other players"
             actionText="Copy URL"
           />
+          <Toast
+            message={"There are no players in the game right now"}
+            isShown={this.state.isToastOpen}
+            handleClose={() => {
+              this.setState({ isToastOpen: false });
+            }}
+            initiallyHidden={this.hideToastInitially}
+          />
+          <Modal isOpen={this.state.isModalOpen} style={customModalStyles}>
+            <h3>Some players are still not ready.</h3>
+            <h3>Are you sure you want to start the game?</h3>
+            <div className="modal-buttons">
+              <button onClick={this.handlleHostConfigDone}>Yes</button>
+              <button
+                onClick={() => {
+                  this.setState({ isModalOpen: false });
+                }}
+              >
+                No
+              </button>
+            </div>
+          </Modal>
           <h1 className="host-configuration">Game Setup</h1>
           <hr />
           <ConfigTable

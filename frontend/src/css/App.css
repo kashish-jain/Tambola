@@ -123,7 +123,8 @@ p.only-new-number-player {
   width: 20%;
 }
 
-.config-table td.cross-button button {
+.config-table td.cross-button button,
+.close-toast {
   background-color: #0e141f;
   color: #ffcb36;
   width: auto;
@@ -301,12 +302,22 @@ hr {
   border: 1px solid #374051;
 }
 
-table#pc-config-table {
-  border-spacing: 1rem;
-}
-
 label {
   font-size: 2rem;
+}
+
+.modal-content {
+  top: 50%;
+  left: 50%;
+  right: auto;
+  bottom: auto;
+  margin-right: -50%;
+  transform: translate(-50%, -50%);
+  background-color: #0e141f;
+}
+
+.modal-overlay {
+  background-color: rgba(255, 255, 255, 0.35);
 }
 
 .new-number-player {
@@ -348,6 +359,19 @@ p.game-over {
   color: #ff7c35;
 }
 
+table#pc-config-table {
+  border-spacing: 1rem;
+}
+
+.toast-background {
+  background-color: #374051;
+}
+
+.toast-body {
+  color: white;
+  font-size: 1.5rem;
+}
+
 .unchecked {
   width: 0;
   border: none;
@@ -355,7 +379,8 @@ p.game-over {
 }
 
 .winning-buttons,
-.result-buttons {
+.result-buttons,
+.modal-buttons {
   display: flex;
   justify-content: space-around;
   flex-wrap: wrap;
