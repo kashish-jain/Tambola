@@ -1,5 +1,4 @@
 import * as React from "react";
-import { Component } from "react";
 import Joyride, { Step, Placement } from "react-joyride";
 
 export interface WalkthroughProps {
@@ -61,14 +60,6 @@ class Walkthrough extends React.Component<WalkthroughProps, WalkthroughState> {
         content:
           "Clicking this will generate a new number which will be displayed on every player's screen",
         disableBeacon: true,
-      },
-      {
-        target: ".notification-parent",
-        content:
-          "If someone calls for any Award then their ticket will be displayed on your screen. You have the responsibility to match the ticket with numbers on the Board and declare 'Confirm Win' or 'Bogey'",
-        disableBeacon: true,
-        placement: bottom,
-        disableOverlay: true,
       },
       {
         target: "table.prizes",

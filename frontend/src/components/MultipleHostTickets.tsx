@@ -2,6 +2,7 @@ import * as React from "react";
 import { Component } from "react";
 import { callWin } from "./Player";
 import HostTicket from "./HostTicket";
+import Joyride, { Step, CallBackProps, STATUS } from "react-joyride";
 
 interface MultipleHostTicketProps {
   socket: any;
@@ -9,36 +10,62 @@ interface MultipleHostTicketProps {
 
 interface MultipleHostTicketState {
   ticketFromPlayers: { [id: string]: callWin };
+  runWalkthrough: boolean;
 }
 
 class MultipleHostTicket extends Component<
   MultipleHostTicketProps,
   MultipleHostTicketState
 > {
+  hasWalkthroughShown: boolean;
   constructor(props: MultipleHostTicketProps) {
     super(props);
-    this.state = { ticketFromPlayers: {} };
+    this.state = { ticketFromPlayers: {}, runWalkthrough: false };
+    this.hasWalkthroughShown = false;
   }
+
+  walkThroughSteps: Step[] = [
+    {
+      target: ".host-ticket",
+      content:
+        "This is player's ticket. They think they have won this respective award. Your task is to check the marked numbers on this ticket against the board and tell other players if this win is confirmed or boggie.",
+      disableBeacon: true,
+      placement: "bottom",
+      disableOverlay: true,
+    },
+  ];
 
   componentDidMount() {
     this.props.socket.on("callWinToHost", (callWinObj: callWin) => {
       // updating values
-      let newState = this.state.ticketFromPlayers;
+      let newTicketsState = this.state.ticketFromPlayers;
+      let runWalkthrough: boolean = this.hasWalkthroughShown ? false : true;
 
       // JS does not support keys to be objects, so this is easy workaround for the
       // case when same user made 2 different win calls at the same time; The key
       // is a string concatenation of id and wintype
-      newState[callWinObj.user.id + callWinObj.callWinType] = callWinObj;
+      newTicketsState[callWinObj.user.id + callWinObj.callWinType] = callWinObj;
       this.setState({
-        ticketFromPlayers: newState,
+        ticketFromPlayers: newTicketsState,
+        runWalkthrough: runWalkthrough,
       });
     });
   }
 
   removeTicket = (idWinCall: string) => {
-    let newState = this.state.ticketFromPlayers;
-    delete newState[idWinCall];
-    this.setState({ ticketFromPlayers: newState });
+    let newTicketsState = this.state.ticketFromPlayers;
+    delete newTicketsState[idWinCall];
+    this.setState({ ticketFromPlayers: newTicketsState });
+  };
+
+  handleJoyrideCallback = (data: CallBackProps) => {
+    const { status, type } = data;
+    const finishedStatuses: string[] = [STATUS.FINISHED, STATUS.SKIPPED];
+
+    if (finishedStatuses.includes(status)) {
+      this.setState({ runWalkthrough: false });
+    }
+    this.hasWalkthroughShown = true;
   };
 
   render() {
@@ -54,7 +81,27 @@ class MultipleHostTicket extends Component<
       );
       ticketComponents.push(ticket);
     }
-    return ticketComponents;
+    return (
+      <>
+        {ticketComponents}
+        <Joyride
+          steps={this.walkThroughSteps}
+          run={this.state.runWalkthrough}
+          continuous={true}
+          disableOverlayClose={true}
+          showProgress={true}
+          showSkipButton={true}
+          spotlightClicks={true}
+          styles={{
+            options: {
+              zIndex: 10000,
+              primaryColor: "#0e141f",
+              textColor: "#0e141f",
+            },
+          }}
+        />
+      </>
+    );
   }
 }
 
