@@ -32,6 +32,12 @@ class MultipleHostTicket extends Component<
       this.setState({
         ticketFromPlayers: newState,
       });
+      // Disable the generate new button
+      let generateNewButton = document.querySelector(
+        "button.new-number"
+      ) as HTMLInputElement;
+      generateNewButton.disabled = true;
+      generateNewButton.style.opacity = "0.5";
     });
   }
 
@@ -39,6 +45,15 @@ class MultipleHostTicket extends Component<
     let newState = this.state.ticketFromPlayers;
     delete newState[idWinCall];
     this.setState({ ticketFromPlayers: newState });
+
+    // check if there is no HostTicket then enable the generate new button
+    if (Object.keys(newState).length === 0 && newState.constructor === Object) {
+      let generateNewButton = document.querySelector(
+        "button.new-number"
+      ) as HTMLInputElement;
+      generateNewButton.disabled = false;
+      generateNewButton.style.opacity = "";
+    }
   };
 
   render() {
