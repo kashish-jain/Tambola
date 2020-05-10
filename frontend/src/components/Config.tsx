@@ -379,6 +379,7 @@ class Config extends Component<ConfigProps, ConfigState> {
                       min="1"
                       value={this.state.numHouses}
                       onChange={this.handleChangePC}
+                      required
                     />
                   </td>
                 </tr>
