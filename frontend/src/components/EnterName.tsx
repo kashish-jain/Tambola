@@ -71,24 +71,8 @@ class EnterName extends Component<EnterNameProps, EnterNameState> {
       }
 
       return (
-        <div
-          style={{
-            position: "absolute",
-            top: "50%",
-            left: "0",
-            right: "0",
-            transform: "translateY(-50%)",
-            textAlign: "center",
-          }}
-        >
-          <p
-            style={{
-              fontSize: "2rem",
-              textAlign: "center",
-            }}
-          >
-            Hi. What's your name?
-          </p>
+        <div className="enter-name">
+          <p className="enter-name-question">Hi. What's your name?</p>
           <input
             type="text"
             value={this.state.name}
