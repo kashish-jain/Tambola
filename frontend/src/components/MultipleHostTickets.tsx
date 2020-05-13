@@ -46,13 +46,14 @@ class MultipleHostTicket extends Component<
     delete newState[idWinCall];
     this.setState({ ticketFromPlayers: newState });
 
-    // check if there is no HostTicket then enable the generate new button
+    // check if there is no HostTicket then enable the generate new button and emit event for 'Waiting' component
     if (Object.keys(newState).length === 0 && newState.constructor === Object) {
       let generateNewButton = document.querySelector(
         "button.new-number"
       ) as HTMLInputElement;
       generateNewButton.disabled = false;
       generateNewButton.style.opacity = "";
+      this.props.socket.emit("hostCompletedChecking");
     }
   };
 

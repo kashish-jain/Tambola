@@ -46,12 +46,10 @@ class Notification extends Component<NotificationProps, NotificationState> {
       this.setState({ notificationObj: callWinObj });
       ticketBoardContainer?.setAttribute("style", "opacity:0.2;");
 
-      // Notification gets deleted only at host's screen because he has to match the ticket with board
-      if (this.props.type == "host") {
-        setTimeout(() => {
-          this.deleteNotification();
-        }, 5000);
-      }
+      // callWinToHost notification gets deleted after 5seconds on everyone's screen
+      setTimeout(() => {
+        this.deleteNotification();
+      }, 5000);
     });
     this.props.socket.on("resultsForPC", (resultsObj: resultObj) => {
       this.reward.rewardMe();
