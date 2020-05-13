@@ -2,6 +2,7 @@
 @import "./layout.css";
 @import "./GoneNumbers.css";
 @import "./Waiting.css";
+@import "./EnterName.css";
 
 body {
   background-color: #0e141f;
@@ -165,18 +166,6 @@ form > table > thead > tr > th.award-number-heading {
   text-align: center;
   font-size: 1.2rem;
   width: 100%;
-}
-
-:-ms-input-placeholder {
-  font-style: italic;
-}
-
-::-moz-placeholder {
-  font-style: italic;
-}
-
-::-webkit-input-placeholder {
-  font-style: italic;
 }
 
 /* This is for PC configuration table */

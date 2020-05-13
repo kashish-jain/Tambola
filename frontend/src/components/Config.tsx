@@ -46,11 +46,11 @@ export interface User {
 
 interface ConfigProps {
   socket: any;
+  name: string;
 }
 
 interface ConfigState {
   type: string;
-  name: string;
 
   // Config
   readyHost: boolean;
@@ -83,7 +83,6 @@ class Config extends Component<ConfigProps, ConfigState> {
     this.state = {
       type: "",
       numHouses: 1,
-      name: "",
       readyHost: false,
       readyClient: false,
       PcsStatus: [],
@@ -131,19 +130,10 @@ class Config extends Component<ConfigProps, ConfigState> {
       window.location.pathname.lastIndexOf("/") + 1
     );
 
-    // Player joins by entering his name in the prompt
-    let name;
-    if (this.state.name == "") {
-      do {
-        name = prompt("What would you like to be called?");
-      } while (name == null || name == "");
-      this.setState({ name: name });
-    }
-
     // asking server to join room
     this.props.socket.emit("joinRoom", {
       room: roomID,
-      username: name,
+      username: this.props.name,
     });
 
     // server response: player gets know if he is host or pc
@@ -316,7 +306,7 @@ class Config extends Component<ConfigProps, ConfigState> {
         <Player
           socket={this.props.socket}
           numHouses={this.state.numHouses}
-          name={this.state.name}
+          name={this.props.name}
           type={this.state.type}
           awards={this.state.awards}
         />
