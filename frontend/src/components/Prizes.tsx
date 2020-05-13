@@ -2,6 +2,7 @@ import * as React from "react";
 import { Component } from "react";
 import { resultObj } from "./Player";
 import { Award } from "./Config";
+import { newNumberObj_t } from "./NewNumber";
 import Reward from "react-rewards";
 import "../css/Prizes.css";
 
@@ -19,13 +20,16 @@ interface PrizesState {
   // string -> string[]
   // nameAward -> players who have won it
   whoWonWhat: {
-    [nameAward: string]: string[];
+    [nameAward: string]: {
+      [onNumber: number]: string[];
+    };
   };
   hasGameEnded: boolean;
 }
 
 class Prizes extends Component<PrizesProps, PrizesState> {
   reward: any;
+  newNumber: number = 0;
   constructor(props: PrizesProps) {
     super(props);
     this.state = {
@@ -34,7 +38,16 @@ class Prizes extends Component<PrizesProps, PrizesState> {
       hasGameEnded: false,
     };
   }
+
   componentDidMount() {
+    // updating my copy of new number from the host
+    this.props.socket.on(
+      "newNumberFromHost",
+      (newNumberObj: newNumberObj_t) => {
+        this.newNumber = newNumberObj.newNumber;
+      }
+    );
+
     this.props.socket.on("resultsForPC", (resultsObj: resultObj) => {
       if (resultsObj.result == "Confirm Win!") {
         let currAwards = this.state.remainingAwards;
@@ -42,17 +55,25 @@ class Prizes extends Component<PrizesProps, PrizesState> {
         let anyAwardsLeft: boolean = false;
         for (let i = 0; i < currAwards.length; ++i) {
           if (currAwards[i].nameAward == resultsObj.callWinType) {
-            // decrement currAwards[i].numAward
-            let currNumAward = parseInt(currAwards[i].numAward);
-            --currNumAward;
-            currAwards[i].numAward = currNumAward.toString();
-
+            // adding entry for new award
             if (currWhoWonWhat[resultsObj.callWinType] === undefined) {
-              currWhoWonWhat[resultsObj.callWinType] = [
+              currWhoWonWhat[resultsObj.callWinType] = {};
+            }
+
+            if (
+              currWhoWonWhat[resultsObj.callWinType][this.newNumber] ===
+              undefined
+            ) {
+              currWhoWonWhat[resultsObj.callWinType][this.newNumber] = [
                 resultsObj.calledWinUsername,
               ];
+
+              // decrement currAwards[i].numAward
+              let currNumAward = parseInt(currAwards[i].numAward);
+              --currNumAward;
+              currAwards[i].numAward = currNumAward.toString();
             } else {
-              currWhoWonWhat[resultsObj.callWinType].push(
+              currWhoWonWhat[resultsObj.callWinType][this.newNumber].push(
                 resultsObj.calledWinUsername
               );
             }
@@ -81,6 +102,29 @@ class Prizes extends Component<PrizesProps, PrizesState> {
   render() {
     // use state.remainingAwards to make a table
     let zeroAwardsLeft = <span className="zero-awards-left">x0</span>;
+
+    let whoWonComp = [];
+    console.log(this.state.whoWonWhat);
+    for (let i = 0; i < this.state.remainingAwards.length; ++i) {
+      let tiedPlayers = [];
+      for (var key in this.state.whoWonWhat[
+        this.state.remainingAwards[i].nameAward
+      ]) {
+        if (
+          this.state.whoWonWhat[
+            this.state.remainingAwards[i].nameAward
+          ].hasOwnProperty(key)
+        ) {
+          tiedPlayers.push(
+            this.state.whoWonWhat[this.state.remainingAwards[i].nameAward][
+              key
+            ].join(" | ")
+          );
+        }
+      }
+      whoWonComp.push(tiedPlayers.join(", "));
+    }
+
     let prizeComp = [];
     for (let i = 0; i < this.state.remainingAwards.length; ++i) {
       prizeComp.push(
@@ -91,11 +135,7 @@ class Prizes extends Component<PrizesProps, PrizesState> {
               ? zeroAwardsLeft
               : "x" + this.state.remainingAwards[i].numAward}
           </td>
-          <td className="won-by">
-            {this.state.whoWonWhat[
-              this.state.remainingAwards[i].nameAward
-            ]?.join(", ")}
-          </td>
+          <td className="won-by">{whoWonComp[i]}</td>
         </tr>
       );
     }
