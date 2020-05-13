@@ -69,6 +69,7 @@ class Player extends Component<PlayerProps, PlayerState> {
       mainComponent = (
         <div className="everything-but-prizes">
           <div className={gameEndedCssClass}>
+            \{" "}
             <PcTicket
               socket={this.props.socket}
               numHouses={this.props.numHouses}

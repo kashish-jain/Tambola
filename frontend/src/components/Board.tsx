@@ -3,6 +3,7 @@ import { Component } from "react";
 import { BoardLine } from "./BoardLine";
 import Notification from "./Notification";
 import { BoxState } from "./Box";
+import Waiting from "./Waiting";
 
 //TODO: Fix some logic of duplicate keys for rows generated
 
@@ -124,6 +125,7 @@ class Board extends Component<BoardProps, BoardState> {
             </p>
           </div>
         </div>
+        <Waiting socket={this.props.socket} playerType="Host" />
         <div className="notification-parent">
           {/* This div is for setting the opacity when notification is shown */}
           <div id="ticket-board-container" className="no-click">
