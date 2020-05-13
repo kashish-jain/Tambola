@@ -138,6 +138,15 @@ io.on("connection", (socket) => {
     }
   });
 
+  socket.on("hostCompletedChecking", () => {
+    const user = getCurrentUser(socket.id);
+    if (user) {
+      io.to(user.room).emit("hostCompletedChecking");
+    } else {
+      console.log("ISSUE: hostCompletedChecking coming from null user");
+    }
+  });
+
   // deal with disconnects here later
   // CASES:
   //  - dealing with host's disconnection

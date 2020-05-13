@@ -7,6 +7,7 @@ import WinningButtons from "./WinningButtons";
 import NewNumber from "./NewNumber";
 import Notification from "./Notification";
 import { Award } from "./Config";
+import Waiting from "./Waiting";
 
 interface PcTicketProps {
   socket: any;
@@ -58,6 +59,7 @@ class PcTicket extends Component<PcTicketProps, PcTicketState> {
     return (
       <div className="pc-ticket">
         <NewNumber socket={this.props.socket} />
+        <Waiting playerType="PC" socket={this.props.socket} />
         <div className="notification-parent">
           {/* This div is for setting the opacity when notification is shown */}
           <div id="ticket-board-container">
