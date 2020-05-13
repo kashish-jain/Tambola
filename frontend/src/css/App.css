@@ -1,8 +1,8 @@
 @import "~animate.css/animate.min.css";
-@import "./layout.css";
 @import "./GoneNumbers.css";
 @import "./Waiting.css";
 @import "./EnterName.css";
+@import "./layout.css";
 
 body {
   background-color: #0e141f;

@@ -7,7 +7,16 @@
   text-align: center;
 }
 
+input#enter-name {
+  outline: none;
+  background: #0e141f;
+  font-size: 1.5rem;
+  border: none;
+  color: #ffcb36;
+  text-align: left;
+}
+
 .enter-name-question {
-  font-size: 2rem;
+  font-size: 1rem;
   text-align: center;
 }
