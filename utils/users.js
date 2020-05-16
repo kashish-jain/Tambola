@@ -7,6 +7,9 @@ const rooms = {};
 // hosts: from roomID to hostID of that room
 const hosts = {};
 
+// startedGames: from roomID to hasGameStarted
+const startedGames = {};
+
 // Join user to chat
 function userJoin(id, username, room) {
   const user = { id, username, room };
@@ -17,6 +20,9 @@ function userJoin(id, username, room) {
   } else {
     rooms[user.room] = 1;
     hosts[user.room] = user.id;
+
+    // host joins
+    startedGames[user.room] = false;
   }
 
   return user;
@@ -37,7 +43,9 @@ function userLeave(id) {
 
     // updating rooms
     if (rooms[user.room] == 1) {
+      // delete room from rooms and startedGames
       delete rooms[user.room];
+      delete startedGames[user.room];
     } else {
       --rooms[user.room];
     }
@@ -72,6 +80,29 @@ function isThereAHost(room) {
   return false;
 }
 
+function hasGameStarted(roomID) {
+  if (startedGames[roomID]) {
+    console.log("hasGameStarted function true roomID", roomID);
+    return true;
+  }
+  console.log(
+    "hasGameStarted function false roomID",
+    roomID,
+    `result ${startedGames[roomID]}`
+  );
+  return false;
+}
+
+function startGame(roomID) {
+  if (startedGames[roomID] === false) {
+    startedGames[roomID] = true;
+  } else {
+    console.log(
+      "ERROR: Either starting an already started game or starting a game which does not exist"
+    );
+  }
+}
+
 module.exports = {
   userJoin,
   getCurrentUser,
@@ -79,4 +110,6 @@ module.exports = {
   getRoomUsers,
   wasHost,
   isThereAHost,
+  hasGameStarted,
+  startGame,
 };
