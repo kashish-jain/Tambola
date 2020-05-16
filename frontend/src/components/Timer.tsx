@@ -25,24 +25,28 @@ class Timer extends Component<TimerProps, TimerState> {
     clearInterval(this.interval);
   }
 
-  emittedGameOver: boolean = false;
   updateTimer = () => {
     let prevSeconds = this.state.seconds;
-    if (prevSeconds >= 2) {
+    if (prevSeconds >= 1) {
       this.setState({
         seconds: prevSeconds - 1,
       });
-    } else if (!this.emittedGameOver) {
-      this.props.endGame();
-      this.emittedGameOver = true;
+      if (prevSeconds == 1) {
+        this.props.endGame();
+      }
     }
   };
 
   render() {
+    let className = "";
+    if (this.state.seconds > 0) {
+      className = "animated infinite bounceIn";
+    }
     return (
-      <p className="animated pulse">
-        Game will be over in {this.state.seconds} seconds
-      </p>
+      <div className="game-over">
+        <p>Game will be over in:</p>
+        <p className={"timer " + className}>{this.state.seconds}</p>
+      </div>
     );
   }
 }
