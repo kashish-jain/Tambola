@@ -24,7 +24,6 @@ interface PrizesState {
       [onNumber: number]: string[];
     };
   };
-  hasGameEnded: boolean;
 }
 
 class Prizes extends Component<PrizesProps, PrizesState> {
@@ -35,7 +34,6 @@ class Prizes extends Component<PrizesProps, PrizesState> {
     this.state = {
       remainingAwards: this.props.awards,
       whoWonWhat: {},
-      hasGameEnded: false,
     };
   }
 
@@ -47,6 +45,19 @@ class Prizes extends Component<PrizesProps, PrizesState> {
         this.newNumber = newNumberObj.newNumber;
       }
     );
+
+    // this.props.socket.on("gameOver", () => {
+    // console.log("Game Over!");
+    // // game end
+    // this.props.endGame();
+    // // Keep rewarding the player after every 2 sec
+    // let timesRun = 0;
+    // let interval = setInterval(() => {
+    //   this.reward.rewardMe();
+    //   ++timesRun;
+    //   if (timesRun === 5) clearInterval(interval);
+    // }, 2000);
+    // });
 
     this.props.socket.on("hostCompletedChecking", () => {
       let anyAwardsLeft: boolean = false;
@@ -60,21 +71,6 @@ class Prizes extends Component<PrizesProps, PrizesState> {
       if (!anyAwardsLeft) {
         this.props.socket.emit("showTimer");
       }
-      /*
-      // game end logic
-      if (!anyAwardsLeft) {
-        this.props.endGame();
-        // Keep rewarding the player after every 2 sec
-        let timesRun = 0;
-        let interval = setInterval(() => {
-          this.reward.rewardMe();
-          ++timesRun;
-          if (timesRun === 5) clearInterval(interval);
-        }, 2000);
-      }
-      this.setState({
-        hasGameEnded: !anyAwardsLeft,
-      });*/
     });
 
     this.props.socket.on("resultsForPC", (resultsObj: resultObj) => {

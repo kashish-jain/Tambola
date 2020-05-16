@@ -18,6 +18,8 @@ interface PcTicketProps {
 
   // number of houses
   numHouses: number;
+
+  endGame: () => void;
 }
 
 interface PcTicketState {
@@ -69,7 +71,7 @@ class PcTicket extends Component<PcTicketProps, PcTicketState> {
   render() {
     let timer = null;
     if (this.state.showTimer) {
-      timer = <Timer socket={this.props.socket} />;
+      timer = <Timer socket={this.props.socket} endGame={this.props.endGame} />;
     }
 
     return (

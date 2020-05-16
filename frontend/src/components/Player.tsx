@@ -49,14 +49,9 @@ class Player extends Component<PlayerProps, PlayerState> {
     };
   }
 
-  componentDidMount() {
-    this.props.socket.on("gameOver", () => {
-      this.setState({ hasGameEnded: true });
-    });
-  }
-
   // This function will be called if game ends
   endGame = () => {
+    console.log("game over");
     this.setState({ hasGameEnded: true });
   };
 
@@ -78,6 +73,7 @@ class Player extends Component<PlayerProps, PlayerState> {
               socket={this.props.socket}
               numHouses={this.props.numHouses}
               awards={this.props.awards}
+              endGame={this.endGame}
             />
           </div>
           {gameOverP}
@@ -87,7 +83,7 @@ class Player extends Component<PlayerProps, PlayerState> {
       mainComponent = (
         <div className="everything-but-prizes">
           <div className={gameEndedCssClass}>
-            <Board socket={this.props.socket} />
+            <Board socket={this.props.socket} endGame={this.endGame} />
             <MultipleHostTicket socket={this.props.socket} />
           </div>
           {gameOverP}

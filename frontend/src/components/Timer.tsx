@@ -3,6 +3,7 @@ import { Component } from "react";
 
 interface TimerProps {
   socket: any;
+  endGame: () => void;
 }
 
 interface TimerState {
@@ -24,19 +25,25 @@ class Timer extends Component<TimerProps, TimerState> {
     clearInterval(this.interval);
   }
 
+  emittedGameOver: boolean = false;
   updateTimer = () => {
     let prevSeconds = this.state.seconds;
-    if (prevSeconds >= 1) {
+    if (prevSeconds >= 2) {
       this.setState({
         seconds: prevSeconds - 1,
       });
-    } else {
-      this.props.socket.emit("gameOver");
+    } else if (!this.emittedGameOver) {
+      this.props.endGame();
+      this.emittedGameOver = true;
     }
   };
 
   render() {
-    return <>Game will be over in {this.state.seconds} seconds</>;
+    return (
+      <p className="animated pulse">
+        Game will be over in {this.state.seconds} seconds
+      </p>
+    );
   }
 }
 

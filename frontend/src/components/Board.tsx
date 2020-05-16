@@ -16,6 +16,7 @@ import Timer from "./Timer";
 
 interface BoardProps {
   socket: any;
+  endGame: () => void;
 }
 
 interface BoardState {
@@ -132,7 +133,7 @@ class Board extends Component<BoardProps, BoardState> {
   render() {
     let timer = null;
     if (this.state.showTimer) {
-      timer = <Timer socket={this.props.socket} />;
+      timer = <Timer socket={this.props.socket} endGame={this.props.endGame} />;
     }
 
     let newNumber = 0;
