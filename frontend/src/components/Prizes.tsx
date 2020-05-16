@@ -3,7 +3,6 @@ import { Component } from "react";
 import { resultObj } from "./Player";
 import { Award } from "./Config";
 import { newNumberObj_t } from "./NewNumber";
-import Reward from "react-rewards";
 import "../css/Prizes.css";
 
 interface PrizesProps {
@@ -27,7 +26,6 @@ interface PrizesState {
 }
 
 class Prizes extends Component<PrizesProps, PrizesState> {
-  reward: any;
   newNumber: number = 0;
   constructor(props: PrizesProps) {
     super(props);
@@ -161,19 +159,6 @@ class Prizes extends Component<PrizesProps, PrizesState> {
           </tr>
           {prizeComp}
         </table>
-        <Reward
-          ref={(ref: any) => {
-            this.reward = ref;
-          }}
-          type="confetti"
-          config={{
-            elementCount: 50,
-            angle: 75,
-            spread: 40,
-            decay: 0.95,
-            lifetime: 100,
-          }}
-        ></Reward>
       </div>
     );
   }
