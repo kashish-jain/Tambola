@@ -8,6 +8,7 @@ import "../css/Prizes.css";
 interface PrizesProps {
   socket: any;
   awards: Award[];
+  type: string;
   endGame: () => void;
 }
 
@@ -54,7 +55,7 @@ class Prizes extends Component<PrizesProps, PrizesState> {
 
       // timer logic
       if (!anyAwardsLeft) {
-        this.props.socket.emit("showTimer");
+        if (this.props.type == "Host") this.props.socket.emit("showTimer");
       }
     });
 

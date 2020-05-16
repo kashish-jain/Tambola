@@ -104,6 +104,7 @@ class Player extends Component<PlayerProps, PlayerState> {
           <Prizes
             socket={this.props.socket}
             awards={this.props.awards}
+            type={this.props.type}
             endGame={this.endGame}
           />
         </div>
