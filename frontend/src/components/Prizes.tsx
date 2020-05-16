@@ -44,19 +44,6 @@ class Prizes extends Component<PrizesProps, PrizesState> {
       }
     );
 
-    // this.props.socket.on("gameOver", () => {
-    // console.log("Game Over!");
-    // // game end
-    // this.props.endGame();
-    // // Keep rewarding the player after every 2 sec
-    // let timesRun = 0;
-    // let interval = setInterval(() => {
-    //   this.reward.rewardMe();
-    //   ++timesRun;
-    //   if (timesRun === 5) clearInterval(interval);
-    // }, 2000);
-    // });
-
     this.props.socket.on("hostCompletedChecking", () => {
       let anyAwardsLeft: boolean = false;
       for (let i = 0; i < this.state.remainingAwards.length; ++i) {
