@@ -6,6 +6,7 @@ import PcTicket from "./PcTicket";
 import MultipleHostTicket from "./MultipleHostTickets";
 import { Award } from "./Config";
 import Prizes from "./Prizes";
+import Timer from "./Timer";
 
 export interface callWin {
   callWinType: string;
@@ -19,8 +20,6 @@ export interface resultObj {
   result: string;
 }
 
-// TODO: Name entered by user could be empty; This is disastrous; We'll make name a different
-// component soon.
 interface PlayerProps {
   socket: any;
   type: string; // type is either PC or host
@@ -50,6 +49,12 @@ class Player extends Component<PlayerProps, PlayerState> {
     };
   }
 
+  componentDidMount() {
+    this.props.socket.on("gameOver", () => {
+      this.setState({ hasGameEnded: true });
+    });
+  }
+
   // This function will be called if game ends
   endGame = () => {
     this.setState({ hasGameEnded: true });
@@ -69,7 +74,6 @@ class Player extends Component<PlayerProps, PlayerState> {
       mainComponent = (
         <div className="everything-but-prizes">
           <div className={gameEndedCssClass}>
-            \{" "}
             <PcTicket
               socket={this.props.socket}
               numHouses={this.props.numHouses}

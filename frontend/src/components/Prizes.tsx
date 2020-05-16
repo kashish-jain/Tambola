@@ -48,11 +48,39 @@ class Prizes extends Component<PrizesProps, PrizesState> {
       }
     );
 
+    this.props.socket.on("hostCompletedChecking", () => {
+      let anyAwardsLeft: boolean = false;
+      for (let i = 0; i < this.state.remainingAwards.length; ++i) {
+        // Check if anyAwardsLeft, if not then game has ended
+        if (parseInt(this.state.remainingAwards[i].numAward) > 0)
+          anyAwardsLeft = true;
+      }
+
+      // timer logic
+      if (!anyAwardsLeft) {
+        this.props.socket.emit("showTimer");
+      }
+      /*
+      // game end logic
+      if (!anyAwardsLeft) {
+        this.props.endGame();
+        // Keep rewarding the player after every 2 sec
+        let timesRun = 0;
+        let interval = setInterval(() => {
+          this.reward.rewardMe();
+          ++timesRun;
+          if (timesRun === 5) clearInterval(interval);
+        }, 2000);
+      }
+      this.setState({
+        hasGameEnded: !anyAwardsLeft,
+      });*/
+    });
+
     this.props.socket.on("resultsForPC", (resultsObj: resultObj) => {
       if (resultsObj.result == "Confirm Win!") {
         let currAwards = this.state.remainingAwards;
         let currWhoWonWhat = this.state.whoWonWhat;
-        let anyAwardsLeft: boolean = false;
         for (let i = 0; i < currAwards.length; ++i) {
           if (currAwards[i].nameAward == resultsObj.callWinType) {
             // adding entry for new award
@@ -78,23 +106,10 @@ class Prizes extends Component<PrizesProps, PrizesState> {
               );
             }
           }
-          // Check if anyAwardsLeft, if not then game has ended
-          if (parseInt(currAwards[i].numAward) > 0) anyAwardsLeft = true;
-        }
-        if (!anyAwardsLeft) {
-          this.props.endGame();
-          // Keep rewarding the player after every 2 sec
-          let timesRun = 0;
-          let interval = setInterval(() => {
-            this.reward.rewardMe();
-            ++timesRun;
-            if (timesRun === 5) clearInterval(interval);
-          }, 2000);
         }
         this.setState({
           remainingAwards: currAwards,
           whoWonWhat: currWhoWonWhat,
-          hasGameEnded: !anyAwardsLeft,
         });
       }
     });
@@ -104,7 +119,6 @@ class Prizes extends Component<PrizesProps, PrizesState> {
     let zeroAwardsLeft = <span className="zero-awards-left">x0</span>;
 
     let whoWonComp = [];
-    console.log(this.state.whoWonWhat);
     for (let i = 0; i < this.state.remainingAwards.length; ++i) {
       let tiedPlayers = [];
       for (var key in this.state.whoWonWhat[

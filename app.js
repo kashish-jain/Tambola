@@ -147,6 +147,24 @@ io.on("connection", (socket) => {
     }
   });
 
+  socket.on("showTimer", () => {
+    const user = getCurrentUser(socket.id);
+    if (user) {
+      io.to(user.room).emit("showTimer");
+    } else {
+      console.log("ISSUE: showTimer coming from null user");
+    }
+  });
+
+  socket.on("gameOver", () => {
+    const user = getCurrentUser(socket.id);
+    if (user) {
+      io.to(user.room).emit("gameOver");
+    } else {
+      console.log("ISSUE: gameOver coming from null user");
+    }
+  });
+
   // deal with disconnects here later
   // CASES:
   //  - dealing with host's disconnection

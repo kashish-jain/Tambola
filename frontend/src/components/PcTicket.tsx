@@ -8,6 +8,7 @@ import NewNumber from "./NewNumber";
 import Notification from "./Notification";
 import { Award } from "./Config";
 import Waiting from "./Waiting";
+import Timer from "./Timer";
 
 interface PcTicketProps {
   socket: any;
@@ -19,15 +20,25 @@ interface PcTicketProps {
   numHouses: number;
 }
 
-interface PcTicketState {}
+interface PcTicketState {
+  showTimer: boolean;
+}
 
 class PcTicket extends Component<PcTicketProps, PcTicketState> {
   houses: Array<Array<Array<BoxState>>>;
   constructor(props: PcTicketProps) {
     super(props);
     this.houses = generateTicket(this.props.numHouses);
+    this.state = { showTimer: false };
   }
-
+  componentDidMount() {
+    this.props.socket.on("showTimer", () => {
+      this.setState({ showTimer: true });
+    });
+    this.props.socket.on("callWinToHost", () => {
+      this.setState({ showTimer: false });
+    });
+  }
   changeTicketState = (
     houseIndex: number,
     lineIndex: number,
@@ -56,9 +67,15 @@ class PcTicket extends Component<PcTicketProps, PcTicketState> {
   );
 
   render() {
+    let timer = null;
+    if (this.state.showTimer) {
+      timer = <Timer socket={this.props.socket} />;
+    }
+
     return (
       <div className="pc-ticket">
         <NewNumber socket={this.props.socket} />
+        {timer}
         <Waiting playerType="PC" socket={this.props.socket} />
         <div className="notification-parent">
           {/* This div is for setting the opacity when notification is shown */}
