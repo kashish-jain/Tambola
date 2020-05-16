@@ -298,13 +298,15 @@ class Config extends Component<ConfigProps, ConfigState> {
     // game is over if there is no host
     if (this.state.hostDisconnected) {
       return (
-        <h1 className="host-configuration">
-          Host left the game. Please close this tab. Generate a new room if you
-          want to play more.{" "}
+        <>
+          <h1 className="host-configuration">
+            Host left the game. Please close this tab. Generate a new room if
+            you want to play more.
+          </h1>
           <a href="/" style={{ color: "white" }}>
             <button>Back</button>
           </a>
-        </h1>
+        </>
       );
     }
 
@@ -315,14 +317,17 @@ class Config extends Component<ConfigProps, ConfigState> {
       (this.state.readyHost && !this.state.readyClient)
     ) {
       return (
-        <h1 className="host-configuration">
-          Host has already started this game without you. You can ask them to
-          let you in when this game is finished or you can create your own game
-          if you want to play and send the link to other players for your game.
+        <>
+          <h1 className="host-configuration">
+            Host has already started this game without you. You can ask them to
+            let you in when this game is finished or you can create your own
+            game if you want to play and send the link to other players for your
+            game.
+          </h1>
           <a href="/" style={{ color: "white" }}>
             <button>Back</button>
           </a>
-        </h1>
+        </>
       );
     }
 
