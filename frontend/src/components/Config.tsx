@@ -319,13 +319,12 @@ class Config extends Component<ConfigProps, ConfigState> {
       return (
         <>
           <h1 className="host-configuration">
-            Host has already started this game without you. You can ask them to
-            let you in when this game is finished or you can create your own
-            game if you want to play and send the link to other players for your
-            game.
+            This game was started without you. You can play in the next game.
+            Meanwhile you can go back to the home screen and play another game
+            :)
           </h1>
           <a href="/" style={{ color: "white" }}>
-            <button>Back</button>
+            <button>Home</button>
           </a>
         </>
       );
