@@ -100,18 +100,10 @@ class Board extends Component<BoardProps, BoardState> {
       ) as HTMLInputElement;
       generateNewButton.disabled = true;
       generateNewButton.style.opacity = "0.5";
-
       this.setState({ showTimer: true });
     });
     this.props.socket.on("callWinToHost", () => {
-      // Enable the generate new button
-      let generateNewButton = document.querySelector(
-        "button.new-number"
-      ) as HTMLInputElement;
-      generateNewButton.disabled = false;
-      generateNewButton.style.opacity = "";
-
-      this.setState({ showTimer: false });
+      if (this.state.showTimer === true) this.setState({ showTimer: false });
     });
   }
 

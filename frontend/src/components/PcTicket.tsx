@@ -40,7 +40,7 @@ class PcTicket extends Component<PcTicketProps, PcTicketState> {
 
     // hiding timer in case there is another call for win
     this.props.socket.on("callWinToHost", () => {
-      this.setState({ showTimer: false });
+      if (this.state.showTimer === true) this.setState({ showTimer: false });
     });
   }
   changeTicketState = (
