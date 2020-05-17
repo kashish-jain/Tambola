@@ -4,6 +4,7 @@ import { BoardLine } from "./BoardLine";
 import Notification from "./Notification";
 import { BoxState } from "./Box";
 import Waiting from "./Waiting";
+import Timer from "./Timer";
 
 //TODO: Fix some logic of duplicate keys for rows generated
 
@@ -15,6 +16,7 @@ import Waiting from "./Waiting";
 
 interface BoardProps {
   socket: any;
+  endGame: () => void;
 }
 
 interface BoardState {
@@ -26,6 +28,9 @@ interface BoardState {
 
   // This is index of the shuffledBoardNumbers array. So tells basically which number should come next
   goneNumbers: number;
+
+  // for timer
+  showTimer: boolean;
 }
 
 // Utility Functions
@@ -83,7 +88,23 @@ class Board extends Component<BoardProps, BoardState> {
       shuffledBoardNumbers: boardNumbersArray,
       goneNumbers: 0,
       allBoardNumbers: generateAllBoardNumbers(),
+      showTimer: false,
     };
+  }
+
+  componentDidMount() {
+    this.props.socket.on("showTimer", () => {
+      // Disable the generate new button
+      let generateNewButton = document.querySelector(
+        "button.new-number"
+      ) as HTMLInputElement;
+      generateNewButton.disabled = true;
+      generateNewButton.style.opacity = "0.5";
+      this.setState({ showTimer: true });
+    });
+    this.props.socket.on("callWinToHost", () => {
+      if (this.state.showTimer === true) this.setState({ showTimer: false });
+    });
   }
 
   handleNewNumber = (newNumber: number) => {
@@ -102,6 +123,11 @@ class Board extends Component<BoardProps, BoardState> {
   };
 
   render() {
+    let timer = null;
+    if (this.state.showTimer) {
+      timer = <Timer socket={this.props.socket} endGame={this.props.endGame} />;
+    }
+
     let newNumber = 0;
     let allLines = generateAllLines(this.state.allBoardNumbers);
     return (
@@ -125,6 +151,7 @@ class Board extends Component<BoardProps, BoardState> {
             </p>
           </div>
         </div>
+        {timer}
         <Waiting socket={this.props.socket} playerType="Host" />
         <div className="notification-parent">
           {/* This div is for setting the opacity when notification is shown */}
