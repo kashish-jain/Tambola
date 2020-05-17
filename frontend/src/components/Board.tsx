@@ -99,7 +99,7 @@ class Board extends Component<BoardProps, BoardState> {
         "button.new-number"
       ) as HTMLInputElement;
       generateNewButton.disabled = true;
-      generateNewButton.style.opacity = "0.5";
+      generateNewButton.classList.add("disabled-button");
       this.setState({ showTimer: true });
     });
     this.props.socket.on("callWinToHost", () => {
