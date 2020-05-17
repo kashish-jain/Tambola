@@ -8,7 +8,7 @@ import "../css/Prizes.css";
 interface PrizesProps {
   socket: any;
   awards: Award[];
-  type: string;
+  playerType: string;
   endGame: () => void;
 }
 
@@ -54,8 +54,8 @@ class Prizes extends Component<PrizesProps, PrizesState> {
       }
 
       // timer logic
-      if (!anyAwardsLeft) {
-        if (this.props.type == "Host") this.props.socket.emit("showTimer");
+      if (!anyAwardsLeft && this.props.playerType == "Host") {
+        this.props.socket.emit("showTimer");
       }
     });
 
@@ -100,6 +100,7 @@ class Prizes extends Component<PrizesProps, PrizesState> {
     // use state.remainingAwards to make a table
     let zeroAwardsLeft = <span className="zero-awards-left">x0</span>;
 
+    // component about figuring out who won what award along with ties
     let whoWonComp = [];
     for (let i = 0; i < this.state.remainingAwards.length; ++i) {
       let tiedPlayers = [];
@@ -121,6 +122,7 @@ class Prizes extends Component<PrizesProps, PrizesState> {
       whoWonComp.push(tiedPlayers.join(", "));
     }
 
+    // rendering the actual prizes
     let prizeComp = [];
     for (let i = 0; i < this.state.remainingAwards.length; ++i) {
       prizeComp.push(

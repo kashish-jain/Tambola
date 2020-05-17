@@ -37,6 +37,8 @@ class PcTicket extends Component<PcTicketProps, PcTicketState> {
     this.props.socket.on("showTimer", () => {
       this.setState({ showTimer: true });
     });
+
+    // hiding timer in case there is another call for win
     this.props.socket.on("callWinToHost", () => {
       this.setState({ showTimer: false });
     });
