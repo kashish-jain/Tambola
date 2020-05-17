@@ -73,6 +73,9 @@ interface ConfigState {
 
   // When host tries to start game when there is no one in the game room
   isToastOpen: boolean;
+
+  //
+  hasGameAlreadyStarted: boolean;
 }
 
 class Config extends Component<ConfigProps, ConfigState> {
@@ -88,6 +91,7 @@ class Config extends Component<ConfigProps, ConfigState> {
       PcsStatus: [],
       isModalOpen: false,
       isToastOpen: false,
+      hasGameAlreadyStarted: false,
       awards: [
         {
           nameAward: "First Line",
@@ -134,6 +138,11 @@ class Config extends Component<ConfigProps, ConfigState> {
     this.props.socket.emit("joinRoom", {
       room: roomID,
       username: this.props.name,
+    });
+
+    // check if the game has already started or not
+    this.props.socket.on("gameHasAlreadyStarted", () => {
+      this.setState({ hasGameAlreadyStarted: true });
     });
 
     // server response: player gets know if he is host or pc
@@ -289,13 +298,35 @@ class Config extends Component<ConfigProps, ConfigState> {
     // game is over if there is no host
     if (this.state.hostDisconnected) {
       return (
-        <h1 className="host-configuration">
-          Host left the game. Please close this tab. Generate a new room if you
-          want to play more.{" "}
+        <>
+          <h1 className="host-configuration">
+            Host left the game. Please close this tab. Generate a new room if
+            you want to play more.
+          </h1>
           <a href="/" style={{ color: "white" }}>
             <button>Back</button>
           </a>
-        </h1>
+        </>
+      );
+    }
+
+    // If new playerjoins in already started game or host becomes ready (starts the game)
+    // this pc is not ready, let him know that he cannot play now in this game
+    if (
+      this.state.hasGameAlreadyStarted ||
+      (this.state.readyHost && !this.state.readyClient)
+    ) {
+      return (
+        <>
+          <h1 className="host-configuration">
+            This game was started without you. You can play in the next game.
+            Meanwhile you can go back to the home screen and play another game
+            :)
+          </h1>
+          <a href="/" style={{ color: "white" }}>
+            <button>Home</button>
+          </a>
+        </>
       );
     }
 
