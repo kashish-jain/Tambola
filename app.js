@@ -9,6 +9,8 @@ const {
   getRoomUsers,
   wasHost,
   isThereAHost,
+  hasGameStarted,
+  startGame,
 } = require("./utils/users");
 
 const app = express();
@@ -28,7 +30,11 @@ io.on("connection", (socket) => {
     if (len == 1) {
       socket.emit("userConnected", { type: "Host" });
     } else {
-      socket.emit("userConnected", { type: "PC" });
+      if (hasGameStarted(user.room)) {
+        socket.emit("gameHasAlreadyStarted");
+      } else {
+        socket.emit("userConnected", { type: "PC" });
+      }
 
       // Let host know who joined
       io.to(user.room).emit("notifyHostConnection", user);
@@ -113,6 +119,7 @@ io.on("connection", (socket) => {
 
     if (user) {
       console.log("HostConfigDone:", user.username);
+      startGame(user.room);
       io.to(user.room).emit("HostConfigDone", awards);
     } else {
       console.log("ISSUE: Host Config attempted with null user");
@@ -144,6 +151,15 @@ io.on("connection", (socket) => {
       io.to(user.room).emit("hostCompletedChecking");
     } else {
       console.log("ISSUE: hostCompletedChecking coming from null user");
+    }
+  });
+
+  socket.on("showTimer", () => {
+    const user = getCurrentUser(socket.id);
+    if (user) {
+      io.to(user.room).emit("showTimer");
+    } else {
+      console.log("ISSUE: showTimer coming from null user");
     }
   });
 

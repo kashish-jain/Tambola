@@ -2,12 +2,13 @@ import * as React from "react";
 import { Component } from "react";
 import { resultObj } from "./Player";
 import { Award } from "./Config";
-import Reward from "react-rewards";
+import { newNumberObj_t } from "./NewNumber";
 import "../css/Prizes.css";
 
 interface PrizesProps {
   socket: any;
   awards: Award[];
+  playerType: string;
   endGame: () => void;
 }
 
@@ -19,61 +20,78 @@ interface PrizesState {
   // string -> string[]
   // nameAward -> players who have won it
   whoWonWhat: {
-    [nameAward: string]: string[];
+    [nameAward: string]: {
+      [onNumber: number]: string[];
+    };
   };
-  hasGameEnded: boolean;
 }
 
 class Prizes extends Component<PrizesProps, PrizesState> {
-  reward: any;
+  newNumber: number = 0;
   constructor(props: PrizesProps) {
     super(props);
     this.state = {
       remainingAwards: this.props.awards,
       whoWonWhat: {},
-      hasGameEnded: false,
     };
   }
+
   componentDidMount() {
+    // updating my copy of new number from the host
+    this.props.socket.on(
+      "newNumberFromHost",
+      (newNumberObj: newNumberObj_t) => {
+        this.newNumber = newNumberObj.newNumber;
+      }
+    );
+
+    this.props.socket.on("hostCompletedChecking", () => {
+      let anyAwardsLeft: boolean = false;
+      for (let i = 0; i < this.state.remainingAwards.length; ++i) {
+        // Check if anyAwardsLeft, if not then game has ended
+        if (parseInt(this.state.remainingAwards[i].numAward) > 0)
+          anyAwardsLeft = true;
+      }
+
+      // timer logic
+      if (!anyAwardsLeft && this.props.playerType == "Host") {
+        this.props.socket.emit("showTimer");
+      }
+    });
+
     this.props.socket.on("resultsForPC", (resultsObj: resultObj) => {
       if (resultsObj.result == "Confirm Win!") {
         let currAwards = this.state.remainingAwards;
         let currWhoWonWhat = this.state.whoWonWhat;
-        let anyAwardsLeft: boolean = false;
         for (let i = 0; i < currAwards.length; ++i) {
           if (currAwards[i].nameAward == resultsObj.callWinType) {
-            // decrement currAwards[i].numAward
-            let currNumAward = parseInt(currAwards[i].numAward);
-            --currNumAward;
-            currAwards[i].numAward = currNumAward.toString();
-
+            // adding entry for new award
             if (currWhoWonWhat[resultsObj.callWinType] === undefined) {
-              currWhoWonWhat[resultsObj.callWinType] = [
+              currWhoWonWhat[resultsObj.callWinType] = {};
+            }
+
+            if (
+              currWhoWonWhat[resultsObj.callWinType][this.newNumber] ===
+              undefined
+            ) {
+              currWhoWonWhat[resultsObj.callWinType][this.newNumber] = [
                 resultsObj.calledWinUsername,
               ];
+
+              // decrement currAwards[i].numAward
+              let currNumAward = parseInt(currAwards[i].numAward);
+              --currNumAward;
+              currAwards[i].numAward = currNumAward.toString();
             } else {
-              currWhoWonWhat[resultsObj.callWinType].push(
+              currWhoWonWhat[resultsObj.callWinType][this.newNumber].push(
                 resultsObj.calledWinUsername
               );
             }
           }
-          // Check if anyAwardsLeft, if not then game has ended
-          if (parseInt(currAwards[i].numAward) > 0) anyAwardsLeft = true;
-        }
-        if (!anyAwardsLeft) {
-          this.props.endGame();
-          // Keep rewarding the player after every 2 sec
-          let timesRun = 0;
-          let interval = setInterval(() => {
-            this.reward.rewardMe();
-            ++timesRun;
-            if (timesRun === 5) clearInterval(interval);
-          }, 2000);
         }
         this.setState({
           remainingAwards: currAwards,
           whoWonWhat: currWhoWonWhat,
-          hasGameEnded: !anyAwardsLeft,
         });
       }
     });
@@ -81,6 +99,30 @@ class Prizes extends Component<PrizesProps, PrizesState> {
   render() {
     // use state.remainingAwards to make a table
     let zeroAwardsLeft = <span className="zero-awards-left">x0</span>;
+
+    // component about figuring out who won what award along with ties
+    let whoWonComp = [];
+    for (let i = 0; i < this.state.remainingAwards.length; ++i) {
+      let tiedPlayers = [];
+      for (var key in this.state.whoWonWhat[
+        this.state.remainingAwards[i].nameAward
+      ]) {
+        if (
+          this.state.whoWonWhat[
+            this.state.remainingAwards[i].nameAward
+          ].hasOwnProperty(key)
+        ) {
+          tiedPlayers.push(
+            this.state.whoWonWhat[this.state.remainingAwards[i].nameAward][
+              key
+            ].join(" | ")
+          );
+        }
+      }
+      whoWonComp.push(tiedPlayers.join(", "));
+    }
+
+    // rendering the actual prizes
     let prizeComp = [];
     for (let i = 0; i < this.state.remainingAwards.length; ++i) {
       prizeComp.push(
@@ -91,11 +133,7 @@ class Prizes extends Component<PrizesProps, PrizesState> {
               ? zeroAwardsLeft
               : "x" + this.state.remainingAwards[i].numAward}
           </td>
-          <td className="won-by">
-            {this.state.whoWonWhat[
-              this.state.remainingAwards[i].nameAward
-            ]?.join(", ")}
-          </td>
+          <td className="won-by">{whoWonComp[i]}</td>
         </tr>
       );
     }
@@ -111,19 +149,6 @@ class Prizes extends Component<PrizesProps, PrizesState> {
           </tr>
           {prizeComp}
         </table>
-        <Reward
-          ref={(ref: any) => {
-            this.reward = ref;
-          }}
-          type="confetti"
-          config={{
-            elementCount: 50,
-            angle: 75,
-            spread: 40,
-            decay: 0.95,
-            lifetime: 100,
-          }}
-        ></Reward>
       </div>
     );
   }

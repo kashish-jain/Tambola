@@ -1,6 +1,6 @@
 @import "~animate.css/animate.min.css";
 @import "./GoneNumbers.css";
-@import "./Waiting.css";
+@import "./WaitingAndTimer.css";
 @import "./EnterName.css";
 @import "./layout.css";
 
@@ -172,6 +172,12 @@ form > table > thead > tr > th.award-number-heading {
 .config-table > tbody > tr > td {
   font-size: 1.2rem;
   color: #a89e8a;
+}
+
+div.game-over-reward {
+  position: absolute;
+  top: 90vh;
+  left: 0;
 }
 
 div.host-ticket {

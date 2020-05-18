@@ -10,7 +10,7 @@ interface NewNumberState {
   newNumber: number;
 }
 
-interface newNumberObj_t {
+export interface newNumberObj_t {
   newNumber: number;
 }
 
