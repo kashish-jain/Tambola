@@ -334,6 +334,9 @@ p.game-over {
   transform: translateY(50%);
 }
 
+.custom-pulse {
+  animation: customPulse 3s;
+}
 .ready-players {
   width: 100%;
   border-spacing: 0.75rem;
@@ -384,4 +387,30 @@ table#pc-config-table {
 
 .winning-buttons > button {
   margin-top: 0.5rem;
+}
+
+@-webkit-keyframes customPulse {
+  0% {
+    -webkit-box-shadow: 0 0 0 0 #ffcb36;
+  }
+  70% {
+    -webkit-box-shadow: 0 0 0 20px rgba(120, 120, 120, 0);
+  }
+  100% {
+    -webkit-box-shadow: 0 0 0 0 rgba(120, 120, 120, 0);
+  }
+}
+@keyframes customPulse {
+  0% {
+    -moz-box-shadow: 0 0 0 0 rgba(120, 120, 120, 0.4);
+    box-shadow: 0 0 0 0 rgba(120, 120, 120, 0.4);
+  }
+  70% {
+    -moz-box-shadow: 0 0 0 20px rgba(120, 120, 120, 0);
+    box-shadow: 0 0 0 20px rgba(120, 120, 120, 0);
+  }
+  100% {
+    -moz-box-shadow: 0 0 0 0 rgba(120, 120, 120, 0);
+    box-shadow: 0 0 0 0 rgba(120, 120, 120, 0);
+  }
 }
