@@ -56,34 +56,27 @@ class EnterName extends Component<EnterNameProps, EnterNameState> {
         <div style={myStyles}>
           <button onClick={this.handleSubmit}>OK</button>
         </div>
-      );
-
-      let nameInput = document.getElementById("enter-name");
-      if (nameInput) {
-        if (this.state.name !== "") {
-          nameInput.style.textAlign = "center";
-        } else {
-          nameInput.style.textAlign = "left";
-        }
-      }
+      )
 
       return (
-        <div className="enter-name">
-          <p className="enter-name-question">Hi. What's your name?</p>
-          <input
-            id="enter-name"
-            type="text"
-            value={this.state.name}
-            placeholder="Type your answer here..."
-            onChange={this.handleChange}
-            onKeyPress={this.handleKeyPress}
-            spellCheck="false"
-            autoFocus
-          />
-          <br />
-          <br />
-          <br />
-          {submitButton}
+        <div className="enter-name-container">
+          <div className="enter-name">
+            <p className="enter-name-question">Hi. What's your name?</p>
+            <input
+              id="enter-name"
+              type="text"
+              value={this.state.name}
+              placeholder="Type your answer here..."
+              onChange={this.handleChange}
+              onKeyPress={this.handleKeyPress}
+              spellCheck="false"
+              autoFocus
+            />
+            <br />
+            <br />
+            <br />
+            {submitButton}
+          </div>
         </div>
       );
     } else {

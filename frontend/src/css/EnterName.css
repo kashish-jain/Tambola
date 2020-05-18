@@ -1,22 +1,29 @@
 .enter-name {
+  display: inline-block;
+  text-align: left;
+}
+
+.enter-name-container {
+  width: 100vw;
+  text-align: center;
   position: absolute;
   top: 50%;
-  left: 0;
-  right: 0;
   transform: translateY(-50%);
-  text-align: center;
 }
 
 input#enter-name {
   outline: none;
   background: #0e141f;
   font-size: 1.5rem;
-  border: none;
+  border-top: 0;
+  border-left: 0;
+  border-right: 0;
+  border-bottom: #374051 1px solid;
   color: #ffcb36;
   text-align: left;
 }
 
 .enter-name-question {
   font-size: 1rem;
-  text-align: center;
+  text-align: left;
 }
