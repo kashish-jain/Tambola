@@ -35,7 +35,7 @@ class Walkthrough extends React.Component<WalkthroughProps, WalkthroughState> {
       {
         target: ".start-game",
         content:
-          "Click this button after all players have joined to start the game. This will include all players who are ready.",
+          "Click this button after all players have joined to start the game.",
         disableBeacon: true,
         spotlightClicks: false,
       },
@@ -96,7 +96,7 @@ class Walkthrough extends React.Component<WalkthroughProps, WalkthroughState> {
       {
         target: ".winning-buttons",
         content:
-          "If you think you are winning an award, call for a win using these buttons. Your ticket will then be checked by the host for a Bogey!",
+          "If you think you are winning an award, call for that award using these buttons. Your ticket will then be checked by the host for a Bogey!",
         disableBeacon: true,
       },
       {
