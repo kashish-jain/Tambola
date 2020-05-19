@@ -258,11 +258,16 @@ form > table > tbody > tr:nth-child(1) > td.number-tickets {
 
 form > div.buttons-container {
   box-sizing: border-box;
+  display: flex;
 }
 
 form > div.buttons-container button.start-game,
 form > div.buttons-container button.add-row {
   margin-left: 0.75rem;
+}
+
+form > div.buttons-container button.start-game {
+  margin-right: 0.75rem;
 }
 
 form > div.buttons-container button.start-game,
