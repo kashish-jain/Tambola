@@ -31,12 +31,22 @@ class NewNumber extends Component<NewNumberProps, NewNumberState> {
       }
     );
   }
+
+  // For generating random key for every render so that dom is manipulated every
+  // single time for new render to display the animation
+  generateRandomKey = () => {
+    return Math.random() * 10000;
+  };
+
   render() {
     let newNumberComponent = (
       <>
         <p className="new-number-player">New Number </p>
         <div>
-          <div className="new-number-player-container custom-pulse">
+          <div
+            key={this.generateRandomKey()}
+            className="new-number-player-container custom-pulse"
+          >
             <p className="only-new-number-player">
               {this.state.newNumber ? this.state.newNumber : ""}
             </p>
