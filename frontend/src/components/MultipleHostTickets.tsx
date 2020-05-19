@@ -28,7 +28,7 @@ class MultipleHostTicket extends Component<
     {
       target: ".host-ticket",
       content:
-        "This is player's ticket. They think they have won this respective award. Your task is to check the marked numbers on this ticket against the board and tell other players if this win is confirmed or boggie.",
+        "This is the player's ticket. They think they have won this award. Your task is to check the 'crossed' numbers on this ticket and tell the players if this is a valid win or a Bogey!",
       disableBeacon: true,
       placement: "bottom",
       disableOverlay: true,
