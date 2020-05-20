@@ -6,6 +6,7 @@ import Joyride, { Step, CallBackProps, STATUS } from "react-joyride";
 
 interface MultipleHostTicketProps {
   socket: any;
+  showWalkthrough: boolean;
 }
 
 interface MultipleHostTicketState {

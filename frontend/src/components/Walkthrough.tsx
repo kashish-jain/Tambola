@@ -1,12 +1,15 @@
 import * as React from "react";
-import Joyride, { Step, Placement } from "react-joyride";
+import Joyride, { Step, Placement, CallBackProps, STATUS } from "react-joyride";
 
 export interface WalkthroughProps {
   type: "game" | "config";
   playerType: "PC" | "Host";
+  runWalkthrough: boolean;
 }
 
-export interface WalkthroughState {}
+export interface WalkthroughState {
+  // run: boolean;
+}
 
 class Walkthrough extends React.Component<WalkthroughProps, WalkthroughState> {
   diffTypeSteps: {
@@ -15,7 +18,13 @@ class Walkthrough extends React.Component<WalkthroughProps, WalkthroughState> {
   };
   constructor(props: WalkthroughProps) {
     super(props);
+    // this.state = { run: this.props.runWalkthrough };
     let configHostSteps: Step[] = [
+      {
+        target: "body",
+        content: "Would you like to watch tutorial?",
+        disableBeacon: true,
+      },
       {
         target: ".snackbar",
         content:
@@ -43,6 +52,11 @@ class Walkthrough extends React.Component<WalkthroughProps, WalkthroughState> {
 
     let ConfigPCSteps: Step[] = [
       {
+        target: "body",
+        content: "Would you like to watch tutorial?",
+        disableBeacon: true,
+      },
+      {
         target:
           "#pc-config-table > tbody > tr:nth-child(1) > td:nth-child(2) > input[type=number]",
         content: "Select the number of tickets you want to play with.",
@@ -61,7 +75,6 @@ class Walkthrough extends React.Component<WalkthroughProps, WalkthroughState> {
       },
     ];
 
-    let bottom: Placement = "bottom";
     let gameHostSteps = [
       {
         target: ".new-number",
@@ -111,6 +124,21 @@ class Walkthrough extends React.Component<WalkthroughProps, WalkthroughState> {
       game: { PC: gamePCSteps, Host: gameHostSteps },
     };
   }
+  componentDidUpdate(prevProps: WalkthroughProps) {
+    console.log("componendidupdate called with run ", this.props.runWalkthrough)
+    if(this.props.runWalkthrough !== prevProps.runWalkthrough) {
+      this.setState({run: this.props.runWalkthrough});
+    }
+  }
+
+  // private handleJoyrideCallback = (data: CallBackProps) => {
+  //   const { status, type } = data;
+  //   const finishedStatuses: string[] = [STATUS.FINISHED, STATUS.SKIPPED];
+
+  //   if (finishedStatuses.includes(status)) {
+  //     this.setState({ run: false });
+  //   }
+  // };
 
   render() {
     let playerType = this.props.playerType;
@@ -119,8 +147,9 @@ class Walkthrough extends React.Component<WalkthroughProps, WalkthroughState> {
     return (
       <>
         <Joyride
+          // callback={this.handleJoyrideCallback}
           steps={steps}
-          run={true}
+          run={this.props.runWalkthrough}
           continuous={true}
           disableOverlayClose={true}
           showProgress={true}

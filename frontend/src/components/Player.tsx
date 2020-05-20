@@ -32,6 +32,7 @@ interface PlayerProps {
 
   // for PC
   numHouses: number;
+  runWalkthrough: boolean
 }
 
 interface PlayerState {
@@ -69,7 +70,7 @@ class Player extends Component<PlayerProps, PlayerState> {
     if (this.props.type === "PC") {
       mainComponent = (
         <div className="everything-but-prizes">
-          <Walkthrough type="game" playerType="PC" />
+          <Walkthrough type="game" playerType="PC" runWalkthrough={this.props.runWalkthrough}/>
           <div className={gameEndedCssClass}>
             <PcTicket
               socket={this.props.socket}
@@ -83,10 +84,10 @@ class Player extends Component<PlayerProps, PlayerState> {
     } else if (this.props.type === "Host") {
       mainComponent = (
         <div className="everything-but-prizes">
-          <Walkthrough type="game" playerType="Host" />
+          <Walkthrough type="game" playerType="Host" runWalkthrough={this.props.runWalkthrough}/>
           <div className={gameEndedCssClass}>
             <Board socket={this.props.socket} />
-            <MultipleHostTicket socket={this.props.socket} />
+            <MultipleHostTicket socket={this.props.socket} showWalkthrough={this.props.runWalkthrough}/>
           </div>
           {gameOverP}
         </div>

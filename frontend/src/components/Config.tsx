@@ -74,6 +74,12 @@ interface ConfigState {
 
   // When host tries to start game when there is no one in the game room
   isToastOpen: boolean;
+
+  // when arrive on host screen, ask the user if they want to see tutorial or not
+  watchTutorialModal: boolean
+
+  // passed to child components to let them know if user selected to watch the tutorial or not
+  runWalkthrough: boolean
 }
 
 class Config extends Component<ConfigProps, ConfigState> {
@@ -89,6 +95,8 @@ class Config extends Component<ConfigProps, ConfigState> {
       PcsStatus: [],
       isModalOpen: false,
       isToastOpen: false,
+      watchTutorialModal: true,
+      runWalkthrough: false,
       awards: [
         {
           nameAward: "First Line",
@@ -310,6 +318,7 @@ class Config extends Component<ConfigProps, ConfigState> {
           name={this.props.name}
           type={this.state.type}
           awards={this.state.awards}
+          runWalkthrough={this.state.runWalkthrough}
         />
       );
     } else if (this.state.type == "Host") {
@@ -319,7 +328,7 @@ class Config extends Component<ConfigProps, ConfigState> {
 
       mainComponent = (
         <div className="config-container">
-          <Walkthrough playerType="Host" type="config" />
+          <Walkthrough playerType="Host" type="config" runWalkthrough={this.state.runWalkthrough}/>
           <Snackbar
             message="Share this 'join link' with other players"
             actionText="Copy URL"
@@ -364,7 +373,7 @@ class Config extends Component<ConfigProps, ConfigState> {
       //    Number of Tickets
       mainComponent = (
         <div className="config-container">
-          <Walkthrough playerType="PC" type="config" />
+          <Walkthrough playerType="PC" type="config" runWalkthrough={this.state.runWalkthrough}/>
           <h1 className="pc-configuration">Player Setup</h1>
           <hr />
           <form onSubmit={this.handleSubmit}>
@@ -398,7 +407,28 @@ class Config extends Component<ConfigProps, ConfigState> {
         </div>
       );
     }
-    return <>{mainComponent}</>;
+    return (
+      <>
+        {mainComponent}
+        <Modal isOpen={this.state.watchTutorialModal} style={customModalStyles}>
+          <h3>Would you like to watch tutorial?</h3>
+          <div className="modal-buttons">
+            <button onClick={() => {
+              this.setState({runWalkthrough: true, watchTutorialModal: false})
+              console.log("clicked yes");}
+              }>Yes</button>
+            <button
+              onClick={() => {
+                console.log("clicked No");
+                this.setState({ runWalkthrough: false, watchTutorialModal: false });
+              }}
+            >
+              No
+            </button>
+          </div>
+        </Modal>
+      </>
+    );
   }
 }
 
