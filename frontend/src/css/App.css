@@ -1,7 +1,8 @@
 @import "~animate.css/animate.min.css";
-@import "./layout.css";
 @import "./GoneNumbers.css";
+@import "./WaitingAndTimer.css";
 @import "./EnterName.css";
+@import "./layout.css";
 
 body {
   background-color: #0e141f;
@@ -173,6 +174,12 @@ form > table > thead > tr > th.award-number-heading {
   color: #a89e8a;
 }
 
+div.game-over-reward {
+  position: absolute;
+  top: 90vh;
+  left: 0;
+}
+
 div.host-ticket {
   margin-top: 1rem;
   text-align: center;
@@ -251,11 +258,16 @@ form > table > tbody > tr:nth-child(1) > td.number-tickets {
 
 form > div.buttons-container {
   box-sizing: border-box;
+  display: flex;
 }
 
 form > div.buttons-container button.start-game,
 form > div.buttons-container button.add-row {
   margin-left: 0.75rem;
+}
+
+form > div.buttons-container button.start-game {
+  margin-right: 0.75rem;
 }
 
 form > div.buttons-container button.start-game,
@@ -327,6 +339,9 @@ p.game-over {
   transform: translateY(50%);
 }
 
+.custom-pulse {
+  animation: customPulse 3s 2;
+}
 .ready-players {
   width: 100%;
   border-spacing: 0.75rem;
@@ -377,4 +392,30 @@ table#pc-config-table {
 
 .winning-buttons > button {
   margin-top: 0.5rem;
+}
+
+@-webkit-keyframes customPulse {
+  0% {
+    -webkit-box-shadow: 0 0 0 0 #ffcb36;
+  }
+  70% {
+    -webkit-box-shadow: 0 0 0 20px rgba(120, 120, 120, 0);
+  }
+  100% {
+    -webkit-box-shadow: 0 0 0 0 rgba(120, 120, 120, 0);
+  }
+}
+@keyframes customPulse {
+  0% {
+    -moz-box-shadow: 0 0 0 0 rgba(120, 120, 120, 0.4);
+    box-shadow: 0 0 0 0 rgba(120, 120, 120, 0.4);
+  }
+  70% {
+    -moz-box-shadow: 0 0 0 20px rgba(120, 120, 120, 0);
+    box-shadow: 0 0 0 20px rgba(120, 120, 120, 0);
+  }
+  100% {
+    -moz-box-shadow: 0 0 0 0 rgba(120, 120, 120, 0);
+    box-shadow: 0 0 0 0 rgba(120, 120, 120, 0);
+  }
 }

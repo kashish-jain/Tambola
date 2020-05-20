@@ -7,6 +7,7 @@ import MultipleHostTicket from "./MultipleHostTickets";
 import { Award } from "./Config";
 import Prizes from "./Prizes";
 import Walkthrough from "./Walkthrough";
+import Reward from "react-rewards";
 
 export interface callWin {
   callWinType: string;
@@ -20,8 +21,6 @@ export interface resultObj {
   result: string;
 }
 
-// TODO: Name entered by user could be empty; This is disastrous; We'll make name a different
-// component soon.
 interface PlayerProps {
   socket: any;
   type: string; // type is either PC or host
@@ -44,7 +43,7 @@ class Player extends Component<PlayerProps, PlayerState> {
   ticketFromPlayer: Array<Array<Array<BoxState>>> | undefined;
   winningCallFromPlayer: string | undefined;
   userCalledForWin: { id: string; username: string; room: string } | undefined;
-
+  reward: any;
   constructor(props: PlayerProps) {
     super(props);
     this.state = {
@@ -54,7 +53,15 @@ class Player extends Component<PlayerProps, PlayerState> {
 
   // This function will be called if game ends
   endGame = () => {
+    console.log("game over");
     this.setState({ hasGameEnded: true });
+    this.reward.rewardMe();
+    let timesRun = 0;
+    let interval = setInterval(() => {
+      this.reward.rewardMe();
+      ++timesRun;
+      if (timesRun === 4) clearInterval(interval);
+    }, 2000);
   };
 
   render() {
@@ -76,6 +83,7 @@ class Player extends Component<PlayerProps, PlayerState> {
               socket={this.props.socket}
               numHouses={this.props.numHouses}
               awards={this.props.awards}
+              endGame={this.endGame}
             />
           </div>
           {gameOverP}
@@ -86,7 +94,7 @@ class Player extends Component<PlayerProps, PlayerState> {
         <div className="everything-but-prizes">
           <Walkthrough type="game" playerType="Host" runWalkthrough={this.props.runWalkthrough}/>
           <div className={gameEndedCssClass}>
-            <Board socket={this.props.socket} />
+            <Board socket={this.props.socket} endGame={this.endGame}/>
             <MultipleHostTicket socket={this.props.socket} showWalkthrough={this.props.runWalkthrough}/>
           </div>
           {gameOverP}
@@ -94,14 +102,33 @@ class Player extends Component<PlayerProps, PlayerState> {
       );
     }
     return (
-      <div className="main-container">
-        {mainComponent}
-        <Prizes
-          socket={this.props.socket}
-          awards={this.props.awards}
-          endGame={this.endGame}
-        />
-      </div>
+      <>
+        <div className="main-container">
+          {mainComponent}
+          <Prizes
+            socket={this.props.socket}
+            awards={this.props.awards}
+            playerType={this.props.type}
+            endGame={this.endGame}
+          />
+        </div>
+        {/* This is just for game over confetti */}
+        <div className="game-over-reward">
+          <Reward
+            ref={(ref: any) => {
+              this.reward = ref;
+            }}
+            type="confetti"
+            config={{
+              elementCount: 90,
+              angle: 70,
+              spread: 70,
+              decay: 0.95,
+              lifetime: 100,
+            }}
+          ></Reward>
+        </div>
+      </>
     );
   }
 }

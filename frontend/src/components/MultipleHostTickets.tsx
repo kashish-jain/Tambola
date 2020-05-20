@@ -50,23 +50,29 @@ class MultipleHostTicket extends Component<
         ticketFromPlayers: newTicketsState,
         runWalkthrough: runWalkthrough,
       });
+      // Disable the generate new button
+      let generateNewButton = document.querySelector(
+        "button.new-number"
+      ) as HTMLInputElement;
+      generateNewButton.disabled = true;
+      generateNewButton.style.opacity = "0.5";
     });
   }
 
   removeTicket = (idWinCall: string) => {
-    let newTicketsState = this.state.ticketFromPlayers;
-    delete newTicketsState[idWinCall];
-    this.setState({ ticketFromPlayers: newTicketsState });
-  };
+    let newState = this.state.ticketFromPlayers;
+    delete newState[idWinCall];
+    this.setState({ ticketFromPlayers: newState });
 
-  handleJoyrideCallback = (data: CallBackProps) => {
-    const { status, type } = data;
-    const finishedStatuses: string[] = [STATUS.FINISHED, STATUS.SKIPPED];
-
-    if (finishedStatuses.includes(status)) {
-      this.setState({ runWalkthrough: false });
+    // check if there is no HostTicket then enable the generate new button and emit event for 'Waiting' component
+    if (Object.keys(newState).length === 0 && newState.constructor === Object) {
+      let generateNewButton = document.querySelector(
+        "button.new-number"
+      ) as HTMLInputElement;
+      generateNewButton.disabled = false;
+      generateNewButton.style.opacity = "";
+      this.props.socket.emit("hostCompletedChecking");
     }
-    this.hasWalkthroughShown = true;
   };
 
   render() {

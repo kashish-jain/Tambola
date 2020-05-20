@@ -56,37 +56,27 @@ class EnterName extends Component<EnterNameProps, EnterNameState> {
         <div style={myStyles}>
           <button onClick={this.handleSubmit}>OK</button>
         </div>
-      );
-
-      let style: React.CSSProperties = {
-        outline: "none",
-        background: "#0e141f",
-        border: "none",
-        fontSize: "4rem",
-        color: "#ffcb36",
-        textAlign: "center",
-      };
-      if (this.state.name === "") {
-        style["textAlign"] = "left";
-      }
+      )
 
       return (
-        <div className="enter-name">
-          <p className="enter-name-question">Hi. What's your name?</p>
-          <input
-            type="text"
-            value={this.state.name}
-            placeholder="Type your answer here..."
-            onChange={this.handleChange}
-            onKeyPress={this.handleKeyPress}
-            style={style}
-            spellCheck="false"
-            autoFocus
-          />
-          <br />
-          <br />
-          <br />
-          {submitButton}
+        <div className="enter-name-container">
+          <div className="enter-name">
+            <p className="enter-name-question">Hi. What's your name?</p>
+            <input
+              id="enter-name"
+              type="text"
+              value={this.state.name}
+              placeholder="Type your answer here..."
+              onChange={this.handleChange}
+              onKeyPress={this.handleKeyPress}
+              spellCheck="false"
+              autoFocus
+            />
+            <br />
+            <br />
+            <br />
+            {submitButton}
+          </div>
         </div>
       );
     } else {
