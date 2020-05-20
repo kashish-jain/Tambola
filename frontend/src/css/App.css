@@ -340,7 +340,7 @@ p.game-over {
 }
 
 .custom-pulse {
-  animation: customPulse 3s;
+  animation: customPulse 3s 2;
 }
 .ready-players {
   width: 100%;
