@@ -22,7 +22,13 @@ class MultipleHostTicket extends Component<
   constructor(props: MultipleHostTicketProps) {
     super(props);
     this.state = { ticketFromPlayers: {}, runWalkthrough: false };
-    this.hasWalkthroughShown = false;
+    
+    // hasWalkthrough shown handles this logic: 
+    // if player tickets become zero then the tutorial is shown and hasWalkthrough shown
+    // becomes true and tutorial is never shown. This is the case when in props we receive
+    // showWalkthrough as true. If it is false then we just change hasWalkthrough shown to be
+    // true and then the walkThrough never playes
+    this.hasWalkthroughShown = !this.props.showWalkthrough;
   }
 
   walkThroughSteps: Step[] = [

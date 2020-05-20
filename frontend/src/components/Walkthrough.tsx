@@ -21,11 +21,6 @@ class Walkthrough extends React.Component<WalkthroughProps, WalkthroughState> {
     // this.state = { run: this.props.runWalkthrough };
     let configHostSteps: Step[] = [
       {
-        target: "body",
-        content: "Would you like to watch tutorial?",
-        disableBeacon: true,
-      },
-      {
         target: ".snackbar",
         content:
           "Share this link with your friends so that they can join the game",
@@ -51,11 +46,6 @@ class Walkthrough extends React.Component<WalkthroughProps, WalkthroughState> {
     ];
 
     let ConfigPCSteps: Step[] = [
-      {
-        target: "body",
-        content: "Would you like to watch tutorial?",
-        disableBeacon: true,
-      },
       {
         target:
           "#pc-config-table > tbody > tr:nth-child(1) > td:nth-child(2) > input[type=number]",
@@ -131,15 +121,6 @@ class Walkthrough extends React.Component<WalkthroughProps, WalkthroughState> {
     }
   }
 
-  // private handleJoyrideCallback = (data: CallBackProps) => {
-  //   const { status, type } = data;
-  //   const finishedStatuses: string[] = [STATUS.FINISHED, STATUS.SKIPPED];
-
-  //   if (finishedStatuses.includes(status)) {
-  //     this.setState({ run: false });
-  //   }
-  // };
-
   render() {
     let playerType = this.props.playerType;
     let tutorialType = this.props.type;
@@ -147,7 +128,6 @@ class Walkthrough extends React.Component<WalkthroughProps, WalkthroughState> {
     return (
       <>
         <Joyride
-          // callback={this.handleJoyrideCallback}
           steps={steps}
           run={this.props.runWalkthrough}
           continuous={true}
