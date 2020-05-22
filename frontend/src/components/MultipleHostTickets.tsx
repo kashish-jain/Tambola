@@ -2,35 +2,59 @@ import * as React from "react";
 import { Component } from "react";
 import { callWin } from "./Player";
 import HostTicket from "./HostTicket";
+import Joyride, { Step, CallBackProps, STATUS } from "react-joyride";
 
 interface MultipleHostTicketProps {
   socket: any;
+  showWalkthrough: boolean;
 }
 
 interface MultipleHostTicketState {
   ticketFromPlayers: { [id: string]: callWin };
+  runWalkthrough: boolean;
 }
 
 class MultipleHostTicket extends Component<
   MultipleHostTicketProps,
   MultipleHostTicketState
 > {
+  hasWalkthroughShown: boolean;
   constructor(props: MultipleHostTicketProps) {
     super(props);
-    this.state = { ticketFromPlayers: {} };
+    this.state = { ticketFromPlayers: {}, runWalkthrough: false };
+    
+    // hasWalkthrough shown handles this logic: 
+    // if player tickets become zero then the tutorial is shown and hasWalkthrough shown
+    // becomes true and tutorial is never shown. This is the case when in props we receive
+    // showWalkthrough as true. If it is false then we just change hasWalkthrough shown to be
+    // true and then the walkThrough never playes
+    this.hasWalkthroughShown = !this.props.showWalkthrough;
   }
+
+  walkThroughSteps: Step[] = [
+    {
+      target: ".host-ticket",
+      content:
+        "This is the player's ticket. They think they have won this award. Your task is to check the 'crossed' numbers on this ticket and tell the players if this is a valid win or a Bogey!",
+      disableBeacon: true,
+      placement: "bottom",
+      disableOverlay: true,
+    },
+  ];
 
   componentDidMount() {
     this.props.socket.on("callWinToHost", (callWinObj: callWin) => {
       // updating values
-      let newState = this.state.ticketFromPlayers;
+      let newTicketsState = this.state.ticketFromPlayers;
+      let runWalkthrough: boolean = this.hasWalkthroughShown ? false : true;
 
       // JS does not support keys to be objects, so this is easy workaround for the
       // case when same user made 2 different win calls at the same time; The key
       // is a string concatenation of id and wintype
-      newState[callWinObj.user.id + callWinObj.callWinType] = callWinObj;
+      newTicketsState[callWinObj.user.id + callWinObj.callWinType] = callWinObj;
       this.setState({
-        ticketFromPlayers: newState,
+        ticketFromPlayers: newTicketsState,
+        runWalkthrough: runWalkthrough,
       });
       // Disable the generate new button
       let generateNewButton = document.querySelector(
@@ -70,7 +94,27 @@ class MultipleHostTicket extends Component<
       );
       ticketComponents.push(ticket);
     }
-    return ticketComponents;
+    return (
+      <>
+        {ticketComponents}
+        <Joyride
+          steps={this.walkThroughSteps}
+          run={this.state.runWalkthrough}
+          continuous={true}
+          disableOverlayClose={true}
+          showProgress={true}
+          showSkipButton={true}
+          spotlightClicks={true}
+          styles={{
+            options: {
+              zIndex: 10000,
+              primaryColor: "#0e141f",
+              textColor: "#0e141f",
+            },
+          }}
+        />
+      </>
+    );
   }
 }
 
