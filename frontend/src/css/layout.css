@@ -35,9 +35,18 @@ p.award-status {
     width: 60%;
     border-right: 1px solid #374051;
   }
+
+  input#enter-name {
+    font-size: 4rem;
+  }
+
   p.award-status {
     display: block;
     font-size: 3rem;
     margin: 1rem 0 0;
+  }
+
+  p.enter-name-question {
+    font-size: 2rem;
   }
 }

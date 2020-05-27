@@ -14,6 +14,7 @@
     "animate.css": "^3.7.2",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-joyride": "^2.2.1",
     "react-modal": "^3.11.2",
     "react-rewards": "^1.1.1",
     "react-scripts": "3.4.1",
