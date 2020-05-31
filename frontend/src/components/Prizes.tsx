@@ -42,6 +42,21 @@ class Prizes extends Component<PrizesProps, PrizesState> {
       "newNumberFromHost",
       (newNumberObj: newNumberObj_t) => {
         this.newNumber = newNumberObj.newNumber;
+
+        // disable the winButton for which numaward = 0
+        for (let i = 0; i < this.state.remainingAwards.length; ++i) {
+          if (parseInt(this.state.remainingAwards[i].numAward) === 0) {
+            let winningButton = document.querySelector(
+              `.winning-buttons button:nth-child(${i + 1})`
+            ) as HTMLInputElement;
+
+            // Will be null on host's screen
+            if (winningButton) {
+              winningButton.disabled = true;
+              winningButton.classList.add("disabled-button");
+            }
+          }
+        }
       }
     );
 
