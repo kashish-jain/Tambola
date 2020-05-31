@@ -22,8 +22,12 @@ class Walkthrough extends React.Component<WalkthroughProps, WalkthroughState> {
     let configHostSteps: Step[] = [
       {
         target: ".snackbar",
-        content:
-          "Share this link with your friends so that they can join this game",
+        content: (
+          <>
+          <h3>You are the host!</h3>
+          <p>Share this link with your friends so that they can play in this game created by you.</p>
+          </>
+        ),
         disableBeacon: true,
       },
       {

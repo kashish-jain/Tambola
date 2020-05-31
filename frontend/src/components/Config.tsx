@@ -361,7 +361,7 @@ class Config extends Component<ConfigProps, ConfigState> {
           <Walkthrough playerType="Host" type="config" runWalkthrough={this.state.runWalkthrough}/>
           <Snackbar
             message="Share this 'join link' with other players"
-            actionText="Copy URL"
+            actionText="Copy Link"
           />
           <Toast
             message={"There are no players in the game right now"}
