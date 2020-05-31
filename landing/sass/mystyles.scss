@@ -69,8 +69,7 @@ hr {
     max-width: 100%;
     background-image: url(../images/playing2.svg);
     background-repeat: no-repeat;
-    background-size: auto;
-
+    background-size: contain;
     //   This will be according to the text size so that the bottom of our button and the svg align
     // the svg will also need to be resized
     height: 70%;

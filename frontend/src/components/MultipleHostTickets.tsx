@@ -61,7 +61,7 @@ class MultipleHostTicket extends Component<
         "button.new-number"
       ) as HTMLInputElement;
       generateNewButton.disabled = true;
-      generateNewButton.style.opacity = "0.5";
+      generateNewButton.classList.add("disabled-button");
     });
   }
 
@@ -76,7 +76,7 @@ class MultipleHostTicket extends Component<
         "button.new-number"
       ) as HTMLInputElement;
       generateNewButton.disabled = false;
-      generateNewButton.style.opacity = "";
+      generateNewButton.classList.remove("disabled-button");
       this.props.socket.emit("hostCompletedChecking");
     }
   };
