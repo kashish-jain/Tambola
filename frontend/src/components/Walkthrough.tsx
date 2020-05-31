@@ -23,7 +23,7 @@ class Walkthrough extends React.Component<WalkthroughProps, WalkthroughState> {
       {
         target: ".snackbar",
         content:
-          "Share this link with your friends so that they can join the game",
+          "Share this link with your friends so that they can join this game",
         disableBeacon: true,
       },
       {
