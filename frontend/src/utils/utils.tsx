@@ -259,4 +259,13 @@ function generateTicket(numHouses: number) {
   return finalTicket;
 }
 
-export { generateTicket };
+let doNotLeavePage = (event: any) => {
+  // Custom message is not working, considererd as security threat;
+  // Event listener gets removed when the game
+  event.preventDefault();
+  event.returnValue =
+    "All the game state will be lost. Are you sure you want to leave?";
+  return "All the game state will be lost. Are you sure you want to leave?";
+};
+
+export { generateTicket, doNotLeavePage };

@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "css-build": "node-sass --omit-source-map-url sass/mystyles.scss css/mystyles.css",
+    "css-build": "node-sass --omit-source-map-url sass/mystyles.scss css/mystyles.css --output-style compressed",
     "css-watch": "npm run css-build -- --watch",
     "start": "npm run css-watch"
   },
