@@ -8,6 +8,8 @@ import { Award } from "./Config";
 import Prizes from "./Prizes";
 import Walkthrough from "./Walkthrough";
 import Reward from "react-rewards";
+import { doNotLeavePage } from "../utils/utils";
+
 
 export interface callWin {
   callWinType: string;
@@ -53,9 +55,9 @@ class Player extends Component<PlayerProps, PlayerState> {
 
   // This function will be called if game ends
   endGame = () => {
-    console.log("game over");
     this.setState({ hasGameEnded: true });
     this.reward.rewardMe();
+    window.removeEventListener('beforeunload', doNotLeavePage);
     let timesRun = 0;
     let interval = setInterval(() => {
       this.reward.rewardMe();
