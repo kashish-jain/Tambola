@@ -31,7 +31,7 @@ class Timer extends Component<TimerProps, TimerState> {
       this.setState({
         seconds: prevSeconds - 1,
       });
-      if (prevSeconds == 1) {
+      if (prevSeconds === 1) {
         this.props.endGame();
       }
     }

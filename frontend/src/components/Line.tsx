@@ -1,5 +1,4 @@
 import * as React from "react";
-import { Component } from "react";
 import Box from "./Box";
 import { BoxState } from "./Box";
 
@@ -32,23 +31,14 @@ interface LineProps {
   ) => void;
 }
 
-interface LineState {}
-
-class Line extends Component<LineProps, LineState> {
-  constructor(props: LineProps) {
-    super(props);
-  }
-
+function Line(props: LineProps) {
   // this callback will be envoked from box component when it gets clicked
-  changeTicketState = (boxIndex: number, check: boolean) => {
-    this.props.changeTicketState(this.props.index, boxIndex, check);
+  let changeTicketState = (boxIndex: number, check: boolean) => {
+    props.changeTicketState(props.index, boxIndex, check);
   };
+  let boxes = generateBoxComponents(props.numbers, changeTicketState);
 
-  boxes = generateBoxComponents(this.props.numbers, this.changeTicketState);
-
-  render() {
-    return <div className="line">{this.boxes}</div>;
-  }
+  return <div className="line">{boxes}</div>;
 }
 
 export default Line;

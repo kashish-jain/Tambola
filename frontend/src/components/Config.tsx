@@ -161,7 +161,7 @@ class Config extends Component<ConfigProps, ConfigState> {
 
       // Receiving event on Host from new PC who has joined and sending them
       // the list of readyPlayers
-      if (playerTypeObj.type == "Host") {
+      if (playerTypeObj.type === "Host") {
         this.props.socket.on("notifyHostConnection", (user: User) => {
           let PcsStatus = this.state.PcsStatus;
           let newPcStatus: PcStatus = {
@@ -178,7 +178,7 @@ class Config extends Component<ConfigProps, ConfigState> {
           // Find user in array and make him ready
           let PcsStatus = this.state.PcsStatus;
           for (let i = 0; i < PcsStatus.length; ++i) {
-            if (PcsStatus[i].user.id == user.id) {
+            if (PcsStatus[i].user.id === user.id) {
               PcsStatus[i].ready = true;
               PcsStatus[i].numTickets = numTickets;
             }
@@ -191,7 +191,7 @@ class Config extends Component<ConfigProps, ConfigState> {
           // dealing with ready/not ready
           let PcsStatus = this.state.PcsStatus;
           for (let i = 0; i < PcsStatus.length; ++i) {
-            if (PcsStatus[i].user.id == user.id) {
+            if (PcsStatus[i].user.id === user.id) {
               // Remove this user from PcsStatus
               PcsStatus.splice(i, 1);
             }
@@ -261,7 +261,7 @@ class Config extends Component<ConfigProps, ConfigState> {
   // For PC Config
   handleChangePC = (event: any) => {
     const { value } = event.target;
-    if (this.state.type == "PC") {
+    if (this.state.type === "PC") {
       // sanity check
       this.setState({
         numHouses: value,
@@ -274,7 +274,7 @@ class Config extends Component<ConfigProps, ConfigState> {
     this.setState({
       readyClient: true,
     });
-    if (this.state.type == "Host") {
+    if (this.state.type === "Host") {
       // start the game only when there are actual players in the game
       if (this.state.PcsStatus.length > 0) {
         // checking if all the players are ready
@@ -295,7 +295,7 @@ class Config extends Component<ConfigProps, ConfigState> {
         this.hideToastInitially = false;
         this.setState({ isToastOpen: true });
       }
-    } else if (this.state.type == "PC") {
+    } else if (this.state.type === "PC") {
       //let everyone know that i am ready. Backend knows who I am by socket.id
       this.props.socket.emit("PcReady", this.state.numHouses);
     }
@@ -351,7 +351,7 @@ class Config extends Component<ConfigProps, ConfigState> {
           runWalkthrough={this.state.runWalkthrough}
         />
       );
-    } else if (this.state.type == "Host") {
+    } else if (this.state.type === "Host") {
       // form for host configuration
       //    Choosing Awards
       // pass handleSubmit as a prop
@@ -398,7 +398,7 @@ class Config extends Component<ConfigProps, ConfigState> {
           <ReadyPlayers players={this.state.PcsStatus} />
         </div>
       );
-    } else if (this.state.type == "PC") {
+    } else if (this.state.type === "PC") {
       // form for PC configuration
       //    Number of Tickets
       mainComponent = (
