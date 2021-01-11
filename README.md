@@ -1,5 +1,5 @@
 # Online Tambola
-This repository holds the source code for online multiplayer version of Tambola/Housie which can be played [here](http://example.com).
+This repository holds the source code for online multiplayer version of Tambola/Housie which can be played [here](http://www.tambolakhel.com/).
 
 ## Motivation
 The motivation behind developing this was to create actual in-person Tambola experience online during this pandemic. All the other mobile versions either do not allow you
