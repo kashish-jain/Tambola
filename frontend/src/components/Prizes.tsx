@@ -69,17 +69,17 @@ class Prizes extends Component<PrizesProps, PrizesState> {
       }
 
       // timer logic
-      if (!anyAwardsLeft && this.props.playerType == "Host") {
+      if (!anyAwardsLeft && this.props.playerType === "Host") {
         this.props.socket.emit("showTimer");
       }
     });
 
     this.props.socket.on("resultsForPC", (resultsObj: resultObj) => {
-      if (resultsObj.result == "Confirm Win!") {
+      if (resultsObj.result === "Confirm Win!") {
         let currAwards = this.state.remainingAwards;
         let currWhoWonWhat = this.state.whoWonWhat;
         for (let i = 0; i < currAwards.length; ++i) {
-          if (currAwards[i].nameAward == resultsObj.callWinType) {
+          if (currAwards[i].nameAward === resultsObj.callWinType) {
             // adding entry for new award
             if (currWhoWonWhat[resultsObj.callWinType] === undefined) {
               currWhoWonWhat[resultsObj.callWinType] = {};

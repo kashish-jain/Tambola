@@ -2,7 +2,7 @@ import * as React from "react";
 import { Component } from "react";
 import { callWin } from "./Player";
 import HostTicket from "./HostTicket";
-import Joyride, { Step, CallBackProps, STATUS } from "react-joyride";
+import Joyride, { Step } from "react-joyride";
 
 interface MultipleHostTicketProps {
   socket: any;

@@ -1,5 +1,5 @@
 import * as React from "react";
-import Joyride, { Step, Placement, CallBackProps, STATUS } from "react-joyride";
+import Joyride, { Step } from "react-joyride";
 
 export interface WalkthroughProps {
   type: "game" | "config";

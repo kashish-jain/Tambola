@@ -1,5 +1,4 @@
 import * as React from "react";
-import { Component } from "react";
 import House from "./House";
 import { BoxState } from "./Box";
 
@@ -19,40 +18,32 @@ interface TicketProps {
   ) => void;
 }
 
-interface TicketState {}
-
-class Ticket extends Component<TicketProps, TicketState> {
-  constructor(props: TicketProps) {
-    super(props);
-  }
-
-  changeTicketState = (
+function Ticket(props: TicketProps) {
+  let changeTicketState = (
     houseIndex: number,
     lineIndex: number,
     boxIndex: number,
     check: boolean
   ): void => {
-    if (this.props.changeTicketState)
-      this.props.changeTicketState(houseIndex, lineIndex, boxIndex, check);
+    if (props.changeTicketState)
+      props.changeTicketState(houseIndex, lineIndex, boxIndex, check);
   };
 
-  render() {
-    let ticket = [];
-    for (let i = 0; i < this.props.numHouses; ++i) {
-      ticket[i] = (
-        <>
-          <House
-            key={i}
-            changeTicketState={this.changeTicketState}
-            houseNumbers={this.props.houses[i]}
-            houseIndex={i}
-          />
-          <br />
-        </>
-      );
-    }
-    return <div>{ticket}</div>;
+  let ticket = [];
+  for (let i = 0; i < props.numHouses; ++i) {
+    ticket[i] = (
+      <>
+        <House
+          key={i}
+          changeTicketState={changeTicketState}
+          houseNumbers={props.houses[i]}
+          houseIndex={i}
+        />
+        <br />
+      </>
+    );
   }
+  return <div>{ticket}</div>;
 }
 
 export default Ticket;

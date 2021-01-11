@@ -1,5 +1,4 @@
 import * as React from "react";
-import { Component } from "react";
 import Ticket from "./Ticket";
 import ResultButtons from "./ResultButtons";
 import { callWin } from "./Player";
@@ -10,49 +9,38 @@ interface HostTicketProps {
   removeTicketFromHost: (id: string) => void;
 }
 
-interface HostTicketState {}
-
-class HostTicket extends Component<HostTicketProps, HostTicketState> {
-  constructor(props: HostTicketProps) {
-    super(props);
-  }
-
-  handleResultCall = (result: string) => {
-    this.props.socket.emit("resultsFromHost", {
+function HostTicket(props: HostTicketProps) {
+  let handleResultCall = (result: string) => {
+    props.socket.emit("resultsFromHost", {
       result: result,
-      callWinType: this.props.callWinObj.callWinType,
-      userCalledForWin: this.props.callWinObj.user,
+      callWinType: props.callWinObj.callWinType,
+      userCalledForWin: props.callWinObj.user,
     });
     // Key is concatenation of id and callWinType
-    this.props.removeTicketFromHost(
-      this.props.callWinObj.user.id + this.props.callWinObj.callWinType
+    props.removeTicketFromHost(
+      props.callWinObj.user.id + props.callWinObj.callWinType
     );
   };
-
-  render() {
-    let playerTicket = (
-      <div className="host-ticket">
-        <br></br>
-        <p className="win-call-type">{this.props.callWinObj.callWinType}</p>
-        <p className="player-name">
-          {this.props.callWinObj.user.username}'s Ticket
-        </p>
-        <div className="no-click">
-          <Ticket
-            houses={this.props.callWinObj.houses}
-            numHouses={this.props.callWinObj.houses.length}
-          />
-        </div>
-        <ResultButtons
-          key={0}
-          win={"Confirm Win!"}
-          bogey={"Bogey!"}
-          resultCallback={this.handleResultCall}
+  let playerTicket = (
+    <div className="host-ticket">
+      <br></br>
+      <p className="win-call-type">{props.callWinObj.callWinType}</p>
+      <p className="player-name">{props.callWinObj.user.username}'s Ticket</p>
+      <div className="no-click">
+        <Ticket
+          houses={props.callWinObj.houses}
+          numHouses={props.callWinObj.houses.length}
         />
       </div>
-    );
-    return <>{playerTicket}</>;
-  }
+      <ResultButtons
+        key={0}
+        win={"Confirm Win!"}
+        bogey={"Bogey!"}
+        resultCallback={handleResultCall}
+      />
+    </div>
+  );
+  return <>{playerTicket}</>;
 }
 
 export default HostTicket;
