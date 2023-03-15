@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "heroku-postbuild": "cd frontend && yarn i && yarn run build && cd ../landing && npm i && npm run css-build",
+    "heroku-postbuild": "cd frontend && yarn install && yarn run build && cd ../landing && npm i && npm run css-build",
     "start": "node app.js",
     "dev-start": "cd frontend && yarn i && yarn run build && cd ../ && nodemon app.js"
   },
