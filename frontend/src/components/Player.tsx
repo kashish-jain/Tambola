@@ -6,7 +6,6 @@ import MultipleHostTicket from "./MultipleHostTickets";
 import { Award } from "./Config";
 import Prizes from "./Prizes";
 import Walkthrough from "./Walkthrough";
-// import {Reward} from "react-rewards";
 import { doNotLeavePage } from "../utils/utils";
 import { useReward } from "react-rewards";
 
