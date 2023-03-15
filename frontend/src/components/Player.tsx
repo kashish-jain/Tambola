@@ -7,7 +7,7 @@ import MultipleHostTicket from "./MultipleHostTickets";
 import { Award } from "./Config";
 import Prizes from "./Prizes";
 import Walkthrough from "./Walkthrough";
-import Reward from "react-rewards";
+// import {Reward} from "react-rewards";
 import { doNotLeavePage } from "../utils/utils";
 
 
@@ -56,11 +56,11 @@ class Player extends Component<PlayerProps, PlayerState> {
   // This function will be called if game ends
   endGame = () => {
     this.setState({ hasGameEnded: true });
-    this.reward.rewardMe();
+    // this.reward.rewardMe();
     window.removeEventListener('beforeunload', doNotLeavePage);
     let timesRun = 0;
     let interval = setInterval(() => {
-      this.reward.rewardMe();
+      // this.reward.rewardMe();
       ++timesRun;
       if (timesRun === 4) clearInterval(interval);
     }, 2000);
@@ -115,7 +115,7 @@ class Player extends Component<PlayerProps, PlayerState> {
           />
         </div>
         {/* This is just for game over confetti */}
-        <div className="game-over-reward">
+        {/* <div className="game-over-reward">
           <Reward
             ref={(ref: any) => {
               this.reward = ref;
@@ -128,8 +128,8 @@ class Player extends Component<PlayerProps, PlayerState> {
               decay: 0.95,
               lifetime: 100,
             }}
-          ></Reward>
-        </div>
+          ></Reward> */}
+        {/* </div> */}
       </>
     );
   }

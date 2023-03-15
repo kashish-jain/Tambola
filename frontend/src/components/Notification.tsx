@@ -1,109 +1,95 @@
 import * as React from "react";
-import { Component } from "react";
+import { useState, useEffect } from "react";
 import { callWin, resultObj } from "./Player";
-import Reward from "react-rewards";
+import { useReward } from 'react-rewards';
+
 
 // Important: To make the notifications to appear properly and rewards to work properly
 // The parent div should have position: relative
 
 interface NotificationProps {
-  socket: any;
-  type: string;
+    socket: any;
+    type: string;
 }
 
-interface NotificationState {
-  notificationObj: callWin | resultObj | null;
-}
 
 function getUserName(obj: any) {
-  return obj.calledWinUsername || obj.user.username;
+    return obj.calledWinUsername || obj.user.username;
 }
 
 function getMainHeading(obj: any) {
-  let mainHeading;
-  if (obj.result !== undefined) {
-    // this is result Obj
-    mainHeading = obj.result + " " + obj.callWinType;
-  } else {
-    mainHeading = "Call: " + obj.callWinType;
-  }
-  return mainHeading;
+    let mainHeading;
+    if (obj.result !== undefined) {
+        // this is result Obj
+        mainHeading = obj.result + " " + obj.callWinType;
+    } else {
+        mainHeading = "Call: " + obj.callWinType;
+    }
+    return mainHeading;
 }
 
-class Notification extends Component<NotificationProps, NotificationState> {
-  reward: any;
-  constructor(props: NotificationProps) {
-    super(props);
-    this.state = { notificationObj: null };
-  }
 
-  componentDidMount() {
-    let ticketBoardContainer = document.getElementById(
-      "ticket-board-container"
-    );
-    this.props.socket.on("callWinToHost", (callWinObj: callWin) => {
-      this.reward.rewardMe();
-      this.setState({ notificationObj: callWinObj });
-      ticketBoardContainer?.setAttribute("style", "opacity:0.2;");
-
-      // callWinToHost notification gets deleted after 5seconds on everyone's screen
-      setTimeout(() => {
-        this.deleteNotification();
-      }, 5000);
+function Notification(props: NotificationProps) {
+    
+    const [notification, setNotification] = useState<null | callWin | resultObj>()
+    const { reward } = useReward('rewardId', 'confetti', {
+        elementCount: 100,
+        angle: 90,
+        spread: 90,
+        decay: 0.95,
+        lifetime: 150,
     });
-    this.props.socket.on("resultsForPC", (resultsObj: resultObj) => {
-      this.reward.rewardMe();
-      this.setState({ notificationObj: resultsObj });
-      ticketBoardContainer?.setAttribute("style", "opacity:0.2;");
 
-      // Result notification gets deleted after 5seconds on everyone's screen
-      setTimeout(() => {
-        this.deleteNotification();
-      }, 5000);
-    });
-  }
+    useEffect(() => {
+        let ticketBoardContainer = document.getElementById(
+            "ticket-board-container"
+        );
 
-  deleteNotification = () => {
-    this.setState({ notificationObj: null });
-    let ticketBoardContainer = document.getElementById(
-      "ticket-board-container"
-    );
-    if (ticketBoardContainer)
-      ticketBoardContainer.setAttribute("style", "opacity: 1");
-  };
+        const deleteNotification = () => {
+            setNotification(null)
+            ticketBoardContainer?.setAttribute("style", "opacity: 1");
+        };
 
-  render() {
-    let notificationComp = this.state.notificationObj ? (
-      <div className="notification-container">
-        <div className="notification">
-          <p className="main animated rubberBand">
-            {getMainHeading(this.state.notificationObj)}
-          </p>
-          <p className="sub animated bounce">
-            {getUserName(this.state.notificationObj)}
-          </p>
+        const notificationSideEffect = (notification: callWin | resultObj) => {
+            reward()
+            setNotification(notification)
+            ticketBoardContainer?.setAttribute("style", "opacity:0.2;");
+
+            // notification gets deleted after 5seconds on everyone's screen
+            setTimeout(() => {
+                deleteNotification();
+            }, 5000);
+        }
+
+        props.socket.on("callWinToHost", notificationSideEffect)
+        props.socket.on("resultsForPC", notificationSideEffect)
+        
+        return () => {
+            props.socket.off('callWinToHost', notificationSideEffect);
+            props.socket.off('resultsForPC', notificationSideEffect);
+        };
+    })
+
+    let notificationComp = notification ? (
+        <div className="notification-container">
+            <div className="notification">
+                <p className="main animated rubberBand">
+                    {getMainHeading(notification)}
+                </p>
+                <p className="sub animated bounce">
+                    {getUserName(notification)}
+                </p>
+            </div>
         </div>
-      </div>
     ) : null;
     return (
-      <>
-        {notificationComp}
-        <Reward
-          ref={(ref: any) => {
-            this.reward = ref;
-          }}
-          type="confetti"
-          config={{
-            elementCount: 100,
-            angle: 90,
-            spread: 90,
-            decay: 0.95,
-            lifetime: 150,
-          }}
-        ></Reward>
-      </>
+        <>
+            {notificationComp}
+            <span id="rewardId"></span>
+        </>
     );
-  }
 }
 
 export default Notification;
+
+
