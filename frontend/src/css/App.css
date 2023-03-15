@@ -1,4 +1,4 @@
-@import "~animate.css/animate.min.css";
+@import "~animate.css/animate.compat.css";
 @import "./GoneNumbers.css";
 @import "./WaitingAndTimer.css";
 @import "./EnterName.css";
@@ -179,10 +179,9 @@ form > table > thead > tr > th.award-number-heading {
   cursor: default;
 }
 
-div.game-over-reward {
+#game-over-reward {
   position: absolute;
-  top: 90vh;
-  left: 0;
+  left: 50%;
 }
 
 div.host-ticket {
