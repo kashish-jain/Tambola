@@ -13,8 +13,9 @@ interface AppProps {}
 class App extends Component<AppProps, AppState> {
   constructor(props: any) {
     super(props);
+    const url = process.env.REACT_APP_BACKEND_URL || ""; // TODO: THROW ERROR IF URL EMPTY
     this.state = {
-      socket: io(),
+      socket: io(url),
     };
   }
 

@@ -15,11 +15,21 @@ const {
 
 const app = express();
 const server = http.createServer(app);
-var io = require("socket.io")(server, { pingTimeout: 240000 });
+var io = require("socket.io")(server, {
+  pingTimeout: 240000,
+  cors: {
+    origin: "http://localhost:3005",
+    methods: ["GET", "POST"]
+  }
+});
 
 io.on("connection", (socket) => {
+
+  console.log("connection I think")
+
   // joining a room
   socket.on("joinRoom", ({ username, room }) => {
+    console.log("connection seeing now")
     const user = userJoin(socket.id, username, room);
 
     // joining the user in the room
