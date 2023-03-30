@@ -17,6 +17,7 @@ const app = express();
 const server = http.createServer(app);
 var io = require("socket.io")(server, {
   pingTimeout: 240000,
+  // TODO: fix this based on environment
   cors: {
     origin: "http://localhost:3005",
     methods: ["GET", "POST"]
@@ -25,11 +26,8 @@ var io = require("socket.io")(server, {
 
 io.on("connection", (socket) => {
 
-  console.log("connection I think")
-
   // joining a room
   socket.on("joinRoom", ({ username, room }) => {
-    console.log("connection seeing now")
     const user = userJoin(socket.id, username, room);
 
     // joining the user in the room
@@ -205,7 +203,8 @@ io.on("connection", (socket) => {
 app.use(express.static(path.join(__dirname + "/landing")));
 
 app.get("/", (req, res) => {
-  res.sendFile(path.join(__dirname + "/landing/index.html"));
+  // res.sendFile(path.join(__dirname + "/landing/index.html"));
+  res.send("hello there");
 });
 
 // All files are served from build folder which gets generated
@@ -214,7 +213,8 @@ app.use(express.static(path.join(__dirname + "/build")));
 
 // This index.html is the game's main page and not web's landing page
 app.get("/game/*", (req, res) => {
-  res.sendFile(__dirname + "/build/index.html");
+  // res.sendFile(__dirname + "/build/index.html");
+  res.send("game room http request")
 });
 
 let port = process.env.PORT || 3000;
