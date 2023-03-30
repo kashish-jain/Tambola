@@ -17,6 +17,7 @@ const app = express();
 const server = http.createServer(app);
 var io = require("socket.io")(server, {
   pingTimeout: 240000,
+
   // TODO: fix this based on environment
   cors: {
     origin: "http://localhost:3005",
