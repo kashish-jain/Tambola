@@ -3,6 +3,8 @@ import { Component } from "react";
 import "../css/App.css";
 import io from "socket.io-client";
 import EnterName from "./EnterName";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
+import HomePage from "./HomePage";
 
 interface AppState {
   socket: any;
@@ -23,7 +25,19 @@ class App extends Component<AppProps, AppState> {
     return (
       <>
         <div className="App">
-          <EnterName socket={this.state.socket} />
+          <BrowserRouter>
+            <Routes>
+              <Route
+                path="/game/:roomid"
+                element={<EnterName socket={this.state.socket} />}
+              />
+              <Route
+                path="/home"
+                element={<HomePage />}
+              />
+              <Route path="/" element={<Navigate to="/home" />} />
+            </Routes>
+          </BrowserRouter>
         </div>
       </>
     );
