@@ -3,23 +3,24 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.5.0",
-    "@testing-library/user-event": "^7.2.1",
-    "@types/jest": "^25.2.1",
-    "@types/node": "^13.11.1",
-    "@types/react": "^16.9.34",
-    "@types/react-dom": "^16.9.6",
-    "@types/react-modal": "^3.10.5",
-    "animate.css": "^3.7.2",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
-    "react-joyride": "^2.2.1",
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^14.4.3",
+    "@types/jest": "^29.4.0",
+    "@types/node": "^18.13.0",
+    "@types/react": "^18.0.28",
+    "@types/react-dom": "^18.0.10",
+    "@types/react-modal": "^3.13.1",
+    "@types/socket.io-client": "^3.0.0",
+    "animate.css": "^4.1.1",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-joyride": "^2.5.3",
     "react-modal": "^3.11.2",
-    "react-rewards": "^1.1.1",
-    "react-scripts": "^4.0.1",
+    "react-rewards": "^2.0.4",
+    "react-scripts": "^5.0.1",
     "socket.io-client": "^2.3.0",
-    "typescript": "^3.8.3"
+    "typescript": "^4.9.5"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -41,5 +42,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/socket.io-client": "^3.0.0"
   }
 }

@@ -24,6 +24,8 @@ const customModalStyles = {
   },
 };
 
+Modal.setAppElement('#root');
+
 export interface Award {
   // Actual type information:
   // {
@@ -360,7 +362,7 @@ class Config extends Component<ConfigProps, ConfigState> {
         <div className="config-container">
           <Walkthrough playerType="Host" type="config" runWalkthrough={this.state.runWalkthrough}/>
           <Snackbar
-            message="Share this 'join link' with other players"
+            message="Share with players"
             actionText="Copy Link"
           />
           <Toast

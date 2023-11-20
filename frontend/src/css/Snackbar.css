@@ -1,5 +1,4 @@
 .snackbar {
-  position: fixed;
   display: flex;
   align-items: center;
   justify-content: space-around;
@@ -7,6 +6,11 @@
   right: 0.75rem;
   border-radius: 10px;
   background: #ffcb36;
+  margin-top: 0.25rem;
+}
+
+.snackbar-link-copied {
+  background: #374051;
 }
 
 .snackbar-text {
